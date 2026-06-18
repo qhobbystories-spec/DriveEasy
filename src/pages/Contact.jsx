@@ -20,9 +20,9 @@ export default function Contact() {
   };
 
   const contacts = [
-    { icon: Phone, label: 'Phone', value: '+1 (800) 555-0100', sub: 'Mon–Sun, 8am–10pm', href: 'tel:+18005550100' },
-    { icon: Mail, label: 'Email', value: 'hello@driveelite.com', sub: 'We reply within 2 hours', href: 'mailto:hello@driveelite.com' },
-    { icon: MapPin, label: 'Headquarters', value: '150 W 51st St, New York', sub: 'NY 10019, USA', href: '#' },
+    { icon: Phone, label: 'Phone', value: '+233 547 129 448', sub: 'Mon–Sun, 8am–10pm', href: 'tel:+233547129448' },
+    { icon: Mail, label: 'Email', value: 'qhobbystories@gmail.com', sub: 'We reply within 2 hours', href: 'mailto:qhobbystories@gmail.com' },
+    { icon: MapPin, label: 'Headquarters', value: 'Koforidua, Greater Accra', sub: 'Ghana, West Africa', href: '#' },
     { icon: Clock, label: 'Support Hours', value: '24/7 Roadside Assistance', sub: 'Office: Mon–Fri 8am–6pm', href: '#' },
   ];
 
@@ -112,7 +112,7 @@ export default function Contact() {
                 <div className="map-pin-center">
                   <MapPin size={40} color="var(--primary)" />
                   <div style={{ fontWeight: 700, marginTop: 12 }}>DriveElite HQ</div>
-                  <div style={{ color: 'var(--gray-1)', fontSize: 13 }}>150 W 51st St, New York, NY</div>
+                  <div style={{ color: 'var(--gray-1)', fontSize: 13 }}>Koforidua, Ghana</div>
                 </div>
                 <div className="map-bg" />
               </div>

@@ -15,10 +15,10 @@ export default function Footer() {
             </Link>
             <p>Premium car rentals for every occasion. Experience luxury, comfort, and reliability wherever your journey takes you.</p>
             <div className="footer-socials">
-              <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
-              <a href="#" aria-label="Twitter"><Twitter size={18} /></a>
-              <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
-              <a href="#" aria-label="YouTube"><Youtube size={18} /></a>
+              <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><Facebook size={18} /></a>
+              <a href="https://twitter.com" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><Twitter size={18} /></a>
+              <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><Instagram size={18} /></a>
+              <a href="https://youtube.com" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><Youtube size={18} /></a>
             </div>
           </div>
 
@@ -50,9 +50,9 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Contact Us</h4>
             <ul className="contact-list">
-              <li><Mail size={15} /><a href="mailto:hello@driveelite.com">hello@driveelite.com</a></li>
-              <li><Phone size={15} /><a href="tel:+18005550100">+1 (800) 555-0100</a></li>
-              <li><MapPin size={15} /><span>150 W 51st St, New York, NY 10019</span></li>
+              <li><Mail size={15} /><a href="mailto:qhobbystories@gmail.com">qhobbystories@gmail.com</a></li>
+              <li><Phone size={15} /><a href="tel:+233547129448">+233 547 129 448</a></li>
+              <li><MapPin size={15} /><span>Koforidua, Greater Accra, Ghana</span></li>
             </ul>
             <div className="footer-badge">
               <span>🏆 Best Rental Service 2024</span>

@@ -35,9 +35,9 @@ export function AppProvider({ children }) {
   ]);
 
   const [user, setUser] = useState({
-    name: 'Alex Morgan',
-    email: 'alex.morgan@example.com',
-    phone: '+1 (555) 234-5678',
+    name: 'Qhobby Stories',
+    email: 'qhobbystories@gmail.com',
+    phone: '0547129448',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80',
     joinDate: 'January 2025',
     licenseNumber: 'DL-2847362',
