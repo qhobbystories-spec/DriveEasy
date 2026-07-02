@@ -19,7 +19,7 @@ export default function Profile() {
 
   const stats = [
     { icon: Car, label: 'Total Trips', value: user.totalTrips },
-    { icon: DollarSign, label: 'Total Spent', value: `$${user.totalSpent.toLocaleString()}` },
+    { icon: DollarSign, label: 'Total Spent', value: `GHS ${user.totalSpent.toLocaleString()}` },
     { icon: Star, label: 'Loyalty Points', value: user.loyaltyPoints.toLocaleString() },
     { icon: Award, label: 'Member Tier', value: user.tier },
   ];
@@ -161,7 +161,7 @@ export default function Profile() {
                     <div style={{ color: 'var(--gray-1)', fontSize: 13 }}>{b.pickupDate} · {b.location}</div>
                   </div>
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ color: 'var(--primary)', fontWeight: 800 }}>${b.total}</div>
+                    <div style={{ color: 'var(--primary)', fontWeight: 800 }}>GHS {b.total}</div>
                     <span className={`status-dot ${b.status}`}>{b.status}</span>
                   </div>
                 </div>

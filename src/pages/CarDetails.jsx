@@ -107,7 +107,7 @@ export default function CarDetails() {
                 </div>
               </div>
               <div className="detail-price">
-                <span className="amount">${car.price}</span>
+                <span className="amount">GHS {car.price}</span>
                 <span>/day</span>
               </div>
             </div>
@@ -165,8 +165,8 @@ export default function CarDetails() {
             <div className="booking-panel">
               <div className="bp-header">
                 <div>
-                  <div className="bp-price">${car.price}<span>/day</span></div>
-                  <div className="bp-week">${car.priceWeek}/week</div>
+                  <div className="bp-price">GHS {car.price}<span>/day</span></div>
+                  <div className="bp-week">GHS {car.priceWeek}/week</div>
                 </div>
                 <div className={`avail-pill ${car.available ? 'green' : 'red'}`}>
                   {car.available ? '● Available' : '● Unavailable'}
@@ -188,20 +188,23 @@ export default function CarDetails() {
                   <label className="form-label"><MapPin size={14} /> Pickup Location</label>
                   <select className="form-control">
                     <option>{car.location}</option>
-                    <option>New York</option>
-                    <option>Los Angeles</option>
-                    <option>Miami</option>
+                    <option>Accra</option>
+                    <option>Kumasi</option>
+                    <option>Takoradi</option>
+                    <option>Tema</option>
+                    <option>Sekondi</option>
+                    <option>Cape Coast</option>
                   </select>
                 </div>
               </div>
 
               {pickupDate && returnDate && (
                 <div className="price-breakdown">
-                  <div className="pb-row"><span>${car.price} × {days} day{days > 1 ? 's' : ''}</span><span>${car.price * days}</span></div>
-                  <div className="pb-row"><span>Insurance & fees</span><span>$30</span></div>
-                  <div className="pb-row"><span>Taxes (8%)</span><span>${Math.round((car.price * days + 30) * 0.08)}</span></div>
+                  <div className="pb-row"><span>GHS {car.price} × {days} day{days > 1 ? 's' : ''}</span><span>GHS {car.price * days}</span></div>
+                  <div className="pb-row"><span>Insurance & fees</span><span>GHS 30</span></div>
+                  <div className="pb-row"><span>Taxes (8%)</span><span>GHS {Math.round((car.price * days + 30) * 0.08)}</span></div>
                   <div className="divider" />
-                  <div className="pb-row total"><span>Total</span><span>${total + 30 + Math.round((total + 30) * 0.08)}</span></div>
+                  <div className="pb-row total"><span>Total</span><span>GHS {total + 30 + Math.round((total + 30) * 0.08)}</span></div>
                 </div>
               )}
 
@@ -229,7 +232,7 @@ export default function CarDetails() {
                     <div style={{ fontSize: 12, color: 'var(--primary)', fontWeight: 700, marginBottom: 4 }}>{c.brand}</div>
                     <div style={{ fontWeight: 700, marginBottom: 8 }}>{c.name}</div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ color: 'var(--primary)', fontWeight: 800, fontSize: 18 }}>${c.price}<span style={{ fontSize: 12, color: 'var(--gray-1)', fontWeight: 400 }}>/day</span></span>
+                      <span style={{ color: 'var(--primary)', fontWeight: 800, fontSize: 18 }}>GHS {c.price}<span style={{ fontSize: 12, color: 'var(--gray-1)', fontWeight: 400 }}>/day</span></span>
                       <span className="btn btn-outline btn-sm">View</span>
                     </div>
                   </div>

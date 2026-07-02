@@ -10,8 +10,8 @@ const team = [
 ];
 
 const milestones = [
-  { year: '2015', title: 'Founded in New York', desc: 'DriveElite started with just 12 premium vehicles and a vision for luxury rentals.' },
-  { year: '2017', title: 'Expanded to 5 Cities', desc: 'Rapid growth took us to Los Angeles, Miami, Chicago and Las Vegas.' },
+  { year: '2015', title: 'Founded in Accra', desc: 'DriveElite started with just 12 premium vehicles and a vision for luxury rentals.' },
+  { year: '2017', title: 'Expanded to 5 Cities', desc: 'Rapid growth took us to Kumasi, Takoradi, Tema and Sekondi.' },
   { year: '2019', title: 'Launched Electric Fleet', desc: 'Pioneered EV rentals on the East Coast with our Tesla lineup.' },
   { year: '2021', title: '50,000 Happy Customers', desc: 'Reached our first major milestone and launched our loyalty program.' },
   { year: '2024', title: 'Best Rental Service Award', desc: 'Recognized as the #1 premium car rental service in North America.' },

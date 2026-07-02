@@ -92,7 +92,7 @@ export default function MyBookings() {
                       <div className="bi-detail"><MapPin size={14} /><span>{b.location}</span></div>
                     </div>
                     <div className="bi-footer">
-                      <div className="bi-price">${b.total}</div>
+                      <div className="bi-price">GHS {b.total}</div>
                       <div className="bi-actions">
                         <Link to={`/cars/${b.carId}`} className="bi-action"><Eye size={15} /> View Car</Link>
                         <button className="bi-action"><Download size={15} /> Receipt</button>

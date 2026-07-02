@@ -44,7 +44,7 @@ export default function Pricing() {
                   <div className="plan-name" style={{ color: plan.color }}>{plan.name}</div>
                   <p className="plan-desc">{plan.description}</p>
                   <div className="plan-price">
-                    <span className="price-amount">${plan[priceKey[billing]]}</span>
+                    <span className="price-amount">GHS {plan[priceKey[billing]]}</span>
                     <span className="price-period">{billingLabel[billing]}</span>
                   </div>
                 </div>
@@ -86,14 +86,14 @@ export default function Pricing() {
           </div>
           <div className="grid grid-4">
             {[
-              { name: 'GPS Navigation', price: '$8/day', desc: 'Never get lost with our premium in-car navigation.' },
-              { name: 'Child Seat', price: '$10/day', desc: 'Safety-certified child seat for your little ones.' },
-              { name: 'Extra Driver', price: '$15/day', desc: 'Add an additional authorized driver to your rental.' },
-              { name: 'Full Coverage', price: '$25/day', desc: 'Zero-deductible insurance for total peace of mind.' },
-              { name: 'Airport Delivery', price: '$45/trip', desc: 'Have your car waiting when you land.' },
-              { name: 'Fuel Package', price: '$55/rental', desc: 'Return the car empty — we handle refueling.' },
-              { name: 'Premium Sound', price: '$5/day', desc: 'Upgrade to a Bose or Harman Kardon system.' },
-              { name: 'WiFi Hotspot', price: '$8/day', desc: 'Stay connected with portable 4G WiFi.' },
+              { name: 'GPS Navigation', price: 'GHS 8/day', desc: 'Never get lost with our premium in-car navigation.' },
+              { name: 'Child Seat', price: 'GHS 10/day', desc: 'Safety-certified child seat for your little ones.' },
+              { name: 'Extra Driver', price: 'GHS 15/day', desc: 'Add an additional authorized driver to your rental.' },
+              { name: 'Full Coverage', price: 'GHS 25/day', desc: 'Zero-deductible insurance for total peace of mind.' },
+              { name: 'Airport Delivery', price: 'GHS 45/trip', desc: 'Have your car waiting when you land.' },
+              { name: 'Fuel Package', price: 'GHS 55/rental', desc: 'Return the car empty — we handle refueling.' },
+              { name: 'Premium Sound', price: 'GHS 5/day', desc: 'Upgrade to a Bose or Harman Kardon system.' },
+              { name: 'WiFi Hotspot', price: 'GHS 8/day', desc: 'Stay connected with portable 4G WiFi.' },
             ].map((addon, i) => (
               <div key={i} className="addon-card">
                 <div className="addon-name">{addon.name}</div>

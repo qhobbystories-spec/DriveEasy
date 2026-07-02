@@ -30,7 +30,7 @@ export const cars = [
     features: ["Leather Seats", "Navigation", "Bluetooth", "Backup Camera", "Sunroof", "Heated Seats", "Apple CarPlay", "Android Auto"],
     description: "Experience luxury and performance with the BMW 5 Series. This premium sedan combines athletic performance with refined comfort, making every journey exceptional.",
     available: true,
-    location: "New York",
+    location: "Accra",
     tag: "Most Popular",
   },
   {
@@ -64,7 +64,7 @@ export const cars = [
     features: ["Autopilot", "15\" Touchscreen", "Over-the-Air Updates", "Supercharger Access", "Premium Audio", "Glass Roof", "App Control"],
     description: "The future of driving is here. Tesla Model 3 offers zero emissions, cutting-edge technology, and exhilarating performance in a sleek, minimalist package.",
     available: true,
-    location: "Los Angeles",
+    location: "Kumasi",
     tag: "Eco-Friendly",
   },
   {
@@ -98,7 +98,7 @@ export const cars = [
     features: ["Sport Chrono", "PASM Suspension", "Bose Audio", "Sport Seats", "PDK Transmission", "Launch Control", "Carbon Trim"],
     description: "Iconic. Thrilling. Timeless. The Porsche 911 delivers an unmatched driving experience that has captivated enthusiasts for over 60 years.",
     available: true,
-    location: "Miami",
+    location: "Takoradi",
     tag: "Top Rated",
   },
   {
@@ -132,7 +132,7 @@ export const cars = [
     features: ["Terrain Response 2", "Panoramic Roof", "Meridian Audio", "Air Suspension", "Head-Up Display", "360° Camera", "Massage Seats"],
     description: "Dominate any terrain in absolute luxury. The Range Rover Sport combines imposing presence with world-class comfort and capability.",
     available: true,
-    location: "Chicago",
+    location: "Tema",
     tag: "Family Choice",
   },
   {
@@ -166,7 +166,7 @@ export const cars = [
     features: ["MBUX Infotainment", "Burmester Audio", "Active Brake Assist", "Ambient Lighting", "Wireless Charging", "Ventilated Seats"],
     description: "The pinnacle of automotive elegance. The Mercedes-Benz E-Class redefines what it means to travel in comfort and style.",
     available: false,
-    location: "New York",
+    location: "Accra",
     tag: "",
   },
   {
@@ -200,7 +200,7 @@ export const cars = [
     features: ["quattro AWD", "Adaptive Air Suspension", "Bang & Olufsen Audio", "Night Vision", "Matrix LED", "RS Sport Exhaust"],
     description: "A four-door supercar. The Audi RS7 blurs the line between family hauler and performance machine with stunning design and brutal power.",
     available: true,
-    location: "Las Vegas",
+    location: "Sekondi",
     tag: "New Arrival",
   },
   {
@@ -234,7 +234,7 @@ export const cars = [
     features: ["Bluetooth", "Backup Camera", "Cruise Control", "USB Port", "Air Conditioning", "Power Windows"],
     description: "Reliable and economical. The Toyota Corolla is perfect for budget-conscious travelers who value reliability and fuel efficiency.",
     available: true,
-    location: "New York",
+    location: "Accra",
     tag: "Budget Pick",
   },
   {
@@ -242,14 +242,14 @@ export const cars = [
     name: "Honda Civic",
     brand: "Honda",
     category: "Economy",
-    image: "https://images.unsplash.com/photo-1572023441372-4e0a75a10a6a?w=800&q=80",
+    image: "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1200",
     images: [
-      "https://images.unsplash.com/photo-1572023441372-4e0a75a10a6a?w=800&q=80",
-      "https://images.unsplash.com/photo-1531946661460-a2d86e1fce20?w=800&q=80",
-      "https://images.unsplash.com/photo-1556437199-c440db938257?w=800&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
-      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80",
-      "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80",
+      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/3422964/pexels-photo-3422964.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/3422964/pexels-photo-3422964.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
     price: 50,
     priceWeek: 300,
@@ -268,7 +268,7 @@ export const cars = [
     features: ["Bluetooth", "Touchscreen", "Backup Camera", "Steering Wheel Controls", "AUX Port", "Air Conditioning"],
     description: "Sporty and fun to drive. The Honda Civic combines practicality with engaging driving dynamics at an affordable price.",
     available: true,
-    location: "Los Angeles",
+    location: "Kumasi",
     tag: "Best Value",
   },
   {
@@ -276,14 +276,14 @@ export const cars = [
     name: "Hyundai i20",
     brand: "Hyundai",
     category: "Economy",
-    image: "https://images.unsplash.com/photo-1590362891991-f776e1601a53?w=800&q=80",
+    image: "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1200",
     images: [
-      "https://images.unsplash.com/photo-1590362891991-f776e1601a53?w=800&q=80",
-      "https://images.unsplash.com/photo-1609708536965-6d1690efc375?w=800&q=80",
-      "https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=800&q=80",
-      "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800&q=80",
-      "https://images.unsplash.com/photo-1553882900-d5160ca3fc10?w=800&q=80",
-      "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=800&q=80",
+      "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/3422964/pexels-photo-3422964.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/3422964/pexels-photo-3422964.jpeg?auto=compress&cs=tinysrgb&w=1200",
     ],
     price: 40,
     priceWeek: 240,
@@ -302,7 +302,7 @@ export const cars = [
     features: ["Bluetooth", "Air Conditioning", "USB Port", "Backup Camera", "Power Steering", "Keyless Entry"],
     description: "Smart and efficient. The Hyundai i20 is ideal for city driving with modern styling and exceptional fuel economy.",
     available: true,
-    location: "Chicago",
+    location: "Tema",
     tag: "",
   },
   {
@@ -336,7 +336,7 @@ export const cars = [
     features: ["Bluetooth", "Navigation", "Backup Camera", "Power Sliding Doors", "Climate Control", "Leather Seats", "DVD Player"],
     description: "Perfect for family trips. The Honda Odyssey offers comfort, space, and reliability for up to 7 passengers.",
     available: true,
-    location: "Miami",
+    location: "Takoradi",
     tag: "Family Van",
   },
   {
@@ -370,7 +370,7 @@ export const cars = [
     features: ["Bluetooth", "Navigation System", "Backup Camera", "Power Doors", "Tri-Zone Climate Control", "Leather Seats", "Rear Seat Entertainment"],
     description: "The ultimate family vehicle. The Chrysler Pacifica combines luxury, technology, and space for unforgettable journeys.",
     available: true,
-    location: "Las Vegas",
+    location: "Sekondi",
     tag: "Premium Van",
   },
   {
@@ -404,7 +404,7 @@ export const cars = [
     features: ["Bluetooth", "Navigation", "Backup Camera", "Power Doors", "Climate Control", "Alloy Wheels", "Hybrid System"],
     description: "Eco-friendly family van. The Toyota Sienna offers hybrid efficiency without compromising on space and comfort.",
     available: true,
-    location: "San Francisco",
+    location: "Cape Coast",
     tag: "Eco-Friendly",
   },
 ];
@@ -445,12 +445,12 @@ export const testimonials = [
 ];
 
 export const locations = [
-  { id: 1, city: "New York", address: "150 W 51st St, Midtown", phone: "+1 (212) 555-0101", hours: "24/7", cars: 48, image: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=600&q=80" },
-  { id: 2, city: "Los Angeles", address: "8560 Sunset Blvd, West Hollywood", phone: "+1 (310) 555-0102", hours: "06:00 – 23:00", cars: 62, image: "https://images.unsplash.com/photo-1534190760961-74e8c1c5c3da?w=600&q=80" },
-  { id: 3, city: "Miami", address: "1601 Collins Ave, South Beach", phone: "+1 (305) 555-0103", hours: "07:00 – 22:00", cars: 35, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" },
-  { id: 4, city: "Chicago", address: "900 N Michigan Ave, Magnificent Mile", phone: "+1 (312) 555-0104", hours: "06:00 – 22:00", cars: 41, image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80" },
-  { id: 5, city: "Las Vegas", address: "3600 S Las Vegas Blvd, The Strip", phone: "+1 (702) 555-0105", hours: "24/7", cars: 55, image: "https://images.unsplash.com/photo-1581351721010-8cf859cb14a4?w=600&q=80" },
-  { id: 6, city: "San Francisco", address: "123 Market St, Financial District", phone: "+1 (415) 555-0106", hours: "07:00 – 21:00", cars: 29, image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&q=80" },
+  { id: 1, city: "Accra", address: "123 Osu Oxford St, Osu", phone: "+233 (21) 123-4567", hours: "24/7", cars: 48, image: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=600&q=80" },
+  { id: 2, city: "Kumasi", address: "456 Adum High St, Adum", phone: "+233 (32) 234-5678", hours: "06:00 – 23:00", cars: 62, image: "https://images.unsplash.com/photo-1534190760961-74e8c1c5c3da?w=600&q=80" },
+  { id: 3, city: "Takoradi", address: "789 Prom St, Takoradi Central", phone: "+233 (31) 345-6789", hours: "07:00 – 22:00", cars: 35, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" },
+  { id: 4, city: "Tema", address: "321 Main Ave, Tema Station", phone: "+233 (303) 456-7890", hours: "06:00 – 22:00", cars: 41, image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80" },
+  { id: 5, city: "Sekondi", address: "654 Beach Rd, Sekondi Harbor", phone: "+233 (31) 567-8901", hours: "24/7", cars: 55, image: "https://images.unsplash.com/photo-1581351721010-8cf859cb14a4?w=600&q=80" },
+  { id: 6, city: "Cape Coast", address: "987 Castle Rd, Cape Coast Central", phone: "+233 (42) 678-9012", hours: "07:00 – 21:00", cars: 29, image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&q=80" },
 ];
 
 export const pricingPlans = [
@@ -522,7 +522,7 @@ export const pricingPlans = [
 export const faqs = [
   { q: "What documents do I need to rent a car?", a: "You need a valid driver's license, a credit card in your name, and a government-issued ID (passport or national ID). International licenses are accepted." },
   { q: "What is your fuel policy?", a: "Our vehicles are provided with a full tank. We ask that you return the vehicle with a full tank. If not, a refueling fee will be charged at our standard rate." },
-  { q: "Is there a mileage limit?", a: "Premium and Elite plans include unlimited mileage. Economy plans include 100 km/day, with additional km billed at $0.25/km." },
+  { q: "Is there a mileage limit?", a: "Premium and Elite plans include unlimited mileage. Economy plans include 100 km/day, with additional km billed at GHS 0.25/km." },
   { q: "What insurance is included?", a: "All rentals include basic Collision Damage Waiver (CDW) and Theft Protection. Comprehensive coverage is available as an add-on or included in Premium/Elite plans." },
   { q: "Can I add an additional driver?", a: "Yes. Additional drivers can be added during checkout. There may be a small daily fee depending on your plan." },
   { q: "What is your cancellation policy?", a: "Economy bookings: free cancellation 48 hours before pickup. Premium: 24 hours. Elite: anytime, no charge." },

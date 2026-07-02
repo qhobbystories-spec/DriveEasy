@@ -79,12 +79,12 @@ export default function Home() {
                 <label><MapPin size={14} /> Location</label>
                 <select value={search.location} onChange={e => setSearch(s => ({ ...s, location: e.target.value }))}>
                   <option value="">Any Location</option>
-                  <option>New York</option>
-                  <option>Los Angeles</option>
-                  <option>Miami</option>
-                  <option>Chicago</option>
-                  <option>Las Vegas</option>
-                  <option>San Francisco</option>
+                  <option>Accra</option>
+                  <option>Kumasi</option>
+                  <option>Takoradi</option>
+                  <option>Tema</option>
+                  <option>Sekondi</option>
+                  <option>Cape Coast</option>
                 </select>
               </div>
               <div className="search-field">
@@ -99,11 +99,11 @@ export default function Home() {
                 <label><DollarSign size={14} /> Max Budget/Day</label>
                 <select value={search.maxPrice} onChange={e => setSearch(s => ({ ...s, maxPrice: e.target.value }))}>
                   <option value="">Any Budget</option>
-                  <option value="50">Up to $50</option>
-                  <option value="100">Up to $100</option>
-                  <option value="150">Up to $150</option>
-                  <option value="200">Up to $200</option>
-                  <option value="999">$200+</option>
+                  <option value="50">Up to GHS 50</option>
+                  <option value="100">Up to GHS 100</option>
+                  <option value="150">Up to GHS 150</option>
+                  <option value="200">Up to GHS 200</option>
+                  <option value="999">GHS 200+</option>
                 </select>
               </div>
             </div>

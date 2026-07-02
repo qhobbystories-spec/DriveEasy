@@ -12,7 +12,7 @@ Additional drivers must meet the same eligibility requirements and must be regis
     title: '2. Reservations & Booking',
     content: `Reservations are confirmed only upon receipt of full payment or a valid credit card authorization. A reservation confirmation email will be sent to the email address provided at booking. DriveElite reserves the right to cancel any booking in cases of fraud, unavailability, or erroneous pricing.
 
-Prices displayed are per day (24-hour period) unless otherwise stated. Weekly and monthly rates are available as described in our Pricing section. All prices are in USD and are subject to applicable taxes and fees.`
+Prices displayed are per day (24-hour period) unless otherwise stated. Weekly and monthly rates are available as described in our Pricing section. All prices are in GHS and are subject to applicable taxes and fees.`
   },
   {
     title: '3. Cancellation & Modification Policy',
@@ -47,13 +47,13 @@ The renter is personally liable for all traffic violations, tolls, parking fines
   },
   {
     title: '6. Fuel Policy',
-    content: `All vehicles are provided with a full tank of fuel. Renters are required to return the vehicle with a full tank. If the vehicle is returned with less than a full tank, a refueling service charge will be applied at our standard rate (currently $8.99/gallon plus a $25 service fee).
+    content: `All vehicles are provided with a full tank of fuel. Renters are required to return the vehicle with a full tank. If the vehicle is returned with less than a full tank, a refueling service charge will be applied at our standard rate (currently GHS 8.99/gallon plus a GHS 25 service fee).
 
-Electric vehicles must be returned with at least 80% charge. A recharging fee of $35 applies if the vehicle is returned below this level.`
+Electric vehicles must be returned with at least 80% charge. A recharging fee of GHS 35 applies if the vehicle is returned below this level.`
   },
   {
     title: '7. Mileage',
-    content: `Economy Plan rentals include 100 km per day. Excess mileage is charged at $0.25 per km. Premium and Elite Plan rentals include unlimited mileage unless otherwise specified on the rental agreement.
+    content: `Economy Plan rentals include 100 km per day. Excess mileage is charged at GHS 0.25 per km. Premium and Elite Plan rentals include unlimited mileage unless otherwise specified on the rental agreement.
 
 Mileage is calculated from pickup to return based on the vehicle's odometer reading.`
   },

@@ -109,7 +109,7 @@ export default function Cars() {
               </div>
             </div>
             <div className="filter-group">
-              <label>Max Price: <strong style={{ color: 'var(--primary)' }}>${maxPrice}/day</strong></label>
+              <label>Max Price: <strong style={{ color: 'var(--primary)' }}>GHS {maxPrice}/day</strong></label>
               <input
                 type="range" min="45" max="999" step="5"
                 value={maxPrice}

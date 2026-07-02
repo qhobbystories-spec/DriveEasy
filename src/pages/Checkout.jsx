@@ -58,7 +58,7 @@ export default function Checkout() {
           <div>
             <div style={{ fontWeight: 700, fontSize: 18 }}>{state.car.name}</div>
             <div style={{ color: 'var(--gray-1)' }}>{state.pickupDate} → {state.returnDate}</div>
-            <div style={{ color: 'var(--primary)', fontWeight: 800, fontSize: 20, marginTop: 4 }}>${finalTotal} total</div>
+            <div style={{ color: 'var(--primary)', fontWeight: 800, fontSize: 20, marginTop: 4 }}>GHS {finalTotal} total</div>
           </div>
         </div>
         <p style={{ color: 'var(--gray-1)', fontSize: 14 }}>Redirecting to My Bookings...</p>
@@ -150,7 +150,7 @@ export default function Checkout() {
               {processing ? (
                 <><span className="spinner" /> Processing Payment...</>
               ) : (
-                <><Lock size={18} /> Pay ${finalTotal} Securely</>
+                <><Lock size={18} /> Pay GHS {finalTotal} Securely</>
               )}
             </button>
           </div>
@@ -172,13 +172,13 @@ export default function Checkout() {
               <div className="order-row"><span>Dates</span><span style={{ fontWeight: 600, fontSize: 12 }}>{state.pickupDate} → {state.returnDate}</span></div>
               <div className="order-row"><span>Duration</span><span style={{ fontWeight: 600 }}>{state.days} day{state.days > 1 ? 's' : ''}</span></div>
               <div className="divider" />
-              <div className="order-row"><span>Subtotal</span><span>${state.subtotal}</span></div>
-              {state.extrasTotal > 0 && <div className="order-row"><span>Extras</span><span>${state.extrasTotal}</span></div>}
-              <div className="order-row"><span>Service fee</span><span>${state.fees}</span></div>
-              <div className="order-row"><span>Taxes</span><span>${state.taxes}</span></div>
-              {promoApplied && <div className="order-row" style={{ color: 'var(--success)' }}><span>Promo (ELITE20)</span><span>-${discount}</span></div>}
+              <div className="order-row"><span>Subtotal</span><span>GHS {state.subtotal}</span></div>
+              {state.extrasTotal > 0 && <div className="order-row"><span>Extras</span><span>GHS {state.extrasTotal}</span></div>}
+              <div className="order-row"><span>Service fee</span><span>GHS {state.fees}</span></div>
+              <div className="order-row"><span>Taxes</span><span>GHS {state.taxes}</span></div>
+              {promoApplied && <div className="order-row" style={{ color: 'var(--success)' }}><span>Promo (ELITE20)</span><span>-GHS {discount}</span></div>}
               <div className="divider" />
-              <div className="order-row order-total"><span>Total</span><span>${finalTotal}</span></div>
+              <div className="order-row order-total"><span>Total</span><span>GHS {finalTotal}</span></div>
             </div>
 
             <div className="checkout-card assurances">

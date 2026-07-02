@@ -85,7 +85,7 @@ export default function Booking() {
                         <img src={c.image} alt={c.name} />
                         <div>
                           <div style={{ fontWeight: 700, fontSize: 14 }}>{c.name}</div>
-                          <div style={{ color: 'var(--primary)', fontSize: 13, fontWeight: 700 }}>${c.price}/day</div>
+                          <div style={{ color: 'var(--primary)', fontSize: 13, fontWeight: 700 }}>GHS {c.price}/day</div>
                         </div>
                       </button>
                     ))}
@@ -170,7 +170,7 @@ export default function Booking() {
                     <div key={key} className={`extra-item${extras[key] ? ' active' : ''}`}>
                       <div>
                         <div style={{ fontWeight: 600, fontSize: 15 }}>{label}</div>
-                        <div style={{ color: 'var(--gray-1)', fontSize: 13 }}>${price}/day · ${price * days} total</div>
+                        <div style={{ color: 'var(--gray-1)', fontSize: 13 }}>GHS {price}/day · GHS {price * days} total</div>
                       </div>
                       <button className={`extra-toggle${extras[key] ? ' on' : ''}`} onClick={() => setExtras(e => ({ ...e, [key]: !e[key] }))}>
                         {extras[key] ? <Minus size={16} /> : <Plus size={16} />}
@@ -191,14 +191,14 @@ export default function Booking() {
                     </div>
                   </div>
                   <div className="divider" />
-                  <div className="summary-row"><span>Car rental ({days} days)</span><span>${subtotal}</span></div>
+                  <div className="summary-row"><span>Car rental ({days} days)</span><span>GHS {subtotal}</span></div>
                   {Object.entries(extras).filter(([, v]) => v).map(([k]) => (
-                    <div key={k} className="summary-row"><span>{extrasMap[k].label}</span><span>${extrasMap[k].price * days}</span></div>
+                    <div key={k} className="summary-row"><span>{extrasMap[k].label}</span><span>GHS {extrasMap[k].price * days}</span></div>
                   ))}
-                  <div className="summary-row"><span>Service fee</span><span>${fees}</span></div>
-                  <div className="summary-row"><span>Taxes (8%)</span><span>${taxes}</span></div>
+                  <div className="summary-row"><span>Service fee</span><span>GHS {fees}</span></div>
+                  <div className="summary-row"><span>Taxes (8%)</span><span>GHS {taxes}</span></div>
                   <div className="divider" />
-                  <div className="summary-row total"><span>Total</span><span>${total}</span></div>
+                  <div className="summary-row total"><span>Total</span><span>GHS {total}</span></div>
                 </div>
               </div>
             )}
@@ -224,7 +224,7 @@ export default function Booking() {
               <h4>Selected Vehicle</h4>
               <img src={selectedCar.image} alt={selectedCar.name} className="sidebar-car-img" />
               <div style={{ fontWeight: 700, fontSize: 16 }}>{selectedCar.name}</div>
-              <div style={{ color: 'var(--primary)', fontWeight: 800, fontSize: 20, margin: '4px 0' }}>${selectedCar.price}<span style={{ fontSize: 13, color: 'var(--gray-1)', fontWeight: 400 }}>/day</span></div>
+              <div style={{ color: 'var(--primary)', fontWeight: 800, fontSize: 20, margin: '4px 0' }}>GHS {selectedCar.price}<span style={{ fontSize: 13, color: 'var(--gray-1)', fontWeight: 400 }}>/day</span></div>
               <div className="divider" />
               <div className="sidebar-row"><Car size={14} /><span>{selectedCar.category}</span></div>
               <div className="sidebar-row"><User size={14} /><span>{selectedCar.seats} seats</span></div>
@@ -232,7 +232,7 @@ export default function Booking() {
               {pickupDate && <div className="divider" />}
               {pickupDate && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, fontSize: 16 }}>
-                  <span>Estimate</span><span style={{ color: 'var(--primary)' }}>${total}</span>
+                  <span>Estimate</span><span style={{ color: 'var(--primary)' }}>GHS {total}</span>
                 </div>
               )}
             </div>
