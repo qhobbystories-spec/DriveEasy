@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { cars as initialCars } from '../data/cars';
 
 const AppContext = createContext();
 
@@ -49,6 +50,24 @@ export function AppProvider({ children }) {
 
   const [toasts, setToasts] = useState([]);
 
+  // cars state (persisted to localStorage)
+  const [cars, setCars] = useState(() => {
+    try {
+      const raw = localStorage.getItem('driveelite_cars');
+      return raw ? JSON.parse(raw) : initialCars;
+    } catch (e) {
+      return initialCars;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('driveelite_cars', JSON.stringify(cars));
+    } catch (e) {
+      // ignore
+    }
+  }, [cars]);
+
   const addToast = useCallback((message, type = 'success') => {
     const id = Date.now();
     setToasts(prev => [...prev, { id, message, type }]);
@@ -62,6 +81,15 @@ export function AppProvider({ children }) {
     return id;
   }, [bookings.length]);
 
+  const addCar = useCallback((car) => {
+    setCars(prev => {
+      const id = prev.length ? Math.max(...prev.map(c => c.id)) + 1 : 1;
+      const newCar = { id, ...car };
+      return [newCar, ...prev];
+    });
+    addToast('Car added successfully', 'success');
+  }, [addToast]);
+
   const cancelBooking = useCallback((bookingId) => {
     setBookings(prev => prev.map(b => b.id === bookingId ? { ...b, status: 'cancelled' } : b));
   }, []);
@@ -70,8 +98,13 @@ export function AppProvider({ children }) {
     setUser(prev => ({ ...prev, ...updates }));
   }, []);
 
+  const deleteCar = useCallback((carId) => {
+    setCars(prev => prev.filter(c => c.id !== carId));
+    addToast('Car removed from fleet', 'success');
+  }, [addToast]);
+
   return (
-    <AppContext.Provider value={{ bookings, user, toasts, addToast, addBooking, cancelBooking, updateUser }}>
+    <AppContext.Provider value={{ bookings, user, toasts, cars, addCar, addToast, addBooking, cancelBooking, updateUser, deleteCar }}>
       {children}
     </AppContext.Provider>
   );

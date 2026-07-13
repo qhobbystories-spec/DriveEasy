@@ -2,9 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, SlidersHorizontal, X, ChevronDown } from 'lucide-react';
 import CarCard from '../components/CarCard';
-import { cars } from '../data/cars';
+import { useApp } from '../context/AppContext';
 
 export default function Cars() {
+  const { cars } = useApp();
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState(searchParams.get('category') || 'All');

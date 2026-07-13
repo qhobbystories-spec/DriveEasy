@@ -7,11 +7,24 @@ export default function Profile() {
   const { user, updateUser, bookings, addToast } = useApp();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ name: user.name, email: user.email, phone: user.phone, licenseNumber: user.licenseNumber });
+  const [avatarInput, setAvatarInput] = useState(null);
 
   const handleSave = () => {
     updateUser(form);
     setEditing(false);
     addToast('Profile updated successfully!', 'success');
+  };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        updateUser({ avatar: evt.target.result });
+        addToast('Profile picture updated!', 'success');
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const tierColors = { Bronze: '#cd7f32', Silver: '#c0c0c0', Gold: '#fbbf24', Platinum: '#e5e4e2' };
@@ -41,7 +54,20 @@ export default function Profile() {
             <div className="profile-card">
               <div className="avatar-wrap">
                 <img src={user.avatar} alt={user.name} />
-                <button className="avatar-edit"><Camera size={14} /></button>
+                <button 
+                  className="avatar-edit"
+                  onClick={() => avatarInput?.click()}
+                  title="Change profile picture"
+                >
+                  <Camera size={14} />
+                </button>
+                <input
+                  ref={setAvatarInput}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  style={{ display: 'none' }}
+                />
               </div>
               <div className="profile-name">{user.name}</div>
               <div className="profile-email">{user.email}</div>

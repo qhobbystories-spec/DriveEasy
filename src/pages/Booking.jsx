@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Calendar, MapPin, User, ChevronRight, Car, Shield, Plus, Minus } from 'lucide-react';
-import { cars } from '../data/cars';
+import { useApp } from '../context/AppContext';
 
 export default function Booking() {
+  const { cars } = useApp();
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state;

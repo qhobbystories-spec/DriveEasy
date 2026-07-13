@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Car, Menu, X, ChevronDown, User, BookOpen, LogOut } from 'lucide-react';
+import { Car, Menu, X, ChevronDown, User, BookOpen, LogOut, Settings } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export default function Navbar() {
@@ -70,6 +70,7 @@ export default function Navbar() {
                 <div className="drop-divider" />
                 <Link to="/profile" className="drop-item"><User size={15} /> My Profile</Link>
                 <Link to="/my-bookings" className="drop-item"><BookOpen size={15} /> My Bookings</Link>
+                <Link to="/admin" className="drop-item"><Settings size={15} /> Admin Dashboard</Link>
                 <div className="drop-divider" />
                 <button className="drop-item danger"><LogOut size={15} /> Sign Out</button>
               </div>
@@ -95,6 +96,7 @@ export default function Navbar() {
           <div className="mobile-divider" />
           <Link to="/profile" className="mobile-link">My Profile</Link>
           <Link to="/my-bookings" className="mobile-link">My Bookings</Link>
+          <Link to="/admin" className="mobile-link">Admin Dashboard</Link>
           <Link to="/booking" className="btn btn-primary btn-block" style={{ margin: '12px 20px 0', width: 'calc(100% - 40px)' }}>Book Now</Link>
         </div>
       )}

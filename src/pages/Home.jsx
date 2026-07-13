@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, MapPin, Calendar, DollarSign, ArrowRight, Star, Shield, Clock, HeadphonesIcon, ChevronRight, Play, CheckCircle } from 'lucide-react';
 import CarCard from '../components/CarCard';
-import { cars, testimonials } from '../data/cars';
+import { testimonials } from '../data/cars';
+import { useApp } from '../context/AppContext';
 
 export default function Home() {
   const navigate = useNavigate();
+  const { cars } = useApp();
   const [search, setSearch] = useState({ location: '', pickup: '', return: '', maxPrice: '' });
 
   const featured = cars.filter(c => c.available).slice(0, 3);

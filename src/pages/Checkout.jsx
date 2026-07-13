@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { CreditCard, Lock, CheckCircle, Shield, ChevronRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { cars } from '../data/cars';
 
 export default function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { addBooking, addToast } = useApp();
+  const { addBooking, addToast, cars } = useApp();
 
   const state = location.state || {
     car: cars[0], pickupDate: '2026-07-01', returnDate: '2026-07-04',

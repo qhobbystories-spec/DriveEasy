@@ -18,6 +18,7 @@ import Pricing from './pages/Pricing';
 import Locations from './pages/Locations';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
+import Admin from './pages/Admin';
 
 function ScrollToTop() {
   const { pathname } = window.location;
@@ -43,6 +44,7 @@ function ScrollToTopWrapper() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cars" element={<Cars />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/cars/:id" element={<CarDetails />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/checkout" element={<Checkout />} />

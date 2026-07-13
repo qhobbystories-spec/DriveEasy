@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Star, Users, Fuel, Settings2, Calendar, MapPin, Check, ChevronLeft, ChevronRight, Zap, Shield, Clock, ArrowRight } from 'lucide-react';
-import { cars } from '../data/cars';
+import { useApp } from '../context/AppContext';
 
 export default function CarDetails() {
+  const { cars } = useApp();
   const { id } = useParams();
   const navigate = useNavigate();
   const car = cars.find(c => c.id === parseInt(id));
