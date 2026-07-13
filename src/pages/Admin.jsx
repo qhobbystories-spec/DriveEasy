@@ -538,10 +538,14 @@ export default function Admin() {
                         <div key={car.id} className="fleet-card">
                           <div className="fleet-image">
                             {car.mediaType === 'video' && car.video ? (
-                              <video 
-                                src={car.video} 
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
-                              />
+                              <div className="fleet-video-wrap">
+                                <video 
+                                  src={car.video} 
+                                  controls
+                                  style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
+                                />
+                                <div className="video-badge">📹 VIDEO</div>
+                              </div>
                             ) : (
                               <img src={car.image} alt={car.name} />
                             )}
@@ -561,7 +565,7 @@ export default function Admin() {
                               <span>{car.year}</span>
                               <span>•</span>
                               <span>{car.category}</span>
-                              {car.mediaType === 'video' && <span>• 📹 Video</span>}
+                              {car.mediaType === 'video' && <span>• 📹</span>}
                             </div>
                             <div className="fleet-price">GHS {car.price}/day</div>
                           </div>
@@ -1186,6 +1190,31 @@ export default function Admin() {
           width: 100%;
           height: 100%;
           object-fit: cover;
+        }
+
+        .fleet-video-wrap {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+
+        .fleet-video-wrap video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .video-badge {
+          position: absolute;
+          top: 8px;
+          left: 8px;
+          background: rgba(230, 57, 70, 0.9);
+          color: #fff;
+          padding: 4px 10px;
+          border-radius: 6px;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.5px;
         }
 
         .fleet-overlay {
