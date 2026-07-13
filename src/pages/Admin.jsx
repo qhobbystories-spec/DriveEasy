@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Camera, Upload, Plus, X, Check, AlertCircle, Trash2 } from 'lucide-react';
+import { Camera, Upload, Plus, X, Check, AlertCircle, Trash2, Video, Play, Pause } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export default function Admin() {
@@ -7,12 +7,18 @@ export default function Admin() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const fileInputRef = useRef(null);
+  const videoFileInputRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
 
   const [step, setStep] = useState('form'); // 'form', 'camera', 'fleet'
   const [capturedImage, setCapturedImage] = useState(null);
+  const [mediaType, setMediaType] = useState('image'); // 'image' or 'video'
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const [streamRef, setStreamRef] = useState(null);
+  const [recordedChunks, setRecordedChunks] = useState([]);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [uploadedVideo, setUploadedVideo] = useState(null);
 
   const [form, setForm] = useState({
     name: '',
@@ -61,7 +67,7 @@ export default function Admin() {
           width: { ideal: 1280 },
           height: { ideal: 720 }
         },
-        audio: false
+        audio: mediaType === 'video' // Only request audio for video recording
       };
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -69,6 +75,24 @@ export default function Admin() {
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        
+        // Set up media recorder for video recording
+        if (mediaType === 'video') {
+          try {
+            const mimeType = 'video/webm;codecs=vp9,opus';
+            const isSupported = MediaRecorder.isTypeSupported(mimeType);
+            const options = { mimeType: isSupported ? mimeType : 'video/webm' };
+            mediaRecorderRef.current = new MediaRecorder(stream, options);
+            
+            mediaRecorderRef.current.ondataavailable = (e) => {
+              if (e.data.size > 0) {
+                setRecordedChunks(prev => [...prev, e.data]);
+              }
+            };
+          } catch (err) {
+            console.error('MediaRecorder setup error:', err);
+          }
+        }
         
         // Ensure video plays after metadata is loaded
         const playPromise = videoRef.current.play();
@@ -114,6 +138,36 @@ export default function Admin() {
       videoRef.current.srcObject = null;
     }
     setIsCameraActive(false);
+    setIsRecording(false);
+  };
+
+  const startRecording = () => {
+    if (mediaRecorderRef.current && !isRecording) {
+      setRecordedChunks([]);
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+      addToast('Recording started...', 'success');
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      
+      // Wait for the last data to be collected
+      setTimeout(() => {
+        mediaRecorderRef.current.onstop = () => {
+          if (recordedChunks.length > 0) {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            setUploadedVideo(url);
+            stopCamera();
+            addToast('Video recorded successfully!', 'success');
+          }
+        };
+      }, 100);
+    }
   };
 
   const capturePhoto = () => {
@@ -153,6 +207,24 @@ export default function Admin() {
       const reader = new FileReader();
       reader.onload = (evt) => {
         setCapturedImage(evt.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleVideoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Check file size (limit to 100MB)
+      if (file.size > 100 * 1024 * 1024) {
+        addToast('Video file is too large. Maximum size is 100MB.', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        setUploadedVideo(evt.target.result);
+        addToast('Video uploaded successfully!', 'success');
       };
       reader.readAsDataURL(file);
     }
@@ -279,55 +351,157 @@ export default function Admin() {
               {/* Camera/Upload */}
               {step === 'camera' && (
                 <div className="camera-section">
+                  {/* Media Type Selection */}
+                  <div className="media-type-selector">
+                    <button
+                      type="button"
+                      className={`media-type-btn${mediaType === 'image' ? ' active' : ''}`}
+                      onClick={() => {
+                        setMediaType('image');
+                        setCapturedImage(null);
+                        setUploadedVideo(null);
+                        stopCamera();
+                      }}
+                    >
+                      <Camera size={18} /> Photo
+                    </button>
+                    <button
+                      type="button"
+                      className={`media-type-btn${mediaType === 'video' ? ' active' : ''}`}
+                      onClick={() => {
+                        setMediaType('video');
+                        setCapturedImage(null);
+                        setUploadedVideo(null);
+                        stopCamera();
+                      }}
+                    >
+                      <Video size={18} /> Video
+                    </button>
+                  </div>
+
                   <div className="camera-container">
-                    {!isCameraActive && !capturedImage && (
-                      <div className="camera-placeholder">
-                        <Camera size={48} />
-                        <div>
-                          <button type="button" className="btn btn-primary btn-lg" onClick={startCamera} style={{ marginRight: 12 }}>
-                            <Camera size={16} /> Start Camera
-                          </button>
-                          <button type="button" className="btn btn-secondary btn-lg" onClick={() => fileInputRef.current?.click()}>
-                            <Upload size={16} /> Upload Photo
-                          </button>
-                          <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileSelect} style={{ display: 'none' }} />
-                        </div>
-                      </div>
+                    {/* Image Mode */}
+                    {mediaType === 'image' && (
+                      <>
+                        {!isCameraActive && !capturedImage && (
+                          <div className="camera-placeholder">
+                            <Camera size={48} />
+                            <div>
+                              <button type="button" className="btn btn-primary btn-lg" onClick={startCamera} style={{ marginRight: 12 }}>
+                                <Camera size={16} /> Start Camera
+                              </button>
+                              <button type="button" className="btn btn-secondary btn-lg" onClick={() => fileInputRef.current?.click()}>
+                                <Upload size={16} /> Upload Photo
+                              </button>
+                              <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileSelect} style={{ display: 'none' }} />
+                            </div>
+                          </div>
+                        )}
+
+                        {isCameraActive && !capturedImage && (
+                          <div className="camera-live">
+                            <video 
+                              ref={videoRef} 
+                              autoPlay 
+                              playsInline 
+                              muted
+                              disablePictureInPicture
+                              style={{ width: '100%', borderRadius: 'var(--radius-lg)', display: 'block' }} 
+                            />
+                            <div className="camera-controls">
+                              <button type="button" className="btn btn-primary" onClick={capturePhoto}>
+                                <Camera size={18} /> Capture Photo
+                              </button>
+                              <button type="button" className="btn btn-secondary" onClick={stopCamera}>
+                                <X size={18} /> Cancel
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {capturedImage && (
+                          <div className="captured-image">
+                            <img src={capturedImage} alt="Captured" style={{ width: '100%', borderRadius: 'var(--radius-lg)' }} />
+                            <div className="image-actions">
+                              <button type="button" className="btn btn-success">
+                                <Check size={18} /> Use This Photo
+                              </button>
+                              <button type="button" className="btn btn-secondary" onClick={retakePhoto}>
+                                <Camera size={18} /> Retake
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </>
                     )}
 
-                    {isCameraActive && (
-                      <div className="camera-live">
-                        <video 
-                          ref={videoRef} 
-                          autoPlay 
-                          playsInline 
-                          muted
-                          disablePictureInPicture
-                          style={{ width: '100%', borderRadius: 'var(--radius-lg)', display: 'block' }} 
-                        />
-                        <div className="camera-controls">
-                          <button type="button" className="btn btn-primary" onClick={capturePhoto}>
-                            <Camera size={18} /> Capture Photo
-                          </button>
-                          <button type="button" className="btn btn-secondary" onClick={stopCamera}>
-                            <X size={18} /> Cancel
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                    {/* Video Mode */}
+                    {mediaType === 'video' && (
+                      <>
+                        {!isCameraActive && !uploadedVideo && (
+                          <div className="camera-placeholder">
+                            <Video size={48} />
+                            <div>
+                              <button type="button" className="btn btn-primary btn-lg" onClick={startCamera} style={{ marginRight: 12 }}>
+                                <Video size={16} /> Start Recording
+                              </button>
+                              <button type="button" className="btn btn-secondary btn-lg" onClick={() => videoFileInputRef.current?.click()}>
+                                <Upload size={16} /> Upload Video
+                              </button>
+                              <input type="file" accept="video/*" ref={videoFileInputRef} onChange={handleVideoUpload} style={{ display: 'none' }} />
+                            </div>
+                          </div>
+                        )}
 
-                    {capturedImage && (
-                      <div className="captured-image">
-                        <img src={capturedImage} alt="Captured" style={{ width: '100%', borderRadius: 'var(--radius-lg)' }} />
-                        <div className="image-actions">
-                          <button type="button" className="btn btn-success">
-                            <Check size={18} /> Use This Photo
-                          </button>
-                          <button type="button" className="btn btn-secondary" onClick={retakePhoto}>
-                            <Camera size={18} /> Retake
-                          </button>
-                        </div>
-                      </div>
+                        {isCameraActive && !uploadedVideo && (
+                          <div className="camera-live">
+                            <video 
+                              ref={videoRef} 
+                              autoPlay 
+                              playsInline 
+                              muted
+                              disablePictureInPicture
+                              style={{ width: '100%', borderRadius: 'var(--radius-lg)', display: 'block', background: '#000' }} 
+                            />
+                            <div className={`recording-indicator${isRecording ? ' active' : ''}`}>
+                              {isRecording && <span className="rec-dot" />}
+                              {isRecording ? 'Recording...' : 'Ready to record'}
+                            </div>
+                            <div className="camera-controls">
+                              {!isRecording ? (
+                                <button type="button" className="btn btn-danger" onClick={startRecording}>
+                                  <Play size={18} /> Start Recording
+                                </button>
+                              ) : (
+                                <button type="button" className="btn btn-warning" onClick={stopRecording}>
+                                  <Pause size={18} /> Stop Recording
+                                </button>
+                              )}
+                              <button type="button" className="btn btn-secondary" onClick={stopCamera} disabled={isRecording}>
+                                <X size={18} /> Cancel
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {uploadedVideo && (
+                          <div className="captured-image">
+                            <video 
+                              src={uploadedVideo} 
+                              controls 
+                              style={{ width: '100%', borderRadius: 'var(--radius-lg)', maxHeight: 400 }} 
+                            />
+                            <div className="image-actions">
+                              <button type="button" className="btn btn-success">
+                                <Check size={18} /> Use This Video
+                              </button>
+                              <button type="button" className="btn btn-secondary" onClick={() => setUploadedVideo(null)}>
+                                <X size={18} /> Remove
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                   <button type="button" className="btn btn-outline btn-block" onClick={() => setStep('form')} style={{ marginTop: 16 }}>
@@ -1029,6 +1203,83 @@ export default function Admin() {
           .fleet-grid {
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
           }
+        }
+
+        .media-type-selector {
+          display: flex;
+          gap: 12px;
+          margin-bottom: 20px;
+          border-bottom: 1px solid var(--border);
+          padding-bottom: 16px;
+        }
+
+        .media-type-btn {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 16px;
+          background: none;
+          border: none;
+          border-bottom: 2px solid transparent;
+          color: var(--gray-1);
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-family: inherit;
+        }
+
+        .media-type-btn.active {
+          color: var(--primary);
+          border-bottom-color: var(--primary);
+        }
+
+        .media-type-btn:hover {
+          color: var(--white);
+        }
+
+        .recording-indicator {
+          position: absolute;
+          top: 16px;
+          left: 16px;
+          background: rgba(0,0,0,0.6);
+          color: var(--white);
+          padding: 8px 16px;
+          border-radius: 100px;
+          font-size: 14px;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .recording-indicator.active {
+          background: rgba(230,57,70,0.8);
+          color: #fff;
+        }
+
+        .rec-dot {
+          width: 8px;
+          height: 8px;
+          background: #fff;
+          border-radius: 50%;
+          animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+
+        .btn-warning {
+          background: rgba(255, 152, 0, 0.2);
+          border: 1px solid rgba(255, 152, 0, 0.5);
+          color: #ffa500;
+        }
+
+        .btn-warning:hover {
+          background: rgba(255, 152, 0, 0.3);
+          border-color: #ffa500;
         }
       `}</style>
     </main>
