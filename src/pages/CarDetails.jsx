@@ -67,25 +67,39 @@ export default function CarDetails() {
             {/* Image Gallery */}
             <div className="gallery">
               <div className="gallery-main">
-                <img src={car.images[activeImg]} alt={car.name} />
-                {car.images.length > 1 && (
+                {car.mediaType === 'video' && car.video ? (
+                  <video 
+                    src={car.video} 
+                    controls 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
+                  />
+                ) : (
                   <>
-                    <button className="gallery-arrow left" onClick={() => setActiveImg(i => (i - 1 + car.images.length) % car.images.length)}>
-                      <ChevronLeft size={20} />
-                    </button>
-                    <button className="gallery-arrow right" onClick={() => setActiveImg(i => (i + 1) % car.images.length)}>
-                      <ChevronRight size={20} />
-                    </button>
+                    <img src={car.images[activeImg]} alt={car.name} />
+                    {car.images.length > 1 && (
+                      <>
+                        <button className="gallery-arrow left" onClick={() => setActiveImg(i => (i - 1 + car.images.length) % car.images.length)}>
+                          <ChevronLeft size={20} />
+                        </button>
+                        <button className="gallery-arrow right" onClick={() => setActiveImg(i => (i + 1) % car.images.length)}>
+                          <ChevronRight size={20} />
+                        </button>
+                      </>
+                    )}
                   </>
                 )}
                 {!car.available && <div className="unavail-badge">Currently Unavailable</div>}
               </div>
               <div className="gallery-thumbs">
-                {car.images.map((img, i) => (
-                  <button key={i} className={`thumb${activeImg === i ? ' active' : ''}`} onClick={() => setActiveImg(i)}>
-                    <img src={img} alt="" />
-                  </button>
-                ))}
+                {car.mediaType === 'video' && car.video ? (
+                  <div style={{ color: 'var(--gray-1)', fontSize: 12, padding: '8px 0', textAlign: 'center' }}>📹 Video Preview</div>
+                ) : (
+                  car.images.map((img, i) => (
+                    <button key={i} className={`thumb${activeImg === i ? ' active' : ''}`} onClick={() => setActiveImg(i)}>
+                      <img src={img} alt="" />
+                    </button>
+                  ))
+                )}
               </div>
             </div>
 

@@ -15,14 +15,23 @@ export default function CarCard({ car }) {
     <div className="car-card card">
       {car.tag && <div className="car-tag">{car.tag}</div>}
       {!car.available && <div className="car-unavailable">Unavailable</div>}
+      {car.mediaType === 'video' && car.video && <div className="car-video-badge">📹 Video</div>}
 
       <div className="car-img-wrap">
-        <img 
-          src={imgError ? PLACEHOLDER_IMG : car.image} 
-          alt={car.name} 
-          loading="lazy"
-          onError={handleImageError}
-        />
+        {car.mediaType === 'video' && car.video ? (
+          <video 
+            src={car.video}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            onError={handleImageError}
+          />
+        ) : (
+          <img 
+            src={imgError ? PLACEHOLDER_IMG : car.image} 
+            alt={car.name} 
+            loading="lazy"
+            onError={handleImageError}
+          />
+        )}
       </div>
 
       <div className="car-body">
@@ -67,6 +76,11 @@ export default function CarCard({ car }) {
           padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700;
           text-transform: uppercase; letter-spacing: 0.5px;
         }
+        .car-video-badge {
+          position: absolute; top: 14px; right: 14px; z-index: 2;
+          background: rgba(0,0,0,0.6); color: #fff;
+          padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600;
+        }
         .car-unavailable {
           position: absolute; top: 14px; right: 14px; z-index: 2;
           background: rgba(0,0,0,0.6); color: var(--gray-1);
@@ -80,7 +94,12 @@ export default function CarCard({ car }) {
           width: 100%; height: 100%; object-fit: cover;
           transition: transform 0.4s ease;
         }
+        .car-img-wrap video {
+          width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.4s ease;
+        }
         .car-card:hover .car-img-wrap img { transform: scale(1.05); }
+        .car-card:hover .car-img-wrap video { transform: scale(1.05); }
         .car-body { padding: 20px; }
         .car-meta-top {
           display: flex; justify-content: space-between; align-items: center;

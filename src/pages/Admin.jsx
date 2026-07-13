@@ -537,7 +537,14 @@ export default function Admin() {
                       {cars.map(car => (
                         <div key={car.id} className="fleet-card">
                           <div className="fleet-image">
-                            <img src={car.image} alt={car.name} />
+                            {car.mediaType === 'video' && car.video ? (
+                              <video 
+                                src={car.video} 
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
+                              />
+                            ) : (
+                              <img src={car.image} alt={car.name} />
+                            )}
                             <div className="fleet-overlay">
                               <button
                                 className="btn btn-danger"
@@ -554,6 +561,7 @@ export default function Admin() {
                               <span>{car.year}</span>
                               <span>•</span>
                               <span>{car.category}</span>
+                              {car.mediaType === 'video' && <span>• 📹 Video</span>}
                             </div>
                             <div className="fleet-price">GHS {car.price}/day</div>
                           </div>
