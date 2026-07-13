@@ -243,21 +243,32 @@ export default function Admin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validation
-    if (!form.name || !form.brand || !form.price || !capturedImage) {
-      addToast('Please fill all required fields and capture/upload an image', 'error');
+    // Validation - accept either image or video
+    const mediaContent = mediaType === 'image' ? capturedImage : uploadedVideo;
+    
+    if (!form.name || !form.brand || !form.price || !mediaContent) {
+      addToast('Please fill all required fields and capture/upload an image or video', 'error');
       return;
     }
 
-    // Create images array with the captured image
-    const images = [capturedImage, capturedImage, capturedImage, capturedImage, capturedImage, capturedImage];
+    // For videos, create a thumbnail from first frame if possible
+    let thumbnail = mediaContent;
+    if (mediaType === 'video') {
+      // Use a generic video placeholder as thumbnail
+      thumbnail = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23222" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-size="24" fill="%23666" font-family="Arial"%3E📹 Video Available%3C/text%3E%3C/svg%3E';
+    }
+
+    // Create images array with the media content
+    const images = [mediaContent, mediaContent, mediaContent, mediaContent, mediaContent, mediaContent];
 
     const newCar = {
       name: form.name,
       brand: form.brand,
       category: form.category,
-      image: capturedImage,
+      image: thumbnail,
       images,
+      video: mediaType === 'video' ? mediaContent : null,
+      mediaType: mediaType,
       price: parseInt(form.price),
       priceWeek: parseInt(form.priceWeek) || form.price * 6,
       rating: form.rating,
@@ -306,7 +317,10 @@ export default function Admin() {
       mileage: 'Unlimited',
     });
     setCapturedImage(null);
+    setUploadedVideo(null);
+    setMediaType('image');
     setStep('form');
+    addToast(`Vehicle added successfully with ${mediaType}!`, 'success');
   };
 
   const handleDeleteCar = (carId, carName) => {
@@ -735,25 +749,40 @@ export default function Admin() {
                   </div>
 
                   {/* Image reminder */}
-                  {!capturedImage && (
+                  {mediaType === 'image' && !capturedImage && (
                     <div className="info-box warning">
                       <AlertCircle size={18} />
                       <span>Please capture or upload a photo before submitting.</span>
                     </div>
                   )}
 
-                  {capturedImage && (
+                  {mediaType === 'video' && !uploadedVideo && (
+                    <div className="info-box warning">
+                      <AlertCircle size={18} />
+                      <span>Please record or upload a video before submitting.</span>
+                    </div>
+                  )}
+
+                  {capturedImage && mediaType === 'image' && (
                     <div className="info-box success">
                       <Check size={18} />
                       <span>Photo captured successfully and will be used for this vehicle.</span>
                     </div>
                   )}
 
+                  {uploadedVideo && mediaType === 'video' && (
+                    <div className="info-box success">
+                      <Check size={18} />
+                      <span>Video uploaded successfully and will be used for this vehicle.</span>
+                    </div>
+                  )}
+
                   <div style={{ display: 'flex', gap: 12 }}>
                     <button type="button" className="btn btn-secondary" onClick={() => setStep('camera')} style={{ flex: 1 }}>
-                      <Camera size={16} /> Change Photo
+                      {mediaType === 'image' ? <Camera size={16} /> : <Video size={16} />} 
+                      {mediaType === 'image' ? ' Change Photo' : ' Change Video'}
                     </button>
-                    <button type="submit" className="btn btn-primary btn-lg" style={{ flex: 1 }} disabled={!capturedImage}>
+                    <button type="submit" className="btn btn-primary btn-lg" style={{ flex: 1 }} disabled={!capturedImage && !uploadedVideo}>
                       <Plus size={16} /> Add Vehicle to Fleet
                     </button>
                   </div>
