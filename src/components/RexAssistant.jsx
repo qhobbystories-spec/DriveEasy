@@ -1,5 +1,177 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, ChevronRight, Zap, HelpCircle, DollarSign, Fuel, FileText, MapPin, Calendar, AlertCircle } from 'lucide-react';
+import { MessageCircle, X, Send, ChevronRight, Zap, HelpCircle, DollarSign, Fuel, FileText, MapPin, Calendar, AlertCircle, Users, Briefcase } from 'lucide-react';
+
+// Vehicle database with detailed specs
+const vehicleDatabase = [
+  {
+    id: 1,
+    name: "BMW 5 Series",
+    brand: "BMW",
+    category: "Luxury",
+    price: 120,
+    passengers: 5,
+    luggage: 3,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    type: "Sedan",
+    bestFor: ["business", "luxury", "executive"],
+    comfort: 5,
+  },
+  {
+    id: 2,
+    name: "Tesla Model 3",
+    brand: "Tesla",
+    category: "Electric",
+    price: 95,
+    passengers: 5,
+    luggage: 3,
+    transmission: "Automatic",
+    fuel: "Electric",
+    type: "Sedan",
+    bestFor: ["eco-friendly", "business", "short-trips"],
+    comfort: 4,
+  },
+  {
+    id: 3,
+    name: "Porsche 911",
+    brand: "Porsche",
+    category: "Sports",
+    price: 250,
+    passengers: 4,
+    luggage: 2,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    type: "Coupe",
+    bestFor: ["adventure", "luxury", "sports"],
+    comfort: 4,
+  },
+  {
+    id: 4,
+    name: "Range Rover Sport",
+    brand: "Land Rover",
+    category: "SUV",
+    price: 175,
+    passengers: 7,
+    luggage: 5,
+    transmission: "Automatic",
+    fuel: "Diesel",
+    type: "SUV",
+    bestFor: ["family", "adventure", "luxury"],
+    comfort: 5,
+  },
+  {
+    id: 5,
+    name: "Mercedes-Benz E-Class",
+    brand: "Mercedes-Benz",
+    category: "Luxury",
+    price: 145,
+    passengers: 5,
+    luggage: 4,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    type: "Sedan",
+    bestFor: ["business", "luxury"],
+    comfort: 5,
+  },
+  {
+    id: 6,
+    name: "Audi RS7",
+    brand: "Audi",
+    category: "Sports",
+    price: 220,
+    passengers: 5,
+    luggage: 3,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    type: "Sedan",
+    bestFor: ["performance", "luxury", "business"],
+    comfort: 4,
+  },
+  {
+    id: 7,
+    name: "Toyota Corolla",
+    brand: "Toyota",
+    category: "Economy",
+    price: 45,
+    passengers: 5,
+    luggage: 3,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    type: "Sedan",
+    bestFor: ["budget", "city", "short-trips"],
+    comfort: 3,
+  },
+  {
+    id: 8,
+    name: "Honda Civic",
+    brand: "Honda",
+    category: "Economy",
+    price: 50,
+    passengers: 5,
+    luggage: 3,
+    transmission: "Manual",
+    fuel: "Petrol",
+    type: "Sedan",
+    bestFor: ["budget", "sporty", "city"],
+    comfort: 3,
+  },
+  {
+    id: 9,
+    name: "Hyundai i20",
+    brand: "Hyundai",
+    category: "Economy",
+    price: 40,
+    passengers: 5,
+    luggage: 2,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    type: "Hatchback",
+    bestFor: ["budget", "city", "eco"],
+    comfort: 2,
+  },
+  {
+    id: 10,
+    name: "Honda Odyssey",
+    brand: "Honda",
+    category: "Van",
+    price: 85,
+    passengers: 7,
+    luggage: 6,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    type: "Van",
+    bestFor: ["family", "large-groups", "comfort"],
+    comfort: 5,
+  },
+  {
+    id: 11,
+    name: "Chrysler Pacifica",
+    brand: "Chrysler",
+    category: "Van",
+    price: 95,
+    passengers: 8,
+    luggage: 7,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    type: "Van",
+    bestFor: ["family", "large-groups", "luxury"],
+    comfort: 5,
+  },
+  {
+    id: 12,
+    name: "Toyota Sienna",
+    brand: "Toyota",
+    category: "Van",
+    price: 80,
+    passengers: 7,
+    luggage: 6,
+    transmission: "Automatic",
+    fuel: "Hybrid",
+    type: "Van",
+    bestFor: ["family", "eco-friendly", "comfort"],
+    comfort: 5,
+  },
+];
 
 const RexAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -130,6 +302,12 @@ const RexAssistant = () => {
   const generateResponse = (userInput) => {
     const lower = userInput.toLowerCase();
 
+    // Try to extract vehicle recommendation criteria
+    const recommendation = analyzeUserNeeds(userInput);
+    if (recommendation) {
+      return recommendation;
+    }
+
     if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
       return "Hey! 👋 I'm Rex, your AI Rental Assistant. I can help with vehicle recommendations, pricing, insurance, fuel policy, booking questions, and more! What can I help with?";
     }
@@ -171,6 +349,218 @@ const RexAssistant = () => {
     }
 
     return "Great question! 🤔 I'm here to help with:\n✅ Vehicle recommendations\n✅ Pricing & rates\n✅ Insurance options\n✅ Fuel policies\n✅ Payment methods\n✅ Booking guidance\n✅ Pickup & return info\n✅ Cancellations\n\nFeel free to ask about any of these topics!";
+  };
+
+  const analyzeUserNeeds = (input) => {
+    const lower = input.toLowerCase();
+    
+    // Extract key information
+    const budget = extractBudget(lower);
+    const passengers = extractPassengers(lower);
+    const duration = extractDuration(lower);
+    const luggage = extractLuggage(lower);
+    const travelType = extractTravelType(lower);
+    const fuelPreference = extractFuelPreference(lower);
+    const transmissionPreference = extractTransmission(lower);
+    const luxuryLevel = extractLuxuryLevel(lower);
+    const destination = extractDestination(lower);
+
+    // Only generate recommendation if we have meaningful criteria
+    if (passengers > 0 || budget > 0 || duration > 0 || travelType) {
+      return generateVehicleRecommendation({
+        budget,
+        passengers,
+        duration,
+        luggage,
+        travelType,
+        fuelPreference,
+        transmissionPreference,
+        luxuryLevel,
+        destination,
+      });
+    }
+
+    return null;
+  };
+
+  const extractBudget = (text) => {
+    const match = text.match(/(\d+)\s*(ghс|gh|cedi|cedis)?|budget\s*(?:of\s*)?(\d+)/i);
+    return match ? parseInt(match[1] || match[3]) : 0;
+  };
+
+  const extractPassengers = (text) => {
+    const numberWords = {
+      'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5,
+      'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
+    };
+
+    for (const [word, num] of Object.entries(numberWords)) {
+      if (text.includes(word)) {
+        return num;
+      }
+    }
+
+    const match = text.match(/(\d+)\s*(?:passenger|person|people|of us)/i);
+    return match ? parseInt(match[1]) : 0;
+  };
+
+  const extractDuration = (text) => {
+    const dayMatch = text.match(/(\d+)\s*day/i);
+    const weekMatch = text.match(/(\d+)\s*week/i);
+    
+    if (dayMatch) return parseInt(dayMatch[1]);
+    if (weekMatch) return parseInt(weekMatch[1]) * 7;
+    
+    return 0;
+  };
+
+  const extractLuggage = (text) => {
+    if (text.includes('lots of luggage') || text.includes('heavy luggage')) return 5;
+    if (text.includes('luggage')) return 3;
+    if (text.includes('suitcase')) return 2;
+    return 0;
+  };
+
+  const extractTravelType = (text) => {
+    if (text.includes('family') || text.includes('kids') || text.includes('children')) return 'family';
+    if (text.includes('business') || text.includes('corporate') || text.includes('meeting')) return 'business';
+    if (text.includes('adventure') || text.includes('weekend') || text.includes('road trip')) return 'adventure';
+    if (text.includes('honeymoon') || text.includes('couple')) return 'leisure';
+    return null;
+  };
+
+  const extractFuelPreference = (text) => {
+    if (text.includes('electric') || text.includes('eco') || text.includes('green')) return 'Electric';
+    if (text.includes('hybrid')) return 'Hybrid';
+    if (text.includes('diesel')) return 'Diesel';
+    return null;
+  };
+
+  const extractTransmission = (text) => {
+    if (text.includes('automatic')) return 'Automatic';
+    if (text.includes('manual')) return 'Manual';
+    return null;
+  };
+
+  const extractLuxuryLevel = (text) => {
+    if (text.includes('luxury') || text.includes('premium') || text.includes('high-end')) return 'luxury';
+    if (text.includes('budget') || text.includes('economy') || text.includes('cheap')) return 'economy';
+    return null;
+  };
+
+  const extractDestination = (text) => {
+    const destinations = ['accra', 'kumasi', 'takoradi', 'tema', 'sekondi', 'cape coast'];
+    for (const dest of destinations) {
+      if (text.includes(dest)) return dest;
+    }
+    return null;
+  };
+
+  const generateVehicleRecommendation = (criteria) => {
+    let recommendations = vehicleDatabase;
+
+    // Filter by passengers (prioritize exact match or close fit)
+    if (criteria.passengers > 0) {
+      recommendations = recommendations.filter(v => v.passengers >= criteria.passengers);
+      if (recommendations.length === 0) {
+        recommendations = vehicleDatabase;
+      }
+    }
+
+    // Filter by luggage needs
+    if (criteria.luggage > 0) {
+      recommendations = recommendations.filter(v => v.luggage >= criteria.luggage);
+      if (recommendations.length === 0) {
+        recommendations = vehicleDatabase;
+      }
+    }
+
+    // Filter by budget
+    if (criteria.budget > 0) {
+      const maxPrice = criteria.duration > 0 ? (criteria.budget / criteria.duration) : criteria.budget;
+      recommendations = recommendations.filter(v => v.price <= maxPrice * 1.2); // Allow 20% flexibility
+      if (recommendations.length === 0) {
+        recommendations = vehicleDatabase;
+      }
+    }
+
+    // Filter by travel type/purpose
+    if (criteria.travelType) {
+      const filtered = recommendations.filter(v => v.bestFor.includes(criteria.travelType));
+      if (filtered.length > 0) {
+        recommendations = filtered;
+      }
+    }
+
+    // Filter by luxury preference
+    if (criteria.luxuryLevel === 'luxury') {
+      const filtered = recommendations.filter(v => ['Luxury', 'Sports', 'Van'].includes(v.category));
+      if (filtered.length > 0) {
+        recommendations = filtered;
+      }
+    } else if (criteria.luxuryLevel === 'economy') {
+      const filtered = recommendations.filter(v => ['Economy', 'Van'].includes(v.category));
+      if (filtered.length > 0) {
+        recommendations = filtered;
+      }
+    }
+
+    // Filter by fuel preference
+    if (criteria.fuelPreference) {
+      const filtered = recommendations.filter(v => v.fuel === criteria.fuelPreference);
+      if (filtered.length > 0) {
+        recommendations = filtered;
+      }
+    }
+
+    // Filter by transmission
+    if (criteria.transmissionPreference) {
+      const filtered = recommendations.filter(v => v.transmission === criteria.transmissionPreference);
+      if (filtered.length > 0) {
+        recommendations = filtered;
+      }
+    }
+
+    // Sort by best fit
+    recommendations = recommendations
+      .sort((a, b) => {
+        let scoreA = 0, scoreB = 0;
+
+        if (criteria.passengers > 0) {
+          scoreA += (a.passengers >= criteria.passengers ? 10 : -5);
+          scoreB += (b.passengers >= criteria.passengers ? 10 : -5);
+        }
+
+        if (criteria.luggage > 0) {
+          scoreA += (a.luggage >= criteria.luggage ? 5 : 0);
+          scoreB += (b.luggage >= criteria.luggage ? 5 : 0);
+        }
+
+        scoreA += a.comfort;
+        scoreB += b.comfort;
+
+        return scoreB - scoreA;
+      })
+      .slice(0, 3);
+
+    if (recommendations.length === 0) {
+      return "I couldn't find an exact match, but here are some great options from our fleet! Tell me more about your specific needs and I can refine the recommendations.";
+    }
+
+    let response = "🚗 **Perfect! Here are my recommendations for you:**\n\n";
+
+    recommendations.forEach((car, idx) => {
+      response += `**${idx + 1}. ${car.brand} ${car.name}**\n`;
+      response += `   💰 GHS ${car.price}/day\n`;
+      response += `   👥 ${car.passengers} passengers\n`;
+      response += `   🧳 ${car.luggage} luggage bags\n`;
+      response += `   ⛽ ${car.fuel} | 🔄 ${car.transmission}\n`;
+      response += `   ⭐ Comfort: ${car.comfort}/5\n\n`;
+    });
+
+    response += "Would you like to book one of these vehicles or need more information?";
+
+    return response;
   };
 
   return (
