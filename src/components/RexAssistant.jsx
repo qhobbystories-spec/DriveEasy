@@ -245,6 +245,11 @@ const RexAssistant = () => {
       text: "❌ **Cancellation Policy:**\n\n**ECONOMY PLAN**\n• Free cancellation up to 48 hours before pickup\n• After 48 hours: 50% charge\n• Within 24 hours: No refund\n\n**PREMIUM PLAN**\n• Free cancellation up to 24 hours before pickup\n• After 24 hours: 50% charge\n• Less than 4 hours: No refund\n\n**ELITE PLAN**\n• Free cancellation anytime\n• No questions asked\n• Full refund processed within 2-3 business days\n\n**TO CANCEL YOUR BOOKING:**\n1. Go to 'My Bookings'\n2. Find your reservation\n3. Click 'Cancel Booking'\n4. Confirm cancellation\n5. Receive confirmation email\n\n⚠️ **Note**: Cancellation initiated within allowed timeframe only.\n\nNeed help canceling a specific booking?",
       followUp: false,
     },
+    // Rental Requirements FAQ
+    requirements: {
+      text: "📋 **Rental Requirements & Policies:**\n\n**Age Requirements**\n• Minimum 21 years old\n• Drivers under 25 may have additional fees\n\n**License Requirements**\n• Valid driver's license (must be current)\n• International license accepted\n• License must be held for minimum 1 year\n\n**Payment Options**\n✅ Credit/Debit cards (Visa, Mastercard)\n✅ Mobile Money (MTN, Vodafone, AirtelTigo)\n✅ Bank transfer\n✅ Cash at pickup (with valid ID)\n\n**Deposit Information**\n• Security deposit required (refundable)\n• Held for damage/violations\n• Released 5-7 business days after return\n• Amount varies by car category\n\n**Late Return Policy**\n• Grace period: 15 minutes free\n• After 15 mins: GHS 10 per hour\n• After 24 hours: Full day charge applies\n\n**Refund Policy**\n• Cancellations: See cancellation policy\n• Damage claims: Assessed within 48 hours\n• Refunds processed: 5-7 business days\n\n**Cross-Border Travel**\n• Allowed with prior permission\n• Valid passport required\n• Border crossing fee: GHS 50\n• Notify us 7 days in advance\n\n**Additional Driver Policy**\n• Second driver allowed (GHS 10/day)\n• Must be licensed & meet age requirements\n• Limited to 2 additional drivers max\n\nHave questions about any of these?",
+      followUp: false,
+    },
   };
 
   const handleQuickReply = (action) => {
@@ -308,6 +313,12 @@ const RexAssistant = () => {
       return recommendation;
     }
 
+    // Check for Trip Planning
+    if ((lower.includes('trip') || lower.includes('travelling') || lower.includes('traveling')) && 
+        (lower.includes('where') || lower.includes('days') || lower.includes('people'))) {
+      return generateTripPlanningResponse(userInput);
+    }
+
     if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
       return "Hey! 👋 I'm Rex, your AI Rental Assistant. I can help with vehicle recommendations, pricing, insurance, fuel policy, booking questions, and more! What can I help with?";
     }
@@ -328,7 +339,7 @@ const RexAssistant = () => {
       return responses.fuel.text;
     }
 
-    if (lower.includes('payment') || lower.includes('pay') || lower.includes('card')) {
+    if (lower.includes('payment') || lower.includes('pay') || lower.includes('card') || lower.includes('credit')) {
       return responses.payment.text;
     }
 
@@ -344,11 +355,111 @@ const RexAssistant = () => {
       return responses.cancel.text;
     }
 
+    // Rental Requirements FAQ
+    if (lower.includes('requirement') || lower.includes('age') || lower.includes('license') || 
+        lower.includes('deposit') || lower.includes('late') || lower.includes('refund') ||
+        lower.includes('without credit card') || lower.includes('cross-border') || lower.includes('additional driver')) {
+      return responses.requirements.text;
+    }
+
     if (lower.includes('car') || lower.includes('vehicle') || lower.includes('which')) {
       return "I'd love to help you find the perfect car! 🚗\n\nTell me about your needs:\n• Trip type? (business, family, adventure)\n• Number of passengers?\n• Budget?\n• Special requirements?\n\nI'll recommend the best options!";
     }
 
-    return "Great question! 🤔 I'm here to help with:\n✅ Vehicle recommendations\n✅ Pricing & rates\n✅ Insurance options\n✅ Fuel policies\n✅ Payment methods\n✅ Booking guidance\n✅ Pickup & return info\n✅ Cancellations\n\nFeel free to ask about any of these topics!";
+    return "Great question! 🤔 I'm here to help with:\n✅ Vehicle recommendations\n✅ Pricing & rates\n✅ Insurance options\n✅ Fuel policies\n✅ Payment methods\n✅ Booking guidance\n✅ Pickup & return info\n✅ Cancellations\n✅ Rental requirements\n\nFeel free to ask about any of these topics!";
+  };
+
+  const generateTripPlanningResponse = (input) => {
+    const lower = input.toLowerCase();
+    
+    let response = "🗺️ **Let me help plan your perfect trip!**\n\n";
+    
+    let destination = extractDestination(lower);
+    let passengers = extractPassengers(lower);
+    let days = extractDuration(lower);
+    let driveType = extractDriveType(lower);
+
+    if (destination) {
+      response += `📍 **Destination:** ${destination.charAt(0).toUpperCase() + destination.slice(1)}\n`;
+    }
+    if (passengers > 0) {
+      response += `👥 **Passengers:** ${passengers}\n`;
+    }
+    if (days > 0) {
+      response += `📅 **Duration:** ${days} day${days > 1 ? 's' : ''}\n`;
+    }
+    if (driveType) {
+      response += `🛣️ **Drive Type:** ${driveType}\n`;
+    }
+
+    response += "\n**My Recommendations:**\n\n";
+
+    // Recommend suitable cars based on trip
+    let recommendations = vehicleDatabase;
+    
+    if (passengers > 0) {
+      recommendations = recommendations.filter(v => v.passengers >= passengers);
+    }
+
+    if (driveType === 'city') {
+      recommendations = recommendations.filter(v => v.category === 'Economy' || v.type === 'Hatchback');
+    } else if (driveType === 'highway') {
+      recommendations = recommendations.filter(v => v.comfort >= 4).sort((a, b) => b.comfort - a.comfort);
+    } else if (driveType === 'mixed') {
+      recommendations = recommendations.filter(v => v.comfort >= 3);
+    }
+
+    recommendations = recommendations.slice(0, 3);
+
+    response += "**Suitable Vehicles:**\n";
+    recommendations.forEach((car, idx) => {
+      response += `${idx + 1}. ${car.brand} ${car.name} - GHS ${car.price}/day\n`;
+    });
+
+    // Fuel efficiency
+    response += "\n⛽ **Fuel Efficiency Estimate:**\n";
+    if (driveType === 'city') {
+      response += "• City driving: ~8-10 km/liter\n";
+      response += "• Expected fuel cost: GHS 150-200 for 5 days\n";
+    } else if (driveType === 'highway') {
+      response += "• Highway driving: ~12-15 km/liter\n";
+      response += "• Expected fuel cost: GHS 100-150 for 5 days\n";
+    } else {
+      response += "• Mixed driving: ~10-12 km/liter\n";
+      response += "• Expected fuel cost: GHS 120-180 for 5 days\n";
+    }
+
+    // Mileage
+    response += "\n📏 **Suggested Mileage Allowance:**\n";
+    const suggestedMileage = days * 100;
+    response += `• For ${days} days: ${suggestedMileage} km\n`;
+    response += `• Average per day: 100 km\n`;
+
+    // Insurance
+    response += "\n🛡️ **Recommended Insurance:**\n";
+    response += "• Comprehensive Coverage (includes:\n";
+    response += "  - Collision protection\n";
+    response += "  - Theft coverage\n";
+    response += "  - Windshield replacement\n";
+    response += "  - 24/7 roadside assistance)\n";
+
+    // Extras
+    response += "\n🎁 **Optional Extras:**\n";
+    response += "• GPS Navigation (GHS 20/day)\n";
+    response += "• Child safety seats (GHS 15/day)\n";
+    response += "• Additional driver (GHS 10/day)\n";
+    response += "• Dashcam (GHS 10/day)\n";
+
+    response += "\nReady to book? I can help with the next steps!";
+    
+    return response;
+  };
+
+  const extractDriveType = (text) => {
+    if (text.includes('city') || text.includes('urban')) return 'city';
+    if (text.includes('highway') || text.includes('long distance') || text.includes('interstate')) return 'highway';
+    if (text.includes('mixed') || text.includes('both')) return 'mixed';
+    return null;
   };
 
   const analyzeUserNeeds = (input) => {
