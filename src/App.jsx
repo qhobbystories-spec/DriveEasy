@@ -4,6 +4,7 @@ import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Toast from './components/Toast';
+import RexAssistant from './components/RexAssistant';
 
 import Home from './pages/Home';
 import Cars from './pages/Cars';
@@ -60,6 +61,7 @@ function ScrollToTopWrapper() {
       </Routes>
       <Footer />
       <Toast />
+      <RexAssistant />
     </>
   );
 }
