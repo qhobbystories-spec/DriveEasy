@@ -570,13 +570,12 @@ const RexAssistant = () => {
         <button
           className="rex-button"
           onClick={() => setIsOpen(true)}
-          title="Chat with Rex, your AI Rental Assistant"
+          title="Chat with AI Assistant"
         >
           <div className="rex-avatar">
             <span className="rex-icon">🤖</span>
             <span className="rex-dot"></span>
           </div>
-          <span className="rex-label">Ask Rex</span>
         </button>
       )}
 
@@ -589,7 +588,7 @@ const RexAssistant = () => {
                 <span>🤖</span>
               </div>
               <div>
-                <div className="rex-title">Rex - AI Assistant</div>
+                <div className="rex-title">{messages.length > 1 ? 'Rex - AI Assistant' : 'Chat Assistant'}</div>
                 <div className="rex-status">Always here to help</div>
               </div>
             </div>
@@ -598,7 +597,7 @@ const RexAssistant = () => {
               onClick={() => setIsOpen(false)}
               aria-label="Close chat"
             >
-              <X size={20} />
+              <X size={18} />
             </button>
           </div>
 
@@ -631,7 +630,7 @@ const RexAssistant = () => {
           {/* Quick Replies */}
           {messages.length <= 1 && (
             <div className="rex-quick-replies">
-              <div className="rex-label-small">Popular topics:</div>
+              <div className="rex-label-small">Quick options:</div>
               <div className="rex-quick-grid">
                 {quickReplies.map(reply => (
                   <button
@@ -651,7 +650,7 @@ const RexAssistant = () => {
             <div className="rex-input-wrapper">
               <input
                 type="text"
-                placeholder="Ask me anything..."
+                placeholder="Ask me..."
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyPress={e => e.key === 'Enter' && handleSendMessage()}
@@ -663,10 +662,9 @@ const RexAssistant = () => {
                 className="rex-send-btn"
                 aria-label="Send message"
               >
-                <Send size={18} />
+                <Send size={16} />
               </button>
             </div>
-            <div className="rex-info">💡 Powered by AI | Available 24/7</div>
           </div>
         </div>
       )}
@@ -678,15 +676,16 @@ const RexAssistant = () => {
           right: 24px;
           display: flex;
           align-items: center;
-          gap: 10px;
+          justify-content: center;
           background: var(--primary);
           color: #fff;
           border: none;
-          border-radius: 100px;
-          padding: 12px 18px;
+          border-radius: 50%;
+          width: 56px;
+          height: 56px;
           cursor: pointer;
           font-weight: 700;
-          font-size: 14px;
+          font-size: 24px;
           box-shadow: 0 4px 16px rgba(230, 57, 70, 0.4);
           transition: all 0.3s;
           z-index: 998;
@@ -694,7 +693,7 @@ const RexAssistant = () => {
         }
 
         .rex-button:hover {
-          transform: translateY(-2px);
+          transform: scale(1.1);
           box-shadow: 0 8px 24px rgba(230, 57, 70, 0.6);
         }
 
@@ -703,33 +702,31 @@ const RexAssistant = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 32px;
-          height: 32px;
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 50%;
+          width: 100%;
+          height: 100%;
         }
 
         .rex-icon {
-          font-size: 18px;
+          font-size: 24px;
         }
 
         .rex-dot {
           position: absolute;
-          bottom: 0;
-          right: 0;
-          width: 8px;
-          height: 8px;
+          bottom: 4px;
+          right: 4px;
+          width: 10px;
+          height: 10px;
           background: #2ea043;
           border-radius: 50%;
-          border: 2px solid white;
+          border: 2px solid var(--primary);
         }
 
         .rex-window {
           position: fixed;
-          bottom: 24px;
+          bottom: 88px;
           right: 24px;
-          width: 420px;
-          height: 600px;
+          width: 360px;
+          height: 480px;
           background: var(--dark-2);
           border: 1px solid var(--border);
           border-radius: var(--radius-lg);
@@ -749,7 +746,7 @@ const RexAssistant = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 16px;
+          padding: 14px;
           border-bottom: 1px solid var(--border);
           background: linear-gradient(135deg, var(--primary) 0%, rgba(230, 57, 70, 0.8) 100%);
           border-radius: var(--radius-lg) var(--radius-lg) 0 0;
@@ -759,27 +756,28 @@ const RexAssistant = () => {
         .rex-header-left {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 10px;
         }
 
         .rex-avatar-small {
-          width: 40px;
-          height: 40px;
+          width: 36px;
+          height: 36px;
           background: rgba(255, 255, 255, 0.2);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 24px;
+          font-size: 20px;
+          flex-shrink: 0;
         }
 
         .rex-title {
           font-weight: 700;
-          font-size: 16px;
+          font-size: 14px;
         }
 
         .rex-status {
-          font-size: 12px;
+          font-size: 11px;
           opacity: 0.9;
         }
 
@@ -787,14 +785,15 @@ const RexAssistant = () => {
           background: rgba(255, 255, 255, 0.2);
           border: none;
           color: #fff;
-          width: 32px;
-          height: 32px;
+          width: 28px;
+          height: 28px;
           border-radius: 50%;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: background 0.2s;
+          flex-shrink: 0;
         }
 
         .rex-close:hover {
@@ -804,14 +803,14 @@ const RexAssistant = () => {
         .rex-messages {
           flex: 1;
           overflow-y: auto;
-          padding: 16px;
+          padding: 12px;
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 10px;
         }
 
         .rex-messages::-webkit-scrollbar {
-          width: 6px;
+          width: 4px;
         }
 
         .rex-messages::-webkit-scrollbar-track {
@@ -820,7 +819,7 @@ const RexAssistant = () => {
 
         .rex-messages::-webkit-scrollbar-thumb {
           background: var(--border);
-          border-radius: 3px;
+          border-radius: 2px;
         }
 
         .rex-messages::-webkit-scrollbar-thumb:hover {
@@ -829,7 +828,7 @@ const RexAssistant = () => {
 
         .rex-message {
           display: flex;
-          gap: 8px;
+          gap: 6px;
           animation: fadeIn 0.3s ease;
         }
 
@@ -847,11 +846,11 @@ const RexAssistant = () => {
         }
 
         .rex-message-content {
-          max-width: 75%;
-          padding: 12px 16px;
-          border-radius: 12px;
-          line-height: 1.5;
-          font-size: 14px;
+          max-width: 80%;
+          padding: 10px 12px;
+          border-radius: 10px;
+          line-height: 1.4;
+          font-size: 13px;
           word-wrap: break-word;
         }
 
@@ -864,18 +863,18 @@ const RexAssistant = () => {
         .rex-message.user .rex-message-content {
           background: var(--primary);
           color: #fff;
-          border-radius: 12px 2px 12px 12px;
+          border-radius: 10px 2px 10px 10px;
         }
 
         .rex-typing {
           display: flex;
-          gap: 4px;
-          height: 12px;
+          gap: 3px;
+          height: 10px;
         }
 
         .rex-typing span {
-          width: 4px;
-          height: 4px;
+          width: 3px;
+          height: 3px;
           background: var(--gray-1);
           border-radius: 50%;
           animation: typing 1.4s infinite;
@@ -891,41 +890,41 @@ const RexAssistant = () => {
 
         @keyframes typing {
           0%, 60%, 100% { transform: translateY(0); }
-          30% { transform: translateY(-6px); }
+          30% { transform: translateY(-4px); }
         }
 
         .rex-quick-replies {
-          padding: 12px 16px;
+          padding: 10px;
           border-top: 1px solid var(--border);
           background: var(--dark-3);
         }
 
         .rex-label-small {
-          font-size: 11px;
+          font-size: 10px;
           color: var(--gray-1);
           text-transform: uppercase;
           font-weight: 700;
           letter-spacing: 0.5px;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
         }
 
         .rex-quick-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 8px;
+          gap: 6px;
         }
 
         .rex-quick-btn {
-          padding: 10px 12px;
+          padding: 8px 10px;
           background: var(--dark-2);
           border: 1px solid var(--border);
-          border-radius: 8px;
+          border-radius: 6px;
           color: var(--white);
           cursor: pointer;
-          font-size: 12px;
+          font-size: 11px;
           font-weight: 600;
           transition: all 0.2s;
-          text-align: left;
+          text-align: center;
           font-family: inherit;
         }
 
@@ -936,7 +935,7 @@ const RexAssistant = () => {
         }
 
         .rex-input-area {
-          padding: 12px 16px;
+          padding: 10px;
           border-top: 1px solid var(--border);
           background: var(--dark-3);
           border-radius: 0 0 var(--radius-lg) var(--radius-lg);
@@ -944,18 +943,17 @@ const RexAssistant = () => {
 
         .rex-input-wrapper {
           display: flex;
-          gap: 8px;
-          margin-bottom: 8px;
+          gap: 6px;
         }
 
         .rex-input {
           flex: 1;
           background: var(--dark-2);
           border: 1px solid var(--border);
-          border-radius: 8px;
-          padding: 10px 14px;
+          border-radius: 6px;
+          padding: 8px 10px;
           color: #fff;
-          font-size: 13px;
+          font-size: 12px;
           font-family: inherit;
           outline: none;
           transition: border-color 0.2s;
@@ -973,15 +971,16 @@ const RexAssistant = () => {
           background: var(--primary);
           border: none;
           color: #fff;
-          width: 40px;
-          height: 40px;
-          border-radius: 8px;
+          width: 36px;
+          height: 36px;
+          border-radius: 6px;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.2s;
           font-family: inherit;
+          flex-shrink: 0;
         }
 
         .rex-send-btn:hover:not(:disabled) {
@@ -993,23 +992,19 @@ const RexAssistant = () => {
           cursor: not-allowed;
         }
 
-        .rex-info {
-          font-size: 11px;
-          color: var(--gray-2);
-          text-align: center;
-        }
-
         @media (max-width: 640px) {
           .rex-window {
             width: calc(100vw - 32px);
-            height: calc(100vh - 120px);
+            height: calc(100vh - 180px);
             right: 16px;
-            bottom: 16px;
+            bottom: 80px;
           }
 
           .rex-button {
             bottom: 16px;
             right: 16px;
+            width: 52px;
+            height: 52px;
           }
 
           .rex-quick-grid {
