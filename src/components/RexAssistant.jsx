@@ -354,7 +354,13 @@ const RexAssistant = () => {
   const analyzeUserNeeds = (input) => {
     const lower = input.toLowerCase();
     
-    // Extract key information
+    // Check for natural language vehicle searches
+    const vehicleSearch = performNaturalLanguageSearch(lower);
+    if (vehicleSearch) {
+      return vehicleSearch;
+    }
+
+    // Extract key information for recommendations
     const budget = extractBudget(lower);
     const passengers = extractPassengers(lower);
     const duration = extractDuration(lower);
@@ -381,6 +387,125 @@ const RexAssistant = () => {
     }
 
     return null;
+  };
+
+  const performNaturalLanguageSearch = (text) => {
+    // SUVs under budget
+    if (text.includes('suv') && (text.includes('under') || text.includes('below') || text.includes('less'))) {
+      const amount = extractBudget(text);
+      if (amount > 0) {
+        const suvs = vehicleDatabase.filter(v => v.category === 'SUV' && v.price <= amount);
+        if (suvs.length > 0) {
+          return formatSearchResults(`SUVs under GHS ${amount}/day`, suvs);
+        }
+      }
+    }
+
+    // Cheapest automatic cars
+    if ((text.includes('cheapest') || text.includes('budget')) && text.includes('automatic')) {
+      const automatics = vehicleDatabase.filter(v => v.transmission === 'Automatic').sort((a, b) => a.price - b.price).slice(0, 3);
+      return formatSearchResults('Cheapest automatic cars', automatics);
+    }
+
+    // Cheapest cars
+    if (text.includes('cheapest') || (text.includes('budget') && text.includes('car'))) {
+      const cheapest = vehicleDatabase.sort((a, b) => a.price - b.price).slice(0, 3);
+      return formatSearchResults('Cheapest cars available', cheapest);
+    }
+
+    // Luxury cars
+    if (text.includes('luxury')) {
+      const luxury = vehicleDatabase.filter(v => ['Luxury', 'Sports'].includes(v.category)).slice(0, 3);
+      return formatSearchResults('Luxury cars', luxury);
+    }
+
+    // Electric vehicles
+    if (text.includes('electric') || text.includes('ev')) {
+      const electric = vehicleDatabase.filter(v => v.fuel === 'Electric').slice(0, 3);
+      if (electric.length > 0) {
+        return formatSearchResults('Electric vehicles', electric);
+      }
+    }
+
+    // Hybrid cars
+    if (text.includes('hybrid') || text.includes('eco')) {
+      const hybrid = vehicleDatabase.filter(v => v.fuel === 'Hybrid').slice(0, 3);
+      if (hybrid.length > 0) {
+        return formatSearchResults('Hybrid & eco-friendly vehicles', hybrid);
+      }
+    }
+
+    // 7-seater / Large family cars
+    if ((text.includes('7') || text.includes('seven')) && (text.includes('seater') || text.includes('passenger'))) {
+      const largeVans = vehicleDatabase.filter(v => v.passengers >= 7).slice(0, 3);
+      return formatSearchResults('7-seater vehicles', largeVans);
+    }
+
+    // Family cars
+    if (text.includes('family') && (text.includes('suv') || text.includes('van') || text.includes('spacious'))) {
+      const family = vehicleDatabase.filter(v => v.passengers >= 5 && ['SUV', 'Van'].includes(v.category)).slice(0, 3);
+      return formatSearchResults('Family vehicles', family);
+    }
+
+    // Long-distance travel
+    if (text.includes('long distance') || text.includes('long-distance') || text.includes('highway')) {
+      const comfort = vehicleDatabase.filter(v => v.comfort >= 4).sort((a, b) => b.comfort - a.comfort).slice(0, 3);
+      return formatSearchResults('Best cars for long-distance travel', comfort);
+    }
+
+    // Luxury SUVs
+    if (text.includes('luxury') && text.includes('suv')) {
+      const luxurySuv = vehicleDatabase.filter(v => v.category === 'SUV' && v.price >= 150).slice(0, 3);
+      return formatSearchResults('Luxury SUVs', luxurySuv);
+    }
+
+    // Vans
+    if (text.includes('van') && !text.includes('suv')) {
+      const vans = vehicleDatabase.filter(v => v.type === 'Van').slice(0, 3);
+      return formatSearchResults('Available vans', vans);
+    }
+
+    // Manual transmission
+    if (text.includes('manual') && !text.includes('automatic')) {
+      const manual = vehicleDatabase.filter(v => v.transmission === 'Manual').slice(0, 3);
+      if (manual.length > 0) {
+        return formatSearchResults('Manual transmission cars', manual);
+      }
+    }
+
+    // Sports/Performance cars
+    if (text.includes('sports') || text.includes('performance') || text.includes('fast')) {
+      const sports = vehicleDatabase.filter(v => v.category === 'Sports').slice(0, 3);
+      return formatSearchResults('Sports & performance vehicles', sports);
+    }
+
+    // Specific price range
+    const priceMatch = text.match(/(\d+)\s*(?:to|to|-)\s*(\d+)/i);
+    if (priceMatch) {
+      const minPrice = parseInt(priceMatch[1]);
+      const maxPrice = parseInt(priceMatch[2]);
+      const inRange = vehicleDatabase.filter(v => v.price >= minPrice && v.price <= maxPrice).slice(0, 3);
+      if (inRange.length > 0) {
+        return formatSearchResults(`Cars between GHS ${minPrice}-${maxPrice}/day`, inRange);
+      }
+    }
+
+    return null;
+  };
+
+  const formatSearchResults = (title, vehicles) => {
+    let response = `🔍 **${title}:**\n\n`;
+
+    vehicles.forEach((car, idx) => {
+      response += `**${idx + 1}. ${car.brand} ${car.name}**\n`;
+      response += `   💰 GHS ${car.price}/day\n`;
+      response += `   👥 ${car.passengers} passengers | 🧳 ${car.luggage} luggage\n`;
+      response += `   ⛽ ${car.fuel} | 🔄 ${car.transmission}\n`;
+      response += `   ⭐ ${car.category}\n\n`;
+    });
+
+    response += "Would you like to book one of these or need more details?";
+    return response;
   };
 
   const extractBudget = (text) => {
@@ -579,6 +704,17 @@ const RexAssistant = () => {
         </button>
       )}
 
+      {/* Close Button Below Chat */}
+      {isOpen && (
+        <button
+          className="rex-close-below"
+          onClick={() => setIsOpen(false)}
+          title="Close chat"
+        >
+          ✕
+        </button>
+      )}
+
       {/* Chat Window */}
       {isOpen && (
         <div className="rex-window">
@@ -697,6 +833,33 @@ const RexAssistant = () => {
           box-shadow: 0 8px 24px rgba(230, 57, 70, 0.6);
         }
 
+        .rex-close-below {
+          position: fixed;
+          bottom: 24px;
+          right: 24px;
+          width: 56px;
+          height: 56px;
+          background: var(--dark-2);
+          border: 2px solid var(--border);
+          border-radius: 50%;
+          color: var(--gray-1);
+          font-size: 24px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s;
+          z-index: 998;
+          font-weight: 700;
+        }
+
+        .rex-close-below:hover {
+          background: var(--primary);
+          border-color: var(--primary);
+          color: #fff;
+          transform: rotate(90deg);
+        }
+
         .rex-avatar {
           position: relative;
           display: flex;
@@ -725,8 +888,10 @@ const RexAssistant = () => {
           position: fixed;
           bottom: 88px;
           right: 24px;
+          top: auto;
           width: 360px;
           height: 480px;
+          max-height: calc(100vh - 200px);
           background: var(--dark-2);
           border: 1px solid var(--border);
           border-radius: var(--radius-lg);
