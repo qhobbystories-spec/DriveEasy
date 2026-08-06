@@ -1,0 +1,460 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
+  EMPLOYEE
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum CarStatus {
+  AVAILABLE
+  RESERVED
+  RENTED
+  MAINTENANCE
+  ARCHIVED
+}
+
+enum CarCategory {
+  SUV
+  LUXURY
+  SEDAN
+  CONVERTIBLE
+  PICKUP
+  HATCHBACK
+  VAN
+  ELECTRIC
+  HYBRID
+}
+
+enum FuelType {
+  PETROL
+  DIESEL
+  ELECTRIC
+  HYBRID
+}
+
+enum TransmissionType {
+  AUTOMATIC
+  MANUAL
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  REJECTED
+  RETURNED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  MOBILE_MONEY
+  CREDIT_CARD
+  DEBIT_CARD
+  BANK_TRANSFER
+}
+
+enum ContactStatus {
+  UNREAD
+  READ
+  REPLIED
+}
+
+enum NotificationType {
+  BOOKING_REQUEST
+  BOOKING_APPROVED
+  BOOKING_REJECTED
+  BOOKING_CANCELLED
+  PAYMENT_RECEIVED
+  REVIEW_SUBMITTED
+  MESSAGE_REPLY
+  REMINDER
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+model User {
+  id            String    @id @default(uuid())
+  firstName     String
+  lastName      String
+  email         String    @unique
+  phone         String?
+  password      String
+  profileImage  String?
+  role          UserRole  @default(CUSTOMER)
+  isVerified    Boolean   @default(false)
+  isActive      Boolean   @default(true)
+  status        UserStatus @default(ACTIVE)
+  
+  // Relations
+  bookings      Booking[]
+  payments      Payment[]
+  reviews       Review[]
+  messages      Contact[]
+  wishlist      Wishlist[]
+  notifications Notification[]
+  auditLogs     AuditLog[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  @@index([email])
+  @@index([role])
+  @@index([status])
+}
+
+model Car {
+  id                String      @id @default(uuid())
+  brand             String
+  model             String
+  year              Int
+  fuelType          FuelType
+  transmission      TransmissionType
+  color             String
+  plateNumber       String      @unique
+  vin               String      @unique
+  seats             Int
+  doors             Int
+  airConditioning   Boolean     @default(true)
+  gps               Boolean     @default(true)
+  bluetooth         Boolean     @default(true)
+  dailyPrice        Float
+  weeklyPrice       Float
+  monthlyPrice      Float
+  deposit           Float
+  mileage           String
+  description       String?     @db.LongText
+  location          String
+  status            CarStatus   @default(AVAILABLE)
+  category          CarCategory
+  mainImage         String
+  rating            Float       @default(0)
+  totalReviews      Int         @default(0)
+  
+  // Relations
+  images            CarImage[]
+  bookings          Booking[]
+  reviews           Review[]
+  wishlistItems     Wishlist[]
+  maintenanceRecords Maintenance[]
+  auditLogs         AuditLog[]
+  
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  deletedAt         DateTime?
+
+  @@index([brand])
+  @@index([model])
+  @@index([status])
+  @@index([category])
+  @@index([location])
+}
+
+model CarImage {
+  id        String    @id @default(uuid())
+  carId     String
+  imageUrl  String
+  isMain    Boolean   @default(false)
+  order     Int       @default(0)
+  
+  car       Car       @relation(fields: [carId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime  @default(now())
+
+  @@index([carId])
+}
+
+model SparePart {
+  id           String    @id @default(uuid())
+  name         String
+  category     String
+  brand        String?
+  price        Float
+  currency     String    @default("GHS")
+  image        String
+  description  String?   @db.LongText
+  quantity     Int       @default(0)
+  inStock      Boolean   @default(true)
+  rating       Float     @default(0)
+  totalReviews Int       @default(0)
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  @@index([category])
+  @@index([brand])
+  @@index([inStock])
+}
+
+model TowingVehicle {
+  id           String    @id @default(uuid())
+  brand        String
+  name         String
+  tag          String    @default("Economy")
+  towCapacity  String
+  price        Float
+  currency     String    @default("GHS")
+  image        String
+  description  String?   @db.LongText
+  operator     String?
+  phone        String?
+  experience   String?
+  rating       Float     @default(0)
+  totalReviews Int       @default(0)
+  available    Boolean   @default(true)
+  location     String    @default("Accra")
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  @@index([location])
+  @@index([available])
+}
+
+model Booking {
+  id                  String          @id @default(uuid())
+  bookingNumber       String          @unique
+  customerId          String
+  carId               String
+  pickupLocation      String
+  returnLocation      String
+  pickupDate          DateTime
+  returnDate          DateTime
+  pickupTime          String
+  returnTime          String
+  insurance           Boolean         @default(false)
+  driverRequired      Boolean         @default(false)
+  numberOfDrivers     Int             @default(1)
+  specialRequest      String?         @db.Text
+  totalPrice          Float
+  deposit             Float
+  tax                 Float
+  discount            Float           @default(0)
+  paymentStatus       PaymentStatus   @default(PENDING)
+  bookingStatus       BookingStatus   @default(PENDING)
+  
+  // Relations
+  customer            User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  car                 Car             @relation(fields: [carId], references: [id])
+  payment             Payment?
+  
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  completedAt         DateTime?
+
+  @@index([bookingNumber])
+  @@index([customerId])
+  @@index([carId])
+  @@index([bookingStatus])
+  @@index([pickupDate])
+}
+
+model Payment {
+  id              String          @id @default(uuid())
+  transactionId   String          @unique
+  bookingId       String          @unique
+  amount          Float
+  currency        String          @default("GHS")
+  status          PaymentStatus   @default(PENDING)
+  method          PaymentMethod
+  receiptNumber   String?         @unique
+  paidAt          DateTime?
+  
+  // Relations
+  booking         Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  user            User            @relation(fields: [userId], references: [id])
+  userId          String
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([transactionId])
+  @@index([bookingId])
+  @@index([status])
+}
+
+model Review {
+  id              String    @id @default(uuid())
+  carId           String
+  userId          String
+  rating          Int
+  comment         String?   @db.LongText
+  images          Json?
+  likes           Int       @default(0)
+  
+  car             Car       @relation(fields: [carId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([carId])
+  @@index([userId])
+  @@unique([carId, userId])
+}
+
+model Contact {
+  id              String          @id @default(uuid())
+  name            String
+  email           String
+  phone           String
+  subject         String
+  message         String          @db.LongText
+  status          ContactStatus   @default(UNREAD)
+  reply           String?         @db.LongText
+  repliedAt       DateTime?
+  repliedBy       String?
+  
+  user            User?           @relation(fields: [repliedBy], references: [id])
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([email])
+  @@index([status])
+}
+
+model Wishlist {
+  id              String    @id @default(uuid())
+  userId          String
+  carId           String
+  
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  car             Car       @relation(fields: [carId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime  @default(now())
+
+  @@unique([userId, carId])
+  @@index([userId])
+  @@index([carId])
+}
+
+model Coupon {
+  id              String    @id @default(uuid())
+  code            String    @unique
+  discountType    String    @default("percentage")
+  discountValue   Float
+  maxUses         Int?
+  usedCount       Int       @default(0)
+  expiresAt       DateTime
+  isActive        Boolean   @default(true)
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model Maintenance {
+  id              String    @id @default(uuid())
+  carId           String
+  type            String
+  description     String    @db.Text
+  startDate       DateTime
+  endDate         DateTime?
+  cost            Float?
+  
+  car             Car       @relation(fields: [carId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime  @default(now())
+
+  @@index([carId])
+}
+
+model Notification {
+  id              String              @id @default(uuid())
+  userId          String
+  type            NotificationType
+  title           String
+  message         String              @db.Text
+  relatedId       String?
+  isRead          Boolean             @default(false)
+  
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime            @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+}
+
+model AuditLog {
+  id              String    @id @default(uuid())
+  userId          String
+  action          String
+  entityType      String
+  entityId        String
+  carId           String?
+  changes         String?   @db.LongText
+  ipAddress       String?
+  userAgent       String?
+  
+  user            User      @relation(fields: [userId], references: [id])
+  car             Car?      @relation(fields: [carId], references: [id], onDelete: SetNull)
+  
+  createdAt       DateTime  @default(now())
+
+  @@index([userId])
+  @@index([entityType])
+  @@index([action])
+  @@index([carId])
+}
+
+model VerificationToken {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  token           String    @unique
+  expiresAt       DateTime
+  
+  createdAt       DateTime  @default(now())
+
+  @@index([email])
+  @@index([token])
+}
+
+model PasswordResetToken {
+  id              String    @id @default(uuid())
+  email           String
+  token           String    @unique
+  expiresAt       DateTime
+  
+  createdAt       DateTime  @default(now())
+
+  @@index([email])
+  @@index([token])
+}
