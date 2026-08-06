@@ -36,7 +36,8 @@ RUN npx prisma generate
 COPY --from=builder /app/dist ./dist
 
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
+    adduser -S nodejs -u 1001 && \
+    chown -R nodejs:nodejs /app
 
 USER nodejs
 
