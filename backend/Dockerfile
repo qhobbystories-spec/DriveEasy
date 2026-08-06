@@ -31,6 +31,8 @@ COPY prisma ./prisma
 
 RUN npm ci --omit=dev && npm cache clean --force
 
+RUN npx prisma generate
+
 COPY --from=builder /app/dist ./dist
 
 RUN addgroup -g 1001 -S nodejs && \
