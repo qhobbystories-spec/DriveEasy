@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Star, MapPin } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
 export default function Sales() {
@@ -23,17 +23,25 @@ export default function Sales() {
   };
 
   return (
-    <main style={{ paddingTop: '80px', paddingBottom: '60px' }}>
-      <section style={{ background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%)', padding: '60px 0', borderBottom: '1px solid var(--border)' }}>
+    <main>
+      <div className="page-hero">
         <div className="container">
-          <h1 style={{ fontSize: '48px', fontWeight: '900', marginBottom: '16px' }}>🚙 Car Sales</h1>
-          <p style={{ fontSize: '18px', color: 'var(--gray-1)', marginBottom: '40px' }}>
-            Browse our inventory of quality vehicles available for purchase
-          </p>
+          <div className="breadcrumb">
+            <Link to="/">Home</Link><span>/</span>
+            <span className="active">Car Sales</span>
+          </div>
+          <h1>Car Sales</h1>
+          <p>Browse our selection of quality vehicles available for purchase.</p>
+        </div>
+      </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Search Vehicle</label>
+      <section style={{ padding: '60px 0' }}>
+        <div className="container">
+          {/* Filters */}
+          <div style={{ background: 'var(--dark-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '24px', marginBottom: '40px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Search Vehicle</label>
               <input
                 type="text"
                 placeholder="Search by name..."
@@ -88,15 +96,11 @@ export default function Sales() {
                 max="500"
                 value={filters.maxPrice}
                 onChange={(e) => setFilters(s => ({ ...s, maxPrice: parseInt(e.target.value) }))}
-                style={{ width: '100%' }}
+                style={{ width: '100%', accentColor: 'var(--primary)' }}
               />
             </div>
           </div>
-        </div>
-      </section>
 
-      <section style={{ padding: '60px 0' }}>
-        <div className="container">
           <h2 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '40px' }}>{saleItems.length} Vehicles for Sale</h2>
 
           {saleItems.length > 0 ? (
@@ -131,10 +135,10 @@ export default function Sales() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                       <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={14} fill={i < 4 ? '#f4a261' : 'transparent'} color="#f4a261" />
+                          <Star key={i} size={14} fill={i < Math.round(item.rating || 0) ? '#f4a261' : 'transparent'} color="#f4a261" />
                         ))}
                       </div>
-                      <span style={{ color: 'var(--gray-1)', fontSize: '12px' }}>4.0 (120 reviews)</span>
+                      <span style={{ color: 'var(--gray-1)', fontSize: '12px' }}>{item.rating ? `${item.rating.toFixed(1)} (${item.reviews || 0} reviews)` : 'No reviews yet'}</span>
                     </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid var(--border)' }}>

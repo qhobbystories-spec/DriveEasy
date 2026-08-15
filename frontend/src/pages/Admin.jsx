@@ -1747,52 +1747,6 @@ export default function Admin() {
           margin-bottom: 16px;
         }
 
-        .grid-2 {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .grid-3 {
-          grid-template-columns: repeat(3, 1fr);
-        }
-
-        .grid-1 {
-          grid-template-columns: 1fr;
-        }
-
-        .form-group {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .form-label {
-          font-size: 12px;
-          font-weight: 700;
-          color: var(--gray-1);
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .form-control {
-          background: var(--dark-3);
-          border: 1px solid var(--border);
-          border-radius: var(--radius);
-          padding: 10px 14px;
-          color: #fff;
-          font-size: 14px;
-          font-family: inherit;
-          outline: none;
-          transition: border-color 0.2s;
-        }
-
-        .form-control:focus {
-          border-color: var(--primary);
-        }
-
-        .form-control::placeholder {
-          color: var(--gray-2);
-        }
-
         .info-box {
           display: flex;
           align-items: center;

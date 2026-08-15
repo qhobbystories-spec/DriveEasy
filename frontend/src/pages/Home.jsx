@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, MapPin, Calendar, DollarSign, ArrowRight, Star, Shield, Clock, HeadphonesIcon, ChevronRight, Play, CheckCircle } from 'lucide-react';
 import CarCard from '../components/CarCard';
-import { testimonials } from '../data/cars';
+import { testimonials } from '../data/testimonials';
 import { useApp } from '../context/AppContext';
 
 export default function Home() {

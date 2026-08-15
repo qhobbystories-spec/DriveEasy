@@ -11,9 +11,17 @@ export default function Checkout() {
   const navigate = useNavigate();
   const { addBooking, addToast, cars } = useApp();
 
+  const [payment, setPayment] = useState({ name: '', number: '', expiry: '', cvv: '' });
+  const [promo, setPromo] = useState('');
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoRate, setPromoRate] = useState(0);
+  const [agreed, setAgreed] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [done, setDone] = useState(false);
+  const [bookingRef, setBookingRef] = useState('');
+
   const state = location.state;
 
-  // Redirect to booking if navigated directly without state
   if (!state || !state.car) {
     return (
       <main style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 24px' }}>
@@ -26,19 +34,10 @@ export default function Checkout() {
     );
   }
 
-  const [payment, setPayment] = useState({ name: '', number: '', expiry: '', cvv: '' });
-  const [promo, setPromo] = useState('');
-  const [promoApplied, setPromoApplied] = useState(false);
-  const [promoRate, setPromoRate] = useState(0);
-  const [agreed, setAgreed] = useState(false);
-  const [processing, setProcessing] = useState(false);
-  const [done, setDone] = useState(false);
-  const [bookingRef, setBookingRef] = useState('');
-
   const discount = promoApplied ? Math.round(state.total * promoRate) : 0;
   const finalTotal = state.total - discount;
 
-  const formatCard = (val) => val.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19);
+  const formatCard = (val) => val.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim();
   const formatExpiry = (val) => val.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1/$2').slice(0, 5);
 
   const handleApplyPromo = () => {

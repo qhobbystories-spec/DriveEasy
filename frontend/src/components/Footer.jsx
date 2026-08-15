@@ -28,8 +28,8 @@ export default function Footer() {
             <ul>
               <li><Link to="/">Home</Link></li>
               <li><Link to="/cars">Our Fleet</Link></li>
-              <li><Link to="/pricing">Pricing Plans</Link></li>
-              <li><Link to="/locations">Locations</Link></li>
+              <li><Link to="/rentals">Car Rentals</Link></li>
+              <li><Link to="/parts">Auto Parts</Link></li>
               <li><Link to="/booking">Book Now</Link></li>
             </ul>
           </div>

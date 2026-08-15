@@ -72,7 +72,7 @@ export default function CarCard({ car }) {
       <style>{`
         .car-card { position: relative; }
         .car-tag {
-          position: absolute; top: 14px; left: 14px; z-index: 2;
+          position: absolute; top: 14px; left: 14px; z-index: 3;
           background: var(--primary); color: #fff;
           padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 700;
           text-transform: uppercase; letter-spacing: 0.5px;
@@ -83,7 +83,7 @@ export default function CarCard({ car }) {
           padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600;
         }
         .car-unavailable {
-          position: absolute; top: 14px; right: 14px; z-index: 2;
+          position: absolute; top: 14px; right: 14px; z-index: 3;
           background: rgba(0,0,0,0.6); color: var(--gray-1);
           padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600;
         }

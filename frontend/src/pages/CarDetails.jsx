@@ -184,7 +184,7 @@ export default function CarDetails() {
               <div className="bp-header">
                 <div>
                   <div className="bp-price">GHS {car.price}<span>/day</span></div>
-                  <div className="bp-week">GHS {car.priceWeek}/week</div>
+                  <div className="bp-week">GHS {car.priceWeek || (car.price * 6)}/week</div>
                 </div>
                 <div className={`avail-pill ${car.available ? 'green' : 'red'}`}>
                   {car.available ? '● Available' : '● Unavailable'}

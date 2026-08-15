@@ -54,7 +54,7 @@ export default function Cars() {
         </div>
       </div>
 
-      <div className="container" style={{ padding: '40px 24px' }}>
+      <div className="container" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
         {/* Toolbar */}
         <div className="fleet-toolbar">
           <div className="search-wrap">

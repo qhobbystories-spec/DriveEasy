@@ -72,6 +72,18 @@ img { max-width: 100%; display: block; }
   border: 1.5px solid var(--primary);
 }
 .btn-outline:hover { background: var(--primary); color: var(--white); }
+.btn-success {
+  background: var(--success); color: var(--white);
+}
+.btn-success:hover { background: #238636; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(46,160,67,0.4); }
+.btn-danger {
+  background: var(--primary); color: var(--white);
+}
+.btn-danger:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.btn-warning {
+  background: var(--warning); color: var(--dark);
+}
+.btn-warning:hover { background: #bb8009; transform: translateY(-1px); }
 .btn-lg { padding: 16px 36px; font-size: 17px; }
 .btn-sm { padding: 8px 18px; font-size: 13px; }
 .btn-block { width: 100%; justify-content: center; }

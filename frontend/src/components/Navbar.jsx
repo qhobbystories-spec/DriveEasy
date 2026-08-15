@@ -213,14 +213,6 @@ export default function Navbar() {
         }
         .navbar-links a.active { color: var(--primary); }
         .navbar-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-        .btn-outline {
-          background: transparent;
-          border: 1px solid var(--primary) !important;
-          color: var(--primary) !important;
-        }
-        .btn-outline:hover {
-          background: rgba(230, 57, 70, 0.1) !important;
-        }
         .user-drop { position: relative; }
         .user-btn {
           display: flex; align-items: center; gap: 8px;

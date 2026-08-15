@@ -43,142 +43,78 @@ export default function SignIn() {
   return (
     <main style={{ minHeight: '100vh', background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%)', paddingTop: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ width: '100%', maxWidth: '420px', padding: '24px' }}>
-        {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '48px', marginBottom: '16px' }}>🚗</div>
           <h1 style={{ fontSize: '28px', fontWeight: '900', marginBottom: '8px' }}>Sign In to AMK Motors & AutoCare</h1>
           <p style={{ color: 'var(--gray-1)', fontSize: '14px' }}>Access your account and manage your services</p>
         </div>
 
-        {/* Form Card */}
         <div style={{ background: 'var(--dark-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '32px', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)' }}>
           <form onSubmit={handleSubmit}>
-            {/* Email Field */}
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Email Address</label>
+            <div className="form-group">
+              <label className="form-label">Email Address</label>
               <div style={{ position: 'relative' }}>
-                <Mail size={18} style={{ position: 'absolute', left: '12px', top: '11px', color: 'var(--gray-1)' }} />
+                <Mail size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-1)' }} />
                 <input
+                  className="form-control"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  style={{
-                    width: '100%',
-                    padding: '10px 12px 10px 42px',
-                    background: 'var(--dark-3)',
-                    border: '1px solid var(--border)',
-                    borderRadius: '8px',
-                    color: '#fff',
-                    fontSize: '14px',
-                    fontFamily: 'inherit',
-                    outline: 'none',
-                    transition: 'all 0.2s',
-                    boxSizing: 'border-box',
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = 'var(--primary)';
-                    e.target.style.boxShadow = '0 0 0 3px rgba(230, 57, 70, 0.1)';
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = 'var(--border)';
-                    e.target.style.boxShadow = 'none';
-                  }}
+                  style={{ paddingLeft: '42px' }}
                 />
               </div>
             </div>
 
-            {/* Password Field */}
-            <div style={{ marginBottom: '24px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Password</label>
+            <div className="form-group">
+              <label className="form-label">Password</label>
               <div style={{ position: 'relative' }}>
-                <Lock size={18} style={{ position: 'absolute', left: '12px', top: '11px', color: 'var(--gray-1)' }} />
+                <Lock size={18} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-1)' }} />
                 <input
+                  className="form-control"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  style={{
-                    width: '100%',
-                    padding: '10px 12px 10px 42px',
-                    background: 'var(--dark-3)',
-                    border: '1px solid var(--border)',
-                    borderRadius: '8px',
-                    color: '#fff',
-                    fontSize: '14px',
-                    fontFamily: 'inherit',
-                    outline: 'none',
-                    transition: 'all 0.2s',
-                    boxSizing: 'border-box',
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = 'var(--primary)';
-                    e.target.style.boxShadow = '0 0 0 3px rgba(230, 57, 70, 0.1)';
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = 'var(--border)';
-                    e.target.style.boxShadow = 'none';
-                  }}
+                  style={{ paddingLeft: '42px' }}
                 />
               </div>
             </div>
 
-            {/* Forgot Password Link */}
             <div style={{ textAlign: 'right', marginBottom: 20 }}>
               <Link to="/forgot-password" style={{ color: 'var(--primary)', fontSize: 13, textDecoration: 'none', fontWeight: 600 }}>
                 Forgot password?
               </Link>
             </div>
 
-            {/* Sign In Button */}
             <button
               type="submit"
               disabled={isLoading}
-              style={{
-                width: '100%',
-                padding: '11px',
-                background: isLoading ? 'rgba(230, 57, 70, 0.6)' : 'var(--primary)',
-                border: 'none',
-                borderRadius: '8px',
-                color: '#fff',
-                fontWeight: '600',
-                fontSize: '14px',
-                cursor: isLoading ? 'not-allowed' : 'pointer',
-                transition: 'all 0.2s',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                fontFamily: 'inherit',
-              }}
-              onMouseEnter={(e) => !isLoading && (e.target.style.background = 'rgba(230, 57, 70, 0.9)')}
-              onMouseLeave={(e) => !isLoading && (e.target.style.background = 'var(--primary)')}
+              className={`btn btn-primary btn-block btn-lg${isLoading ? ' loading' : ''}`}
             >
               {isLoading && <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} />}
               {isLoading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
 
-          {/* Demo Credentials */}
-          <div style={{ marginTop: '24px', padding: '16px', background: 'rgba(46, 160, 67, 0.1)', border: '1px solid rgba(46, 160, 67, 0.3)', borderRadius: '8px' }}>
-            <p style={{ fontSize: '12px', color: 'var(--gray-1)', marginBottom: '8px', fontWeight: '600' }}>💡 Demo Credentials:</p>
-            <p style={{ fontSize: '12px', color: 'var(--gray-1)', margin: '4px 0' }}>Email: <span style={{ color: '#fff', fontWeight: '500' }}>demo@example.com</span></p>
-            <p style={{ fontSize: '12px', color: 'var(--gray-1)', margin: '4px 0' }}>Password: <span style={{ color: '#fff', fontWeight: '500' }}>demo1234</span></p>
-          </div>
+          {process.env.NODE_ENV === 'development' && (
+            <div style={{ marginTop: '24px', padding: '16px', background: 'rgba(46, 160, 67, 0.1)', border: '1px solid rgba(46, 160, 67, 0.3)', borderRadius: '8px' }}>
+              <p style={{ fontSize: '12px', color: 'var(--gray-1)', marginBottom: '8px', fontWeight: '600' }}>Demo Credentials:</p>
+              <p style={{ fontSize: '12px', color: 'var(--gray-1)', margin: '4px 0' }}>Email: <span style={{ color: '#fff', fontWeight: '500' }}>demo@example.com</span></p>
+              <p style={{ fontSize: '12px', color: 'var(--gray-1)', margin: '4px 0' }}>Password: <span style={{ color: '#fff', fontWeight: '500' }}>demo1234</span></p>
+            </div>
+          )}
 
-          {/* Divider */}
           <div style={{ height: '1px', background: 'var(--border)', margin: '24px 0' }} />
 
-          {/* Sign Up Link */}
           <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--gray-1)' }}>
-            Don't have an account? 
-            <Link to="/signup" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: '600', marginLeft: '4px' }}>
+            Don't have an account?{' '}
+            <Link to="/signup" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: '600' }}>
               Sign Up
             </Link>
           </p>
         </div>
 
-        {/* Footer */}
         <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--gray-2)', marginTop: '20px' }}>
           <Link to="/terms" style={{ color: 'var(--gray-1)', textDecoration: 'none' }}>Terms</Link>
           <span style={{ margin: '0 8px' }}>•</span>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Star, Package } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
 export default function Parts() {
@@ -27,17 +27,24 @@ export default function Parts() {
   };
 
   return (
-    <main style={{ paddingTop: '80px', paddingBottom: '60px' }}>
-      <section style={{ background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%)', padding: '60px 0', borderBottom: '1px solid var(--border)' }}>
+    <main>
+      <div className="page-hero">
         <div className="container">
-          <h1 style={{ fontSize: '48px', fontWeight: '900', marginBottom: '16px' }}>🔧 Auto Parts</h1>
-          <p style={{ fontSize: '18px', color: 'var(--gray-1)', marginBottom: '40px' }}>
-            Quality OEM and aftermarket auto parts for all vehicle types - Prices in GHS
-          </p>
+          <div className="breadcrumb">
+            <Link to="/">Home</Link><span>/</span>
+            <span className="active">Auto Parts</span>
+          </div>
+          <h1>Auto Parts</h1>
+          <p>Quality OEM and aftermarket auto parts for all vehicle types.</p>
+        </div>
+      </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Search Parts</label>
+      <section style={{ padding: '60px 0' }}>
+        <div className="container">
+          <div style={{ background: 'var(--dark-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '24px', marginBottom: '40px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Search Parts</label>
               <input
                 type="text"
                 placeholder="Search by part name..."
@@ -82,10 +89,7 @@ export default function Parts() {
             </div>
           </div>
         </div>
-      </section>
 
-      <section style={{ padding: '60px 0' }}>
-        <div className="container">
           <h2 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '40px' }}>{filtered.length} Parts Available</h2>
 
           {filtered.length > 0 ? (

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, MapPin, Clock, AlertCircle, CheckCircle, Truck, Navigation, Shield, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
 export default function Towing() {
@@ -49,39 +50,27 @@ export default function Towing() {
   };
 
   return (
-    <main style={{ paddingTop: '80px', paddingBottom: '60px' }}>
-      {/* Hero */}
-      <section style={{ background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%)', padding: '80px 0', borderBottom: '1px solid var(--border)' }}>
+    <main>
+      <div className="page-hero">
         <div className="container">
-          <div style={{ maxWidth: '600px', marginBottom: '40px' }}>
-            <h1 style={{ fontSize: '48px', fontWeight: '900', marginBottom: '16px' }}>🚙 Towing & Roadside Services</h1>
-            <p style={{ fontSize: '18px', color: 'var(--gray-1)', marginBottom: '24px' }}>
-              24/7 professional towing and roadside assistance available across all regions
-            </p>
-            <button
-              onClick={() => setShowRequestForm(true)}
-              style={{
-                background: 'var(--primary)',
-                border: 'none',
-                color: '#fff',
-                padding: '14px 32px',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(230, 57, 70, 0.9)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'var(--primary)'}
-            >
-              <Phone size={18} />
-              Request Service Now
-            </button>
+          <div className="breadcrumb">
+            <Link to="/">Home</Link><span>/</span>
+            <span className="active">Towing Services</span>
           </div>
+          <h1>Towing & Roadside Services</h1>
+          <p>24/7 professional towing and roadside assistance available across all regions.</p>
+          <button
+            onClick={() => setShowRequestForm(true)}
+            className="btn btn-primary"
+            style={{ marginTop: 16 }}
+          >
+            Request Assistance
+          </button>
+        </div>
+      </div>
 
+      <section style={{ padding: '80px 0' }}>
+        <div className="container">
           {/* Emergency Contact */}
           <div style={{
             background: 'rgba(230, 57, 70, 0.1)',
@@ -90,7 +79,8 @@ export default function Towing() {
             padding: '24px',
             display: 'flex',
             alignItems: 'center',
-            gap: '16px'
+            gap: '16px',
+            marginBottom: '40px'
           }}>
             <AlertCircle size={32} style={{ color: 'var(--primary)', flexShrink: 0 }} />
             <div>
@@ -98,8 +88,6 @@ export default function Towing() {
               <div style={{ fontSize: '28px', fontWeight: '700', color: 'var(--primary)' }}>0800 123 456</div>
             </div>
           </div>
-        </div>
-      </section>
 
       {/* Services */}
       <section style={{ padding: '80px 0' }}>
