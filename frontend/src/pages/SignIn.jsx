@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Loader } from 'lucide-react';
+import { Mail, Lock, Loader, Car } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export default function SignIn() {
@@ -44,7 +44,7 @@ export default function SignIn() {
     <main style={{ minHeight: '100vh', background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%)', paddingTop: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ width: '100%', maxWidth: '420px', padding: '24px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>🚗</div>
+          <div style={{ marginBottom: '16px', color: 'var(--primary)' }}><Car size={48} /></div>
           <h1 style={{ fontSize: '28px', fontWeight: '900', marginBottom: '8px' }}>Sign In to AMK Motors & AutoCare</h1>
           <p style={{ color: 'var(--gray-1)', fontSize: '14px' }}>Access your account and manage your services</p>
         </div>

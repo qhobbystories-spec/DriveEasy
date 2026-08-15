@@ -209,7 +209,7 @@ const RexAssistant = () => {
       setMessages([
         {
           id: 1,
-          text: "Hey there! 👋 I'm Rex, your AI Rental Assistant. How can I help you today?",
+          text: "Hey there! I'm Rex, your AI Rental Assistant. How can I help you today?",
           sender: 'rex',
           timestamp: new Date(),
         }
@@ -218,52 +218,52 @@ const RexAssistant = () => {
   }, [isOpen]);
 
   const quickReplies = [
-    { label: '🚗 Find a Car', action: 'recommend' },
-    { label: '💰 Pricing & Rates', action: 'pricing' },
-    { label: '🛡️ Insurance Options', action: 'insurance' },
-    { label: '⛽ Fuel Policy', action: 'fuel' },
-    { label: '💳 Payment Methods', action: 'payment' },
-    { label: '📍 Pickup & Return', action: 'pickup' },
-    { label: '📋 Booking Guide', action: 'booking' },
-    { label: '❌ Cancel Reservation', action: 'cancel' },
+    { label: 'Find a Car', action: 'recommend' },
+    { label: 'Pricing & Rates', action: 'pricing' },
+    { label: 'Insurance Options', action: 'insurance' },
+    { label: 'Fuel Policy', action: 'fuel' },
+    { label: 'Payment Methods', action: 'payment' },
+    { label: 'Pickup & Return', action: 'pickup' },
+    { label: 'Booking Guide', action: 'booking' },
+    { label: 'Cancel Reservation', action: 'cancel' },
   ];
 
   const responses = {
     recommend: {
-      text: "I'd love to help you find the perfect vehicle! 🚗\n\nTell me:\n• What type of trip? (business, family, adventure)\n• How many passengers?\n• Budget range?\n• Any specific features needed?\n\nI'll recommend the best options from our fleet!",
+      text: "I'd love to help you find the perfect vehicle!\n\nTell me:\n- What type of trip? (business, family, adventure)\n- How many passengers?\n- Budget range?\n- Any specific features needed?\n\nI'll recommend the best options from our fleet!",
       followUp: true,
     },
     pricing: {
-      text: "💰 **Our Pricing Plans:**\n\n**Economy** - GHS 45/day\n• Compact cars, perfect for city driving\n• 100 km/day included\n• Best for budget-conscious travelers\n\n**Premium** - GHS 120/day\n• Luxury sedans & SUVs\n• Unlimited mileage\n• Includes comprehensive insurance\n\n**Elite** - GHS 300/day\n• Exotic & supercars\n• Unlimited mileage\n• Dedicated concierge & chauffeur service\n\nWeekly and monthly rates available with discounts!",
+      text: "**Our Pricing Plans:**\n\n**Economy** - GHS 45/day\n- Compact cars, perfect for city driving\n- 100 km/day included\n- Best for budget-conscious travelers\n\n**Premium** - GHS 120/day\n- Luxury sedans & SUVs\n- Unlimited mileage\n- Includes comprehensive insurance\n\n**Elite** - GHS 300/day\n- Exotic & supercars\n- Unlimited mileage\n- Dedicated concierge & chauffeur service\n\nWeekly and monthly rates available with discounts!",
       followUp: false,
     },
     insurance: {
-      text: "🛡️ **Insurance Options:**\n\n**Basic Coverage** (Included)\n• Collision Damage Waiver\n• Theft Protection\n• Third-party Liability\n\n**Comprehensive Coverage** (Recommended)\n• Everything in Basic\n• Glass & Windshield Repair\n• Natural Disaster Coverage\n• 24/7 Roadside Assistance\n\n**Premium Coverage** (Peace of Mind)\n• Everything in Comprehensive\n• Zero Deductible\n• Personal Belongings Protection\n• Accident Forgiveness\n\nWant to add coverage to your booking?",
+      text: "**Insurance Options:**\n\n**Basic Coverage** (Included)\n- Collision Damage Waiver\n- Theft Protection\n- Third-party Liability\n\n**Comprehensive Coverage** (Recommended)\n- Everything in Basic\n- Glass & Windshield Repair\n- Natural Disaster Coverage\n- 24/7 Roadside Assistance\n\n**Premium Coverage** (Peace of Mind)\n- Everything in Comprehensive\n- Zero Deductible\n- Personal Belongings Protection\n- Accident Forgiveness\n\nWant to add coverage to your booking?",
       followUp: false,
     },
     fuel: {
-      text: "⛽ **Fuel Policy:**\n\n✅ **Pick-up**: All vehicles provided with FULL TANK\n\n✅ **Return**: Please return with a FULL TANK\n\n💰 **If not full**: Refueling charges apply\n• GHS 5 per liter refueling fee\n• GHS 50 convenience charge\n\n💡 **Pro Tip**: We're located near gas stations at all our branches for your convenience!\n\n📍 Locations: Accra, Kumasi, Takoradi, Tema, Sekondi, Cape Coast",
+      text: "**Fuel Policy:**\n\n- **Pick-up**: All vehicles provided with FULL TANK\n\n- **Return**: Please return with a FULL TANK\n\n- **If not full**: Refueling charges apply\n- GHS 5 per liter refueling fee\n- GHS 50 convenience charge\n\n- **Pro Tip**: We're located near gas stations at all our branches for your convenience!\n\nLocations: Accra, Kumasi, Takoradi, Tema, Sekondi, Cape Coast",
       followUp: false,
     },
     payment: {
-      text: "💳 **Payment Methods We Accept:**\n\n🏦 **Credit/Debit Cards**\n• Visa, Mastercard accepted\n• Secure checkout process\n• Instant confirmation\n\n📱 **Mobile Money**\n• MTN Mobile Money\n• Vodafone Cash\n• AirtelTigo Money\n• Quick & convenient\n\n🏧 **Bank Transfer**\n• Same-day confirmation\n• Include booking reference\n\n💰 **Cash at Counter**\n• Pay at pickup location\n• Bring valid ID & payment details confirmed\n\nAll methods include a security deposit (refundable)",
+      text: "**Payment Methods We Accept:**\n\n**Credit/Debit Cards**\n- Visa, Mastercard accepted\n- Secure checkout process\n- Instant confirmation\n\n**Mobile Money**\n- MTN Mobile Money\n- Vodafone Cash\n- AirtelTigo Money\n- Quick & convenient\n\n**Bank Transfer**\n- Same-day confirmation\n- Include booking reference\n\n**Cash at Counter**\n- Pay at pickup location\n- Bring valid ID & payment details confirmed\n\nAll methods include a security deposit (refundable)",
       followUp: false,
     },
     pickup: {
-      text: "📍 **Pickup & Return Instructions:**\n\n**BEFORE PICKUP:**\n1. Confirm booking 24 hours prior\n2. Prepare valid driver's license + ID\n3. Have payment method ready\n4. Check location hours\n\n**AT PICKUP:**\n1. Inspect vehicle condition together\n2. Sign rental agreement\n3. Receive keys & documents\n4. GPS/Navigation setup\n5. Review fuel level (should be FULL)\n\n**AT RETURN:**\n1. Return to same location\n2. Vehicle inspection (damage check)\n3. Fuel level verified\n4. Final payment & receipts\n5. Keys & documents returned\n\n**Our Locations:**\n• Accra: 24/7 availability\n• Kumasi, Takoradi, Tema: Extended hours\n• Sekondi, Cape Coast: Daily service\n\nNeed a specific location?",
+      text: "**Pickup & Return Instructions:**\n\n**BEFORE PICKUP:**\n1. Confirm booking 24 hours prior\n2. Prepare valid driver's license + ID\n3. Have payment method ready\n4. Check location hours\n\n**AT PICKUP:**\n1. Inspect vehicle condition together\n2. Sign rental agreement\n3. Receive keys & documents\n4. GPS/Navigation setup\n5. Review fuel level (should be FULL)\n\n**AT RETURN:**\n1. Return to same location\n2. Vehicle inspection (damage check)\n3. Fuel level verified\n4. Final payment & receipts\n5. Keys & documents returned\n\n**Our Locations:**\n- Accra: 24/7 availability\n- Kumasi, Takoradi, Tema: Extended hours\n- Sekondi, Cape Coast: Daily service\n\nNeed a specific location?",
       followUp: false,
     },
     booking: {
-      text: "📋 **Step-by-Step Booking Guide:**\n\n**Step 1: Browse** 🚗\n• Visit our Fleet page\n• Filter by category (Luxury, Economy, Van, etc.)\n• Check availability & ratings\n\n**Step 2: Select** ✅\n• Click 'View Details' on your chosen car\n• Check specs, features & pricing\n• Read customer reviews\n\n**Step 3: Dates** 📅\n• Pick-up date & time\n• Return date & time\n• Location selection\n\n**Step 4: Checkout** 💳\n• Review total price breakdown\n• Add insurance/extras\n• Select payment method\n• Complete booking\n\n**Step 5: Confirmation** ✉️\n• Receive confirmation email\n• Booking reference number\n• Pickup instructions\n• Ready to roll!\n\nWant help with any specific step?",
+      text: "**Step-by-Step Booking Guide:**\n\n**Step 1: Browse**\n- Visit our Fleet page\n- Filter by category (Luxury, Economy, Van, etc.)\n- Check availability & ratings\n\n**Step 2: Select**\n- Click 'View Details' on your chosen car\n- Check specs, features & pricing\n- Read customer reviews\n\n**Step 3: Dates**\n- Pick-up date & time\n- Return date & time\n- Location selection\n\n**Step 4: Checkout**\n- Review total price breakdown\n- Add insurance/extras\n- Select payment method\n- Complete booking\n\n**Step 5: Confirmation**\n- Receive confirmation email\n- Booking reference number\n- Pickup instructions\n- Ready to roll!\n\nWant help with any specific step?",
       followUp: false,
     },
     cancel: {
-      text: "❌ **Cancellation Policy:**\n\n**ECONOMY PLAN**\n• Free cancellation up to 48 hours before pickup\n• After 48 hours: 50% charge\n• Within 24 hours: No refund\n\n**PREMIUM PLAN**\n• Free cancellation up to 24 hours before pickup\n• After 24 hours: 50% charge\n• Less than 4 hours: No refund\n\n**ELITE PLAN**\n• Free cancellation anytime\n• No questions asked\n• Full refund processed within 2-3 business days\n\n**TO CANCEL YOUR BOOKING:**\n1. Go to 'My Bookings'\n2. Find your reservation\n3. Click 'Cancel Booking'\n4. Confirm cancellation\n5. Receive confirmation email\n\n⚠️ **Note**: Cancellation initiated within allowed timeframe only.\n\nNeed help canceling a specific booking?",
+      text: "**Cancellation Policy:**\n\n**ECONOMY PLAN**\n- Free cancellation up to 48 hours before pickup\n- After 48 hours: 50% charge\n- Within 24 hours: No refund\n\n**PREMIUM PLAN**\n- Free cancellation up to 24 hours before pickup\n- After 24 hours: 50% charge\n- Less than 4 hours: No refund\n\n**ELITE PLAN**\n- Free cancellation anytime\n- No questions asked\n- Full refund processed within 2-3 business days\n\n**TO CANCEL YOUR BOOKING:**\n1. Go to 'My Bookings'\n2. Find your reservation\n3. Click 'Cancel Booking'\n4. Confirm cancellation\n5. Receive confirmation email\n\n**Note**: Cancellation initiated within allowed timeframe only.\n\nNeed help canceling a specific booking?",
       followUp: false,
     },
     // Rental Requirements FAQ
     requirements: {
-      text: "📋 **Rental Requirements & Policies:**\n\n**Age Requirements**\n• Minimum 21 years old\n• Drivers under 25 may have additional fees\n\n**License Requirements**\n• Valid driver's license (must be current)\n• International license accepted\n• License must be held for minimum 1 year\n\n**Payment Options**\n✅ Credit/Debit cards (Visa, Mastercard)\n✅ Mobile Money (MTN, Vodafone, AirtelTigo)\n✅ Bank transfer\n✅ Cash at pickup (with valid ID)\n\n**Deposit Information**\n• Security deposit required (refundable)\n• Held for damage/violations\n• Released 5-7 business days after return\n• Amount varies by car category\n\n**Late Return Policy**\n• Grace period: 15 minutes free\n• After 15 mins: GHS 10 per hour\n• After 24 hours: Full day charge applies\n\n**Refund Policy**\n• Cancellations: See cancellation policy\n• Damage claims: Assessed within 48 hours\n• Refunds processed: 5-7 business days\n\n**Cross-Border Travel**\n• Allowed with prior permission\n• Valid passport required\n• Border crossing fee: GHS 50\n• Notify us 7 days in advance\n\n**Additional Driver Policy**\n• Second driver allowed (GHS 10/day)\n• Must be licensed & meet age requirements\n• Limited to 2 additional drivers max\n\nHave questions about any of these?",
+      text: "**Rental Requirements & Policies:**\n\n**Age Requirements**\n- Minimum 21 years old\n- Drivers under 25 may have additional fees\n\n**License Requirements**\n- Valid driver's license (must be current)\n- International license accepted\n- License must be held for minimum 1 year\n\n**Payment Options**\n- Credit/Debit cards (Visa, Mastercard)\n- Mobile Money (MTN, Vodafone, AirtelTigo)\n- Bank transfer\n- Cash at pickup (with valid ID)\n\n**Deposit Information**\n- Security deposit required (refundable)\n- Held for damage/violations\n- Released 5-7 business days after return\n- Amount varies by car category\n\n**Late Return Policy**\n- Grace period: 15 minutes free\n- After 15 mins: GHS 10 per hour\n- After 24 hours: Full day charge applies\n\n**Refund Policy**\n- Cancellations: See cancellation policy\n- Damage claims: Assessed within 48 hours\n- Refunds processed: 5-7 business days\n\n**Cross-Border Travel**\n- Allowed with prior permission\n- Valid passport required\n- Border crossing fee: GHS 50\n- Notify us 7 days in advance\n\n**Additional Driver Policy**\n- Second driver allowed (GHS 10/day)\n- Must be licensed & meet age requirements\n- Limited to 2 additional drivers max\n\nHave questions about any of these?",
       followUp: false,
     },
   };
@@ -308,7 +308,7 @@ const RexAssistant = () => {
 
     const locationMsg = {
       id: Date.now(),
-      text: `📍 ${locationType === 'pickup' ? 'Pickup' : 'Return'} location: ${location.city}`,
+      text: `${locationType === 'pickup' ? 'Pickup' : 'Return'} location: ${location.city}`,
       sender: 'user',
       timestamp: new Date(),
     };
@@ -317,12 +317,12 @@ const RexAssistant = () => {
 
     setTimeout(() => {
       let rexMsg = `Perfect! I've set ${location.city} as your ${locationType === 'pickup' ? 'pickup' : 'return'} location.\n\n`;
-      rexMsg += `📍 ${location.address}\n`;
-      rexMsg += `🕐 Hours: ${location.hours}\n`;
-      rexMsg += `🚗 ${location.cars} vehicles available\n\n`;
+      rexMsg += `${location.address}\n`;
+      rexMsg += `Hours: ${location.hours}\n`;
+      rexMsg += `${location.cars} vehicles available\n\n`;
 
       if (pickupLocationRef.current && returnLocationRef.current) {
-        rexMsg += "Great! You have both locations set. Ready to proceed with booking? 🎉";
+        rexMsg += "Great! You have both locations set. Ready to proceed with booking?";
       } else if (locationType === 'pickup') {
         rexMsg += "Now, where would you like to return the vehicle?";
       } else {
@@ -374,14 +374,14 @@ const RexAssistant = () => {
         (lower.includes('location') || lower.includes('where'))) {
       setLocationPickerType('pickup');
       setShowLocationPicker(true);
-      return "📍 **Where would you like to pick up the vehicle?**\n\nPlease select from our available locations above.";
+      return "**Where would you like to pick up the vehicle?**\n\nPlease select from our available locations above.";
     }
 
     if ((lower.includes('return') || lower.includes('drop off') || lower.includes('drop-off')) && 
         (lower.includes('location') || lower.includes('where'))) {
       setLocationPickerType('return');
       setShowLocationPicker(true);
-      return "📍 **Where would you like to return the vehicle?**\n\nPlease select from our available locations above.";
+      return "**Where would you like to return the vehicle?**\n\nPlease select from our available locations above.";
     }
 
     // Try to extract vehicle recommendation criteria
@@ -397,11 +397,11 @@ const RexAssistant = () => {
     }
 
     if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
-      return "Hey! 👋 I'm Rex, your AI Rental Assistant. I can help with vehicle recommendations, pricing, insurance, fuel policy, booking questions, and more! What can I help with?";
+      return "Hey! I'm Rex, your AI Rental Assistant. I can help with vehicle recommendations, pricing, insurance, fuel policy, booking questions, and more! What can I help with?";
     }
 
     if (lower.includes('thank') || lower.includes('thanks')) {
-      return "You're welcome! 😊 Anything else I can help you with today?";
+      return "You're welcome! Anything else I can help you with today?";
     }
 
     if (lower.includes('price') || lower.includes('cost') || lower.includes('how much')) {
@@ -440,16 +440,16 @@ const RexAssistant = () => {
     }
 
     if (lower.includes('car') || lower.includes('vehicle') || lower.includes('which')) {
-      return "I'd love to help you find the perfect car! 🚗\n\nTell me about your needs:\n• Trip type? (business, family, adventure)\n• Number of passengers?\n• Budget?\n• Special requirements?\n\nI'll recommend the best options!";
+      return "I'd love to help you find the perfect car!\n\nTell me about your needs:\n- Trip type? (business, family, adventure)\n- Number of passengers?\n- Budget?\n- Special requirements?\n\nI'll recommend the best options!";
     }
 
-    return "Great question! 🤔 I'm here to help with:\n✅ Vehicle recommendations\n✅ Pricing & rates\n✅ Insurance options\n✅ Fuel policies\n✅ Payment methods\n✅ Booking guidance\n✅ Pickup & return info\n✅ Cancellations\n✅ Rental requirements\n\nFeel free to ask about any of these topics!";
+    return "Great question! I'm here to help with:\n- Vehicle recommendations\n- Pricing & rates\n- Insurance options\n- Fuel policies\n- Payment methods\n- Booking guidance\n- Pickup & return info\n- Cancellations\n- Rental requirements\n\nFeel free to ask about any of these topics!";
   };
 
   const generateTripPlanningResponse = (input) => {
     const lower = input.toLowerCase();
     
-    let response = "🗺️ **Let me help plan your perfect trip!**\n\n";
+    let response = "**Let me help plan your perfect trip!**\n\n";
     
     let destination = extractDestination(lower);
     let passengers = extractPassengers(lower);
@@ -457,16 +457,16 @@ const RexAssistant = () => {
     let driveType = extractDriveType(lower);
 
     if (destination) {
-      response += `📍 **Destination:** ${destination.charAt(0).toUpperCase() + destination.slice(1)}\n`;
+      response += `**Destination:** ${destination.charAt(0).toUpperCase() + destination.slice(1)}\n`;
     }
     if (passengers > 0) {
-      response += `👥 **Passengers:** ${passengers}\n`;
+      response += `**Passengers:** ${passengers}\n`;
     }
     if (days > 0) {
-      response += `📅 **Duration:** ${days} day${days > 1 ? 's' : ''}\n`;
+      response += `**Duration:** ${days} day${days > 1 ? 's' : ''}\n`;
     }
     if (driveType) {
-      response += `🛣️ **Drive Type:** ${driveType}\n`;
+      response += `**Drive Type:** ${driveType}\n`;
     }
 
     response += "\n**My Recommendations:**\n\n";
@@ -494,7 +494,7 @@ const RexAssistant = () => {
     });
 
     // Fuel efficiency
-    response += "\n⛽ **Fuel Efficiency Estimate:**\n";
+    response += "\n**Fuel Efficiency Estimate:**\n";
     if (driveType === 'city') {
       response += "• City driving: ~8-10 km/liter\n";
       response += "• Expected fuel cost: GHS 150-200 for 5 days\n";
@@ -507,13 +507,13 @@ const RexAssistant = () => {
     }
 
     // Mileage
-    response += "\n📏 **Suggested Mileage Allowance:**\n";
+    response += "\n**Suggested Mileage Allowance:**\n";
     const suggestedMileage = days * 100;
     response += `• For ${days} days: ${suggestedMileage} km\n`;
     response += `• Average per day: 100 km\n`;
 
     // Insurance
-    response += "\n🛡️ **Recommended Insurance:**\n";
+    response += "\n**Recommended Insurance:**\n";
     response += "• Comprehensive Coverage (includes:\n";
     response += "  - Collision protection\n";
     response += "  - Theft coverage\n";
@@ -521,7 +521,7 @@ const RexAssistant = () => {
     response += "  - 24/7 roadside assistance)\n";
 
     // Extras
-    response += "\n🎁 **Optional Extras:**\n";
+    response += "\n**Optional Extras:**\n";
     response += "• GPS Navigation (GHS 20/day)\n";
     response += "• Child safety seats (GHS 15/day)\n";
     response += "• Additional driver (GHS 10/day)\n";
@@ -682,14 +682,14 @@ const RexAssistant = () => {
   };
 
   const formatSearchResults = (title, vehicles) => {
-    let response = `🔍 **${title}:**\n\n`;
+    let response = `**${title}:**\n\n`;
 
     vehicles.forEach((car, idx) => {
       response += `**${idx + 1}. ${car.brand} ${car.name}**\n`;
-      response += `   💰 GHS ${car.price}/day\n`;
-      response += `   👥 ${car.passengers} passengers | 🧳 ${car.luggage} luggage\n`;
-      response += `   ⛽ ${car.fuel} | 🔄 ${car.transmission}\n`;
-      response += `   ⭐ ${car.category}\n\n`;
+      response += `   GHS ${car.price}/day\n`;
+      response += `   ${car.passengers} passengers | ${car.luggage} luggage\n`;
+      response += `   ${car.fuel} | ${car.transmission}\n`;
+      response += `   ${car.category}\n\n`;
     });
 
     response += "Would you like to book one of these or need more details?";
@@ -860,15 +860,15 @@ const RexAssistant = () => {
       return "I couldn't find an exact match, but here are some great options from our fleet! Tell me more about your specific needs and I can refine the recommendations.";
     }
 
-    let response = "🚗 **Perfect! Here are my recommendations for you:**\n\n";
+    let response = "**Perfect! Here are my recommendations for you:**\n\n";
 
     recommendations.forEach((car, idx) => {
       response += `**${idx + 1}. ${car.brand} ${car.name}**\n`;
-      response += `   💰 GHS ${car.price}/day\n`;
-      response += `   👥 ${car.passengers} passengers\n`;
-      response += `   🧳 ${car.luggage} luggage bags\n`;
-      response += `   ⛽ ${car.fuel} | 🔄 ${car.transmission}\n`;
-      response += `   ⭐ Comfort: ${car.comfort}/5\n\n`;
+      response += `   GHS ${car.price}/day\n`;
+      response += `   ${car.passengers} passengers\n`;
+      response += `   ${car.luggage} luggage bags\n`;
+      response += `   ${car.fuel} | ${car.transmission}\n`;
+      response += `   Comfort: ${car.comfort}/5\n\n`;
     });
 
     response += "Would you like to book one of these vehicles or need more information?";
@@ -886,7 +886,7 @@ const RexAssistant = () => {
           title="Chat with AI Assistant"
         >
           <div className="rex-avatar">
-            <span className="rex-icon">🤖</span>
+            <span className="rex-icon">R</span>
             <span className="rex-dot"></span>
           </div>
         </button>
@@ -897,7 +897,7 @@ const RexAssistant = () => {
         <div className="rex-location-modal">
           <div className="rex-location-content">
             <div className="rex-location-header">
-              <h3>📍 Select {locationPickerType === 'pickup' ? 'Pickup' : 'Return'} Location</h3>
+              <h3>Select {locationPickerType === 'pickup' ? 'Pickup' : 'Return'} Location</h3>
               <button onClick={() => {
                 setShowLocationPicker(false);
                 setLocationPickerType(null);
@@ -911,8 +911,8 @@ const RexAssistant = () => {
                     <div className="rex-loc-city">{loc.city}</div>
                     <div className="rex-loc-addr">{loc.address}</div>
                     <div className="rex-loc-meta">
-                      <span>🕐 {loc.hours}</span>
-                      <span>🚗 {loc.cars} cars</span>
+                      <span>{loc.hours}</span>
+                      <span>{loc.cars} cars</span>
                     </div>
                   </div>
                   <div className="rex-loc-arrow">→</div>
@@ -921,7 +921,7 @@ const RexAssistant = () => {
             </div>
 
             <div className="rex-location-info-box">
-              💡 All our locations are fully equipped with vehicles ready for pickup and return.
+              All our locations are fully equipped with vehicles ready for pickup and return.
             </div>
           </div>
         </div>
@@ -933,7 +933,7 @@ const RexAssistant = () => {
           <div className="rex-header">
             <div className="rex-header-left">
               <div className="rex-avatar-small">
-                <span>🤖</span>
+                <span>R</span>
               </div>
               <div>
                 <div className="rex-title">{messages.length > 1 ? 'Rex - AI Assistant' : 'Chat Assistant'}</div>

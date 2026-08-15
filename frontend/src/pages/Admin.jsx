@@ -391,7 +391,7 @@ export default function Admin() {
     let thumbnail = mediaContent;
     if (mediaType === 'video') {
       // Use a generic video placeholder as thumbnail
-      thumbnail = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23222" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-size="24" fill="%23666" font-family="Arial"%3E📹 Video Available%3C/text%3E%3C/svg%3E';
+      thumbnail = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23222" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-size="24" fill="%23666" font-family="Arial"%3EVideo Available%3C/text%3E%3C/svg%3E';
     }
 
     // Create images array with the media content
@@ -494,7 +494,7 @@ export default function Admin() {
                   <CalendarDays size={16} /> Bookings
                 </button>
                 <button className={`admin-tab-main${adminTab === 'cars' ? ' active' : ''}`} onClick={() => { setAdminTab('cars'); setStep('form'); }}>
-                  🚗 Rental Cars
+                  <Car size={16} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} /> Rental Cars
                 </button>
                 <button className={`admin-tab-main${adminTab === 'parts' ? ' active' : ''}`} onClick={() => { setAdminTab('parts'); setStep('form'); }}>
                   <Package size={16} /> Spare Parts
@@ -705,7 +705,7 @@ export default function Admin() {
                                   controls
                                   style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
                                 />
-                                <div className="video-badge">📹 VIDEO</div>
+                                <div className="video-badge"><Video size={12} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} /> VIDEO</div>
                               </div>
                             ) : (
                               <img src={car.image} alt={car.name} />
@@ -726,7 +726,7 @@ export default function Admin() {
                               <span>{car.year}</span>
                               <span>•</span>
                               <span>{car.category}</span>
-                              {car.mediaType === 'video' && <span>• 📹</span>}
+                              {car.mediaType === 'video' && <span>• <Video size={12} style={{ display: 'inline', verticalAlign: 'middle' }} /></span>}
                             </div>
                             <div className="fleet-price">GHS {car.price}/day</div>
                           </div>

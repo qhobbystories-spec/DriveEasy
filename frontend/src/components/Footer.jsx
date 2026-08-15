@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Car, Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Car, Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, Trophy } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -55,7 +55,7 @@ export default function Footer() {
               <li><MapPin size={15} /><span>Koforidua, Greater Accra, Ghana</span></li>
             </ul>
             <div className="footer-badge">
-              <span>🏆 Best Rental Service 2024</span>
+              <span><Trophy size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} /> Best Rental Service 2024</span>
             </div>
           </div>
         </div>

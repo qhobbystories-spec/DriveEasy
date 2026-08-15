@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, X, ChevronDown } from 'lucide-react';
+import { Search, SlidersHorizontal, X, ChevronDown, Car } from 'lucide-react';
 import CarCard from '../components/CarCard';
 import { useApp } from '../context/AppContext';
 
@@ -135,7 +135,7 @@ export default function Cars() {
           <div className="grid grid-3">{filtered.map(car => <CarCard key={car.id} car={car} />)}</div>
         ) : (
           <div className="no-results">
-            <div className="no-results-icon">🚗</div>
+            <div className="no-results-icon"><Car size={48} /></div>
             <h3>No vehicles found</h3>
             <p>Try adjusting your filters or search term.</p>
             <button className="btn btn-outline" onClick={clearFilters}>Clear Filters</button>

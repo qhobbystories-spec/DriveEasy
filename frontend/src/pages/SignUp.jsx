@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Phone, Loader } from 'lucide-react';
+import { Mail, Lock, User, Phone, Loader, Car } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export default function SignUp() {
@@ -57,7 +57,7 @@ export default function SignUp() {
     <main style={{ minHeight: '100vh', background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%)', paddingTop: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ width: '100%', maxWidth: '480px', padding: '24px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>🚗</div>
+          <div style={{ marginBottom: '16px', color: 'var(--primary)' }}><Car size={48} /></div>
           <h1 style={{ fontSize: '28px', fontWeight: '900', marginBottom: '8px' }}>Create Your Account</h1>
           <p style={{ color: 'var(--gray-1)', fontSize: '14px' }}>Join AMK Motors & AutoCare today</p>
         </div>

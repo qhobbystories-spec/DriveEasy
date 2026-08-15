@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Check, X, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, X, ArrowRight, ChevronDown, ChevronUp, PartyPopper } from 'lucide-react';
 import { pricingPlans, faqs } from '../data/cars';
 
 export default function Pricing() {
@@ -71,7 +71,7 @@ export default function Pricing() {
 
           {/* Comparison note */}
           <div className="pricing-note">
-            <span>🎉</span>
+            <span><PartyPopper size={18} /></span>
             <p>All plans include <strong>free roadside assistance</strong>, <strong>sanitized vehicles</strong>, and access to our mobile app. Prices may vary by vehicle model and location.</p>
           </div>
         </div>

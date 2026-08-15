@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Eye, X, Download, Search } from 'lucide-react';
+import { Calendar, MapPin, Eye, X, Download, Search, FileText } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 const statusColors = {
@@ -65,7 +65,7 @@ export default function MyBookings() {
 
         {filtered.length === 0 ? (
           <div className="no-results">
-            <div className="no-results-icon">📋</div>
+            <div className="no-results-icon"><FileText size={48} /></div>
             <h3>No bookings found</h3>
             <p>{filter === 'all' ? "You haven't made any bookings yet." : `No ${filter} bookings.`}</p>
             <Link to="/booking" className="btn btn-primary">Book a Car</Link>

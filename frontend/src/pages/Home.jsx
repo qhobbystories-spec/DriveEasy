@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, MapPin, Calendar, DollarSign, ArrowRight, Star, Shield, Clock, HeadphonesIcon, ChevronRight, Play, CheckCircle } from 'lucide-react';
+import { Search, MapPin, Calendar, DollarSign, ArrowRight, Star, Shield, Clock, HeadphonesIcon, ChevronRight, Play, CheckCircle, Crown, Zap, Gauge, Car, Truck } from 'lucide-react';
 import CarCard from '../components/CarCard';
 import { testimonials } from '../data/testimonials';
 import { useApp } from '../context/AppContext';
@@ -35,12 +35,12 @@ export default function Home() {
   ];
 
   const categories = [
-    { label: 'Luxury', count: 48, emoji: '👑', color: '#e63946' },
-    { label: 'Electric', count: 32, emoji: '⚡', color: '#2ea043' },
-    { label: 'Sports', count: 24, emoji: '🏎️', color: '#f4a261' },
-    { label: 'SUV', count: 56, emoji: '🚙', color: '#457b9d' },
-    { label: 'Economy', count: 88, emoji: '🚗', color: '#8b949e' },
-    { label: 'Van', count: 18, emoji: '🚐', color: '#d29922' },
+    { label: 'Luxury', count: 48, Icon: Crown, color: '#e63946' },
+    { label: 'Electric', count: 32, Icon: Zap, color: '#2ea043' },
+    { label: 'Sports', count: 24, Icon: Gauge, color: '#f4a261' },
+    { label: 'SUV', count: 56, Icon: Car, color: '#457b9d' },
+    { label: 'Economy', count: 88, Icon: Car, color: '#8b949e' },
+    { label: 'Van', count: 18, Icon: Truck, color: '#d29922' },
   ];
 
   return (
@@ -55,7 +55,7 @@ export default function Home() {
         <div className="container hero-content">
           <div className="hero-text animate-fadeInUp">
             <div className="hero-badge">
-              <span>🏎️</span> Complete Automotive Solutions
+              <span><Gauge size={16} style={{ display: 'inline', verticalAlign: 'middle' }} /></span> Complete Automotive Solutions
             </div>
             <h1>
               Your Trusted Partner<br />
@@ -139,7 +139,7 @@ export default function Home() {
           <div className="categories-grid">
             {categories.map((cat, i) => (
               <Link key={i} to={`/cars?category=${cat.label}`} className="cat-card">
-                <div className="cat-emoji">{cat.emoji}</div>
+                <div className="cat-emoji"><cat.Icon size={28} /></div>
                 <div className="cat-label">{cat.label}</div>
                 <div className="cat-count">{cat.count} cars</div>
                 <ChevronRight size={16} className="cat-arrow" />

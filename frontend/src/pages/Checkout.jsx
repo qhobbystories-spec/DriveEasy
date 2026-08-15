@@ -154,7 +154,7 @@ export default function Checkout() {
                 <label className="form-label">Card Number</label>
                 <div style={{ position: 'relative' }}>
                   <input className="form-control" placeholder="1234 5678 9012 3456" value={payment.number} onChange={e => setPayment(p => ({ ...p, number: formatCard(e.target.value) }))} maxLength={19} />
-                  <div className="card-logos">💳</div>
+                  <div className="card-logos"><CreditCard size={18} color="var(--gray-1)" /></div>
                 </div>
               </div>
               <div className="grid grid-2">

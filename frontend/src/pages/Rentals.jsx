@@ -19,7 +19,7 @@ export default function Rentals() {
     <main style={{ paddingTop: '80px', paddingBottom: '60px' }}>
       <section style={{ background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%)', padding: '60px 0', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <h1 style={{ fontSize: '48px', fontWeight: '900', marginBottom: '16px' }}>🚗 Car Rentals</h1>
+          <h1 style={{ fontSize: '48px', fontWeight: '900', marginBottom: '16px' }}><Car size={40} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 12 }} /> Car Rentals</h1>
           <p style={{ fontSize: '18px', color: 'var(--gray-1)', marginBottom: '40px' }}>
             Choose from our extensive fleet of premium vehicles for short-term or long-term rentals
           </p>
@@ -129,7 +129,7 @@ export default function Rentals() {
             </div>
           ) : (
             <div style={{ textAlign: 'center', padding: '60px 0' }}>
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>🚗</div>
+              <div style={{ marginBottom: '16px', color: 'var(--primary)' }}><Car size={48} /></div>
               <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px' }}>No Vehicles Found</h3>
               <p style={{ color: 'var(--gray-1)' }}>Try adjusting your filters</p>
             </div>

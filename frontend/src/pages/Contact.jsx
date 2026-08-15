@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, MessageSquare, CheckCircle, Car } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../api/client';
 
@@ -146,7 +146,7 @@ export default function Contact() {
                 <div className="hours-row"><span>Monday – Friday</span><span>8:00 AM – 6:00 PM</span></div>
                 <div className="hours-row"><span>Saturday</span><span>9:00 AM – 4:00 PM</span></div>
                 <div className="hours-row"><span>Sunday</span><span>Closed</span></div>
-                <div className="hours-note">🚗 Roadside assistance available 24/7</div>
+                <div className="hours-note"><Car size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} /> Roadside assistance available 24/7</div>
               </div>
             </div>
           </div>

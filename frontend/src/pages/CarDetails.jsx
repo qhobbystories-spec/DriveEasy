@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Star, Users, Fuel, Settings2, Calendar, MapPin, Check, ChevronLeft, ChevronRight, Zap, Shield, Clock, ArrowRight } from 'lucide-react';
+import { Star, Users, Fuel, Settings2, Calendar, MapPin, Check, ChevronLeft, ChevronRight, Zap, Shield, Clock, ArrowRight, Video, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export default function CarDetails() {
@@ -95,7 +95,7 @@ export default function CarDetails() {
               </div>
               <div className="gallery-thumbs">
                 {car.mediaType === 'video' && car.video ? (
-                  <div style={{ color: 'var(--gray-1)', fontSize: 12, padding: '8px 0', textAlign: 'center' }}>📹 Video Preview</div>
+                  <div style={{ color: 'var(--gray-1)', fontSize: 12, padding: '8px 0', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}><Video size={14} /> Video Preview</div>
                 ) : (
                   carImages.map((img, i) => (
                     <button key={i} className={`thumb${activeImg === i ? ' active' : ''}`} onClick={() => setActiveImg(i)}>
@@ -171,7 +171,7 @@ export default function CarDetails() {
               <h3>Availability</h3>
               <div className="avail-note">
                 <div className={`avail-status ${car.available ? 'ok' : 'no'}`}>
-                  {car.available ? '✅ Available for booking' : '❌ Currently unavailable'}
+                  {car.available ? <><Check size={14} style={{ color: 'var(--success)' }} /> Available for booking</> : <><X size={14} style={{ color: 'var(--primary)' }} /> Currently unavailable</>}
                 </div>
                 <p>Select your dates in the booking panel to confirm availability for your desired period.</p>
               </div>

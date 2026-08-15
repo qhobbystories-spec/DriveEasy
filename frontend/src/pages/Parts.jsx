@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Star, Package } from 'lucide-react';
+import { Mail, Star, Package, Wrench } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
@@ -180,7 +180,7 @@ export default function Parts() {
             </div>
           ) : (
             <div style={{ textAlign: 'center', padding: '60px 0' }}>
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔧</div>
+              <div style={{ marginBottom: '16px', color: 'var(--primary)' }}><Wrench size={48} /></div>
               <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px' }}>No Parts Found</h3>
               <p style={{ color: 'var(--gray-1)' }}>Try adjusting your search</p>
             </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Users, Fuel, Settings2, MapPin } from 'lucide-react';
+import { Star, Users, Fuel, Settings2, MapPin, Video } from 'lucide-react';
 
 const PLACEHOLDER_IMG = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200"%3E%3Crect fill="%23161b22" width="400" height="200"/%3E%3Ccircle cx="100" cy="140" r="20" fill="%23457b9d"/%3E%3Ccircle cx="300" cy="140" r="20" fill="%23457b9d"/%3E%3Cpath d="M 60 120 L 80 60 Q 200 40 320 60 L 340 120 Z" fill="%23e63946" stroke="%23c1121f" stroke-width="2"/%3E%3Crect x="100" y="70" width="80" height="30" fill="%2390cdf4" opacity="0.3"/%3E%3Crect x="220" y="70" width="60" height="25" fill="%2390cdf4" opacity="0.3"/%3E%3Ctext x="200" y="180" font-size="12" fill="%238b949e" text-anchor="middle"%3ECar Image%3C/text%3E%3C/svg%3E';
 
@@ -15,7 +15,7 @@ export default function CarCard({ car }) {
     <div className="car-card card">
       {car.tag && <div className="car-tag">{car.tag}</div>}
       {!car.available && <div className="car-unavailable">Unavailable</div>}
-      {car.mediaType === 'video' && car.video && <div className="car-video-badge">📹 Video</div>}
+      {car.mediaType === 'video' && car.video && <div className="car-video-badge"><Video size={12} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} /> Video</div>}
 
       <div className="car-img-wrap">
         {car.mediaType === 'video' && car.video ? (

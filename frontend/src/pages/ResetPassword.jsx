@@ -56,7 +56,7 @@ export default function ResetPassword() {
     <main style={{ minHeight: '100vh', background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%)', paddingTop: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ width: '100%', maxWidth: '420px', padding: '24px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔑</div>
+          <div style={{ marginBottom: '16px', color: 'var(--primary)' }}><Lock size={48} /></div>
           <h1 style={{ fontSize: '28px', fontWeight: '900', marginBottom: '8px' }}>Reset Password</h1>
           <p style={{ color: 'var(--gray-1)', fontSize: '14px' }}>Enter your new password below</p>
         </div>

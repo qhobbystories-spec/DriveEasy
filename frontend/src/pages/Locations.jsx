@@ -66,7 +66,7 @@ export default function Locations() {
 
           {filtered.length === 0 && (
             <div className="no-results">
-              <div className="no-results-icon">📍</div>
+              <div className="no-results-icon"><MapPin size={48} /></div>
               <h3>No locations found</h3>
               <p>Try a different city name.</p>
             </div>

@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Car } from 'lucide-react';
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -99,7 +100,7 @@ function RouteScrollReset() {
 function NotFound() {
   return (
     <main style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, textAlign: 'center', padding: '0 24px' }}>
-      <div style={{ fontSize: 80 }}>🚗</div>
+      <div style={{ color: 'var(--primary)' }}><Car size={80} /></div>
       <h1 style={{ fontSize: 48, fontWeight: 900 }}>404</h1>
       <p style={{ color: 'var(--gray-1)', fontSize: 18 }}>Looks like you've taken a wrong turn.</p>
       <a href="/" className="btn btn-primary btn-lg">Back to Home</a>
