@@ -100,6 +100,7 @@ export default function Sales() {
               />
             </div>
           </div>
+        </div>
 
           <h2 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '40px' }}>{saleItems.length} Vehicles for Sale</h2>
 

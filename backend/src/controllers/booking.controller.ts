@@ -205,7 +205,7 @@ export class BookingController {
       const newBooking = await tx.booking.create({
         data: {
           bookingNumber: generateBookingNumber(),
-          customerId: req.user.id,
+          customerId: req.user!.id,
           carId,
           pickupLocation,
           returnLocation: returnLocation ?? pickupLocation,

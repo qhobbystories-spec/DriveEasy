@@ -88,6 +88,8 @@ export default function Towing() {
               <div style={{ fontSize: '28px', fontWeight: '700', color: 'var(--primary)' }}>0800 123 456</div>
             </div>
           </div>
+        </div>
+      </section>
 
       {/* Services */}
       <section style={{ padding: '80px 0' }}>
