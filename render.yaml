@@ -19,7 +19,7 @@ services:
         generateValue: true
       - key: FRONTEND_URL
         sync: false
-        value: https://your-app.vercel.app
+        value: https://drive-easy-vert.vercel.app
       - key: SMTP_HOST
         value: smtp.gmail.com
       - key: SMTP_PORT

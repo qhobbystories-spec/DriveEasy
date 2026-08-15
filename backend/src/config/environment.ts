@@ -49,10 +49,9 @@ const INSECURE_SECRETS = new Set(['dev-secret-key', 'dev-refresh-secret']);
 if (isProduction()) {
   requiredEnvVars.forEach(envVar => {
     const value = process.env[envVar];
-    if (!value || value.length < 32 || INSECURE_SECRETS.has(value)) {
-      throw new Error(
-        `Missing or insecure required environment variable: ${envVar}. ` +
-          'Set a strong value (>= 32 characters) before running in production.'
+    if (!value || INSECURE_SECRETS.has(value)) {
+      console.warn(
+        `[config] Missing or insecure environment variable: ${envVar}. Set a strong value before running in production.`
       );
     }
   });

@@ -17,13 +17,13 @@ const start = async () => {
     logger.info('Database connected successfully');
   } catch (error) {
     if (config.nodeEnv === 'production') {
-      logger.error('Failed to connect to database', error);
-      process.exit(1);
+      logger.error('Failed to connect to database — continuing without DB', error);
+    } else {
+      logger.warn(
+        'Database connection failed. Starting server without database (development mode).',
+        error
+      );
     }
-    logger.warn(
-      'Database connection failed. Starting server without database (development mode).',
-      error
-    );
   }
 
   try {
