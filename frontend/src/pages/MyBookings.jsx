@@ -18,7 +18,7 @@ export default function MyBookings() {
 
   const filtered = bookings.filter(b => {
     const matchStatus = filter === 'all' || b.status === filter;
-    const ref = b.bookingNumber || b.id;
+    const ref = String(b.bookingNumber || b.id || '');
     const matchQuery = (b.carName || '').toLowerCase().includes(query.toLowerCase()) || ref.toLowerCase().includes(query.toLowerCase());
     return matchStatus && matchQuery;
   });
@@ -96,7 +96,7 @@ export default function MyBookings() {
                       <div className="bi-price">GHS {b.total}</div>
                       <div className="bi-actions">
                         <Link to={`/cars/${b.carId}`} className="bi-action"><Eye size={15} /> View Car</Link>
-                        <button className="bi-action"><Download size={15} /> Receipt</button>
+                        <button className="bi-action" onClick={() => addToast('Receipt download coming soon!', 'info')}><Download size={15} /> Receipt</button>
                         {canCancel && <button className="bi-action danger" onClick={() => setCancelId(b.id)}><X size={15} /> Cancel</button>}
                       </div>
                     </div>

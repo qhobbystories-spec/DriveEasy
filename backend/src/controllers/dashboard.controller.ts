@@ -26,7 +26,11 @@ export class DashboardController {
     ] = await Promise.all([
       prisma.car.count({ where: { deletedAt: null } }),
       prisma.car.count({ where: { deletedAt: null, status: 'AVAILABLE' } }),
-      prisma.booking.count(),
+      prisma.booking.count({
+        where: {
+          customer: { deletedAt: null },
+        },
+      }),
       prisma.booking.count({ where: { bookingStatus: 'PENDING' } }),
       prisma.booking.count({ where: { bookingStatus: 'ACTIVE' } }),
       prisma.user.count({ where: { role: 'CUSTOMER' } }),

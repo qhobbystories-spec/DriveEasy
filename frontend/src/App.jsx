@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -89,17 +89,10 @@ function PageLoader() {
 }
 
 function RouteScrollReset() {
-  const [loc, setLoc] = React.useState(window.location.pathname);
-  React.useEffect(() => {
-    const observer = new MutationObserver(() => {
-      if (window.location.pathname !== loc) {
-        setLoc(window.location.pathname);
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }
-    });
-    observer.observe(document, { subtree: true, childList: true });
-    return () => observer.disconnect();
-  }, [loc]);
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [pathname]);
   return null;
 }
 

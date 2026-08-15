@@ -5,7 +5,7 @@ import { sendSuccess, sendPaginated, sendError } from '../utils/response';
 import { getPaginationParams } from '../utils/pagination';
 import { NotFoundError, ValidationError } from '../utils/errors';
 import { AuthRequest } from '../middleware/auth.middleware';
-import { isValidUUID } from '../utils/validators';
+import { isValidUUID, validateEmail } from '../utils/validators';
 import { emailService } from '../services/email.service';
 import { logger } from '../utils/logger';
 import { broadcastNewMessage } from '../sockets/handlers';
@@ -16,6 +16,21 @@ export class ContactController {
 
     if (!name || !email || !message) {
       throw new ValidationError('name, email and message are required');
+    }
+    if (String(name).length > 200) {
+      throw new ValidationError('Name must be under 200 characters');
+    }
+    if (!validateEmail(String(email))) {
+      throw new ValidationError('Invalid email address');
+    }
+    if (String(message).length > 5000) {
+      throw new ValidationError('Message must be under 5000 characters');
+    }
+    if (subject && String(subject).length > 200) {
+      throw new ValidationError('Subject must be under 200 characters');
+    }
+    if (phone && String(phone).length > 20) {
+      throw new ValidationError('Phone must be under 20 characters');
     }
 
     const contact = await prisma.contact.create({

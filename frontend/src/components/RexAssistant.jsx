@@ -597,7 +597,7 @@ const RexAssistant = () => {
 
     // Cheapest cars
     if (text.includes('cheapest') || (text.includes('budget') && text.includes('car'))) {
-      const cheapest = vehicleDatabase.sort((a, b) => a.price - b.price).slice(0, 3);
+      const cheapest = [...vehicleDatabase].sort((a, b) => a.price - b.price).slice(0, 3);
       return formatSearchResults('Cheapest cars available', cheapest);
     }
 

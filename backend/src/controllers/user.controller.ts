@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 import prisma from '../prisma/client';
 import { sendSuccess, sendPaginated, sendError } from '../utils/response';
 import { getPaginationParams } from '../utils/pagination';
-import { NotFoundError, AuthorizationError } from '../utils/errors';
+import { NotFoundError, AuthorizationError, ValidationError } from '../utils/errors';
 import { AuthRequest } from '../middleware/auth.middleware';
 import { isValidUUID } from '../utils/validators';
 import { writeAuditLog } from '../utils/audit';
@@ -127,6 +127,15 @@ export class UserController {
       const adminFields = ['email', 'role', 'status', 'isActive', 'isVerified'] as const;
       for (const field of adminFields) {
         if (req.body[field] !== undefined) {
+          if (field === 'email') {
+            const existingEmail = await prisma.user.findUnique({
+              where: { email: req.body.email },
+              select: { id: true },
+            });
+            if (existingEmail && existingEmail.id !== id) {
+              throw new ValidationError('Email already in use');
+            }
+          }
           (data as Record<string, unknown>)[field] =
             field === 'isActive' || field === 'isVerified'
               ? Boolean(req.body[field])

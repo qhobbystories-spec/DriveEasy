@@ -9,6 +9,8 @@ export default function Admin() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const fileInputRef = useRef(null);
+  const partsFileInputRef = useRef(null);
+  const towingFileInputRef = useRef(null);
   const videoFileInputRef = useRef(null);
   const mediaRecorderRef = useRef(null);
 
@@ -19,7 +21,7 @@ export default function Admin() {
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [streamRef, setStreamRef] = useState(null);
-  const [recordedChunks, setRecordedChunks] = useState([]);
+  const recordedChunksRef = useRef([]);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [uploadedVideo, setUploadedVideo] = useState(null);
   const [deleteConfirmParts, setDeleteConfirmParts] = useState(null);
@@ -122,7 +124,7 @@ export default function Admin() {
             
             mediaRecorderRef.current.ondataavailable = (e) => {
               if (e.data.size > 0) {
-                setRecordedChunks(prev => [...prev, e.data]);
+                recordedChunksRef.current.push(e.data);
               }
             };
           } catch (err) {
@@ -179,7 +181,7 @@ export default function Admin() {
 
   const startRecording = () => {
     if (mediaRecorderRef.current && !isRecording) {
-      setRecordedChunks([]);
+      recordedChunksRef.current = [];
       mediaRecorderRef.current.start();
       setIsRecording(true);
       addToast('Recording started...', 'success');
@@ -188,21 +190,17 @@ export default function Admin() {
 
   const stopRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.onstop = () => {
+        if (recordedChunksRef.current.length > 0) {
+          const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          setUploadedVideo(url);
+          stopCamera();
+          addToast('Video recorded successfully!', 'success');
+        }
+      };
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      
-      // Wait for the last data to be collected
-      setTimeout(() => {
-        mediaRecorderRef.current.onstop = () => {
-          if (recordedChunks.length > 0) {
-            const blob = new Blob(recordedChunks, { type: 'video/webm' });
-            const url = URL.createObjectURL(blob);
-            setUploadedVideo(url);
-            stopCamera();
-            addToast('Video recorded successfully!', 'success');
-          }
-        };
-      }, 100);
     }
   };
 
@@ -991,10 +989,10 @@ export default function Admin() {
                               <button type="button" className="btn btn-primary btn-lg" onClick={startCamera} style={{ marginRight: 12 }}>
                                 <Camera size={16} /> Start Camera
                               </button>
-                              <button type="button" className="btn btn-secondary btn-lg" onClick={() => fileInputRef.current?.click()}>
+                              <button type="button" className="btn btn-secondary btn-lg" onClick={() => partsFileInputRef.current?.click()}>
                                 <Upload size={16} /> Upload Photo
                               </button>
-                              <input type="file" accept="image/*" ref={fileInputRef} onChange={(e) => {
+                              <input type="file" accept="image/*" ref={partsFileInputRef} onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
                                   const reader = new FileReader();
@@ -1221,10 +1219,10 @@ export default function Admin() {
                               <button type="button" className="btn btn-primary btn-lg" onClick={startCamera} style={{ marginRight: 12 }}>
                                 <Camera size={16} /> Start Camera
                               </button>
-                              <button type="button" className="btn btn-secondary btn-lg" onClick={() => fileInputRef.current?.click()}>
+                              <button type="button" className="btn btn-secondary btn-lg" onClick={() => towingFileInputRef.current?.click()}>
                                 <Upload size={16} /> Upload Photo
                               </button>
-                              <input type="file" accept="image/*" ref={fileInputRef} onChange={(e) => {
+                              <input type="file" accept="image/*" ref={towingFileInputRef} onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
                                   const reader = new FileReader();

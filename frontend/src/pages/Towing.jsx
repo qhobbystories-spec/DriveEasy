@@ -74,8 +74,8 @@ export default function Towing() {
                 alignItems: 'center',
                 gap: '8px'
               }}
-              onMouseEnter={(e) => e.target.style.background = 'rgba(230, 57, 70, 0.9)'}
-              onMouseLeave={(e) => e.target.style.background = 'var(--primary)'}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(230, 57, 70, 0.9)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'var(--primary)'}
             >
               <Phone size={18} />
               Request Service Now
@@ -250,8 +250,8 @@ export default function Towing() {
                       fontWeight: '600',
                       fontFamily: 'inherit'
                     }}
-                    onMouseEnter={(e) => e.target.style.background = 'rgba(230, 57, 70, 0.9)'}
-                    onMouseLeave={(e) => e.target.style.background = 'var(--primary)'}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(230, 57, 70, 0.9)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'var(--primary)'}
                   >
                     Request This Vehicle
                   </button>
@@ -457,8 +457,8 @@ export default function Towing() {
                     fontWeight: '600',
                     fontFamily: 'inherit'
                   }}
-                  onMouseEnter={(e) => e.target.style.background = 'rgba(230, 57, 70, 0.9)'}
-                  onMouseLeave={(e) => e.target.style.background = 'var(--primary)'}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(230, 57, 70, 0.9)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'var(--primary)'}
                 >
                   Request Service
                 </button>

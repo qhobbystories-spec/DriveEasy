@@ -44,24 +44,25 @@ export class PaymentController {
       throw new ValidationError('Booking already has a payment');
     }
 
-    const payment = await prisma.payment.create({
-      data: {
-        transactionId: generateTransactionId(),
-        bookingId,
-        userId: booking.customerId,
-        amount: booking.totalPrice,
-        currency: 'GHS',
-        status: 'COMPLETED',
-        method: method as PaymentMethod,
-        receiptNumber: generateReceiptNumber(),
-        paidAt: new Date(),
-      },
-    });
-
-    await prisma.booking.update({
-      where: { id: bookingId },
-      data: { paymentStatus: 'COMPLETED' },
-    });
+    const [payment] = await prisma.$transaction([
+      prisma.payment.create({
+        data: {
+          transactionId: generateTransactionId(),
+          bookingId,
+          userId: booking.customerId,
+          amount: booking.totalPrice,
+          currency: 'GHS',
+          status: 'COMPLETED',
+          method: method as PaymentMethod,
+          receiptNumber: generateReceiptNumber(),
+          paidAt: new Date(),
+        },
+      }),
+      prisma.booking.update({
+        where: { id: bookingId },
+        data: { paymentStatus: 'COMPLETED' },
+      }),
+    ]);
 
     broadcastPaymentConfirmed(booking.customerId, payment);
 

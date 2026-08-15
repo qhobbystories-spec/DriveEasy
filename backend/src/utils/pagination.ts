@@ -18,27 +18,3 @@ export const getPaginationParams = (
     skip,
   };
 };
-
-export const calculateTotalPages = (total: number, limit: number): number => {
-  return Math.ceil(total / limit);
-};
-
-export const hasNextPage = (
-  page: number,
-  limit: number,
-  total: number
-): boolean => {
-  return page * limit < total;
-};
-
-export const hasPreviousPage = (page: number): boolean => {
-  return page > 1;
-};
-
-export const getNextPage = (page: number, hasNext: boolean): number | null => {
-  return hasNext ? page + 1 : null;
-};
-
-export const getPreviousPage = (page: number, hasPrev: boolean): number | null => {
-  return hasPrev ? page - 1 : null;
-};

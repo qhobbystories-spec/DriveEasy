@@ -8,6 +8,7 @@ export interface UserDTO {
   role: string;
   isVerified: boolean;
   isActive: boolean;
+  status: string;
   createdAt: Date;
 }
 

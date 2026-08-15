@@ -3,9 +3,8 @@ import app from './app';
 import { config } from './config/environment';
 import { logger } from './utils/logger';
 import { initializeSocket } from './sockets/handlers';
-import { PrismaClient } from '@prisma/client';
+import prisma from './prisma/client';
 
-const prisma = new PrismaClient();
 const httpServer = http.createServer(app);
 
 // Initialize Socket.IO
@@ -59,11 +58,10 @@ process.on('SIGINT', async () => {
 });
 
 // Unhandled rejection handler
-process.on('unhandledRejection', (reason: Error) => {
-  logger.error('Unhandled Rejection', {
-    message: reason.message,
-    stack: reason.stack,
-  });
+process.on('unhandledRejection', (reason: unknown) => {
+  const message = reason instanceof Error ? reason.message : String(reason);
+  const stack = reason instanceof Error ? reason.stack : undefined;
+  logger.error('Unhandled Rejection', { message, stack });
   process.exit(1);
 });
 

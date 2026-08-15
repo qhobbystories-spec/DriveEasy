@@ -14,10 +14,8 @@ module.exports = {
     '^@repositories/(.*)$': '<rootDir>/src/repositories/$1',
     '^@validators/(.*)$': '<rootDir>/src/validators/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
-    '^@interfaces/(.*)$': '<rootDir>/src/interfaces/$1',
     '^@types/(.*)$': '<rootDir>/src/types/$1',
     '^@constants/(.*)$': '<rootDir>/src/constants/$1',
-    '^@emails/(.*)$': '<rootDir>/src/emails/$1',
     '^@sockets/(.*)$': '<rootDir>/src/sockets/$1'
   }
 };

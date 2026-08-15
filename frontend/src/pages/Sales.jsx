@@ -152,7 +152,7 @@ export default function Sales() {
                       </div>
                       <div>
                         <div style={{ color: 'var(--gray-1)', fontSize: '12px' }}>Luggage</div>
-                        <div style={{ fontSize: '14px', fontWeight: '600' }}>{item.luggage} bags</div>
+                        <div style={{ fontSize: '14px', fontWeight: '600' }}>{item.luggage ?? '—'}{item.luggage ? ' bags' : ''}</div>
                       </div>
                     </div>
 
@@ -180,8 +180,8 @@ export default function Sales() {
                           gap: '8px',
                           fontFamily: 'inherit'
                         }}
-                        onMouseEnter={(e) => e.target.style.background = 'rgba(230, 57, 70, 0.9)'}
-                        onMouseLeave={(e) => e.target.style.background = 'var(--primary)'}
+                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(230, 57, 70, 0.9)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'var(--primary)'}
                       >
                         <Mail size={16} />
                         Enquire

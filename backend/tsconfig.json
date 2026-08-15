@@ -33,10 +33,8 @@
       "@repositories/*": ["src/repositories/*"],
       "@validators/*": ["src/validators/*"],
       "@utils/*": ["src/utils/*"],
-      "@interfaces/*": ["src/interfaces/*"],
       "@types/*": ["src/types/*"],
       "@constants/*": ["src/constants/*"],
-      "@emails/*": ["src/emails/*"],
       "@sockets/*": ["src/sockets/*"]
     }
   },

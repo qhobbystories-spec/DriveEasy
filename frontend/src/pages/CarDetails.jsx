@@ -19,6 +19,8 @@ export default function CarDetails() {
     </main>
   );
 
+  const carImages = (car.images && car.images.length > 0) ? car.images : (car.image ? [car.image] : []);
+
   const days = pickupDate && returnDate
     ? Math.max(1, Math.ceil((new Date(returnDate) - new Date(pickupDate)) / 86400000))
     : 1;
@@ -76,13 +78,13 @@ export default function CarDetails() {
                   />
                 ) : (
                   <>
-                    <img src={car.images[activeImg]} alt={car.name} />
-                    {car.images.length > 1 && (
+                    <img src={carImages[activeImg] || car.image} alt={car.name} />
+                    {carImages.length > 1 && (
                       <>
-                        <button className="gallery-arrow left" onClick={() => setActiveImg(i => (i - 1 + car.images.length) % car.images.length)} aria-label="Previous image">
+                        <button className="gallery-arrow left" onClick={() => setActiveImg(i => (i - 1 + carImages.length) % carImages.length)} aria-label="Previous image">
                           <ChevronLeft size={20} />
                         </button>
-                        <button className="gallery-arrow right" onClick={() => setActiveImg(i => (i + 1) % car.images.length)} aria-label="Next image">
+                        <button className="gallery-arrow right" onClick={() => setActiveImg(i => (i + 1) % carImages.length)} aria-label="Next image">
                           <ChevronRight size={20} />
                         </button>
                       </>
@@ -95,7 +97,7 @@ export default function CarDetails() {
                 {car.mediaType === 'video' && car.video ? (
                   <div style={{ color: 'var(--gray-1)', fontSize: 12, padding: '8px 0', textAlign: 'center' }}>📹 Video Preview</div>
                 ) : (
-                  car.images.map((img, i) => (
+                  carImages.map((img, i) => (
                     <button key={i} className={`thumb${activeImg === i ? ' active' : ''}`} onClick={() => setActiveImg(i)}>
                       <img src={img} alt="" />
                     </button>

@@ -113,8 +113,8 @@ export default function About() {
                   <div className="team-name">{m.name}</div>
                   <div className="team-role">{m.role}</div>
                   <div className="team-socials">
-                    <a href={m.linkedin}><Linkedin size={16} /></a>
-                    <a href={m.twitter}><Twitter size={16} /></a>
+                    <a href={m.linkedin} onClick={e => e.preventDefault()}><Linkedin size={16} /></a>
+                    <a href={m.twitter} onClick={e => e.preventDefault()}><Twitter size={16} /></a>
                   </div>
                 </div>
               </div>

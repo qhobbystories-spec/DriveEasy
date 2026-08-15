@@ -23,14 +23,6 @@ export const verifyToken = (token: string, secret: string = config.jwtSecret): J
   return jwt.verify(token, secret) as JWTPayload;
 };
 
-export const decodeToken = (token: string): JWTPayload | null => {
-  try {
-    return jwt.decode(token) as JWTPayload;
-  } catch {
-    return null;
-  }
-};
-
 export const generateAuthTokens = (payload: JWTPayload) => {
   return {
     accessToken: generateToken(payload),

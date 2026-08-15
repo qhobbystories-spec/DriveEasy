@@ -2,6 +2,7 @@ import { Server as HTTPServer } from 'http';
 import { Socket, Server as SocketIOServer } from 'socket.io';
 import { config } from '../config/environment';
 import { logger } from '../utils/logger';
+import { verifyToken } from '../utils/jwt';
 
 export let io: SocketIOServer;
 
@@ -14,19 +15,44 @@ export const initializeSocket = (httpServer: HTTPServer) => {
     transports: ['websocket', 'polling'],
   });
 
-  io.on('connection', (socket: Socket) => {
-    logger.info(`User connected: ${socket.id}`);
+  io.use((socket, next) => {
+    const token = socket.handshake.auth?.token || socket.handshake.headers?.authorization?.replace('Bearer ', '');
+    if (!token) {
+      return next(new Error('Authentication required'));
+    }
+    try {
+      const decoded = verifyToken(token) as { id: string; role: string };
+      (socket as any).userId = decoded.id;
+      (socket as any).userRole = decoded.role;
+      next();
+    } catch (err) {
+      next(new Error('Invalid or expired token'));
+    }
+  });
 
-    // Join user room
-    socket.on('join-user', (userId: string) => {
+  io.on('connection', (socket: Socket) => {
+    const userId = (socket as any).userId;
+    const userRole = (socket as any).userRole;
+    logger.info(`User connected: ${socket.id} (userId: ${userId})`);
+
+    // Join user room — only allow joining own room
+    socket.on('join-user', (targetUserId: string) => {
+      if (targetUserId !== userId) {
+        logger.warn(`User ${userId} attempted to join room of user ${targetUserId}`);
+        return;
+      }
       socket.join(`user-${userId}`);
       logger.debug(`User ${userId} joined their room`);
     });
 
-    // Join admin room
+    // Join admin room — only ADMIN and EMPLOYEE
     socket.on('join-admin', () => {
+      if (userRole !== 'ADMIN' && userRole !== 'EMPLOYEE') {
+        logger.warn(`Non-staff user ${userId} attempted to join admin room`);
+        return;
+      }
       socket.join('admin-room');
-      logger.debug(`Admin joined admin room`);
+      logger.debug(`Admin ${userId} joined admin room`);
     });
 
     // Leave room

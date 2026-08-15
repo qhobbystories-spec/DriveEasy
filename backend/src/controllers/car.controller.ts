@@ -138,7 +138,17 @@ export class CarController {
       throw new ValidationError('brand, model and mainImage are required');
     }
 
-    const car = await prisma.car.create({ data });
+    const { brand, model, year, fuelType, transmission, color, plateNumber, vin, seats, doors,
+      airConditioning, gps, bluetooth, dailyPrice, weeklyPrice, monthlyPrice, deposit, mileage,
+      description, location, status, category, mainImage } = data;
+
+    const car = await prisma.car.create({
+      data: {
+        brand, model, year, fuelType, transmission, color, plateNumber, vin, seats, doors,
+        airConditioning, gps, bluetooth, dailyPrice, weeklyPrice, monthlyPrice, deposit, mileage,
+        description, location, status: status || 'AVAILABLE', category, mainImage,
+      },
+    });
 
     writeAuditLog({
       userId: req.user!.id,
@@ -162,7 +172,38 @@ export class CarController {
       throw new NotFoundError('Car');
     }
 
-    const car = await prisma.car.update({ where: { id }, data: req.body });
+    const { brand, model, year, fuelType, transmission, color, plateNumber, vin, seats, doors,
+      airConditioning, gps, bluetooth, dailyPrice, weeklyPrice, monthlyPrice, deposit, mileage,
+      description, location, status, category, mainImage } = req.body;
+
+    const car = await prisma.car.update({
+      where: { id },
+      data: {
+        ...(brand !== undefined && { brand }),
+        ...(model !== undefined && { model }),
+        ...(year !== undefined && { year }),
+        ...(fuelType !== undefined && { fuelType }),
+        ...(transmission !== undefined && { transmission }),
+        ...(color !== undefined && { color }),
+        ...(plateNumber !== undefined && { plateNumber }),
+        ...(vin !== undefined && { vin }),
+        ...(seats !== undefined && { seats }),
+        ...(doors !== undefined && { doors }),
+        ...(airConditioning !== undefined && { airConditioning }),
+        ...(gps !== undefined && { gps }),
+        ...(bluetooth !== undefined && { bluetooth }),
+        ...(dailyPrice !== undefined && { dailyPrice }),
+        ...(weeklyPrice !== undefined && { weeklyPrice }),
+        ...(monthlyPrice !== undefined && { monthlyPrice }),
+        ...(deposit !== undefined && { deposit }),
+        ...(mileage !== undefined && { mileage }),
+        ...(description !== undefined && { description }),
+        ...(location !== undefined && { location }),
+        ...(status !== undefined && { status }),
+        ...(category !== undefined && { category }),
+        ...(mainImage !== undefined && { mainImage }),
+      },
+    });
 
     writeAuditLog({
       userId: req.user!.id,

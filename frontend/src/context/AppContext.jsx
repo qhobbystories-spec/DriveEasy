@@ -285,20 +285,27 @@ export function AppProvider({ children }) {
 
   const [bookings, setBookings] = useState(DEMO_BOOKINGS);
 
-  const [user, setUser] = useState({
-    name: authUser?.name || 'Guest',
-    email: authUser?.email || 'guest@amkmotors.com',
-    phone: authUser?.phone || '0547129448',
-    avatar: authUser?.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80',
-    joinDate: authUser?.joinDate || 'January 2025',
-    licenseNumber: authUser?.licenseNumber || 'DL-2847362',
-    totalTrips: authUser?.totalTrips || 12,
-    totalSpent: authUser?.totalSpent || 4250,
-    loyaltyPoints: authUser?.loyaltyPoints || 2800,
-    tier: authUser?.tier || 'Gold',
+  const [user, setUser] = useState(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('amk_auth') || 'null');
+      if (stored) return toFrontendUser(stored);
+    } catch (e) { /* ignore */ }
+    return {
+      name: 'Guest',
+      email: 'guest@amkmotors.com',
+      phone: '0547129448',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80',
+      joinDate: 'January 2025',
+      licenseNumber: 'DL-2847362',
+      totalTrips: 12,
+      totalSpent: 4250,
+      loyaltyPoints: 2800,
+      tier: 'Gold',
+    };
   });
 
   const [toasts, setToasts] = useState([]);
+  const toastIdRef = React.useRef(0);
 
   // cars state (persisted to localStorage)
   const [cars, setCars] = useState(() => {
@@ -370,14 +377,16 @@ export function AppProvider({ children }) {
   // Socket.IO — connect when authenticated, listen for real-time events
   useEffect(() => {
     if (!isAuthenticated || !authUser) return;
+    let cancelled = false;
 
     const socket = connectSocket(authUser.id, {
       onNotification: (notification) => {
-        addToast(notification.title || 'New notification', 'info');
+        if (!cancelled) addToast(notification.title || 'New notification', 'info');
       },
       onBookingUpdate: (data) => {
         // Refresh bookings from backend when a real-time update arrives
         api.bookings.list().then(res => {
+          if (cancelled) return;
           const items = Array.isArray(res.data) ? res.data.map(toFrontendBooking) : [];
           if (items.length) setBookings(items);
         }).catch(() => {});
@@ -388,7 +397,7 @@ export function AppProvider({ children }) {
       joinAdminRoom();
     }
 
-    return () => { disconnectSocket(); };
+    return () => { cancelled = true; disconnectSocket(); };
   }, [isAuthenticated, authUser?.id, authUser?.role]);
 
   // spare parts state (persisted to localStorage)
@@ -486,7 +495,7 @@ export function AppProvider({ children }) {
   }, []);
 
   const addToast = useCallback((message, type = 'success') => {
-    const id = Date.now();
+    const id = ++toastIdRef.current;
     setToasts(prev => [...prev, { id, message, type }]);
     setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 4000);
   }, []);
@@ -532,16 +541,14 @@ export function AppProvider({ children }) {
   }, [addToast, refreshCars]);
 
   const cancelBooking = useCallback(async (bookingId) => {
-    const target = bookings.find(b => b.id === bookingId);
-    setBookings(prev => prev.map(b => b.id === bookingId ? { ...b, status: 'cancelled' } : b));
-    if (target?.backend) {
-      try {
-        await api.bookings.cancel(bookingId);
-      } catch (e) {
-        // Best-effort server cancel; local status already updated
+    setBookings(prev => {
+      const target = prev.find(b => b.id === bookingId);
+      if (target?.backend) {
+        api.bookings.cancel(bookingId).catch(() => {});
       }
-    }
-  }, [bookings]);
+      return prev.map(b => b.id === bookingId ? { ...b, status: 'cancelled' } : b);
+    });
+  }, []);
 
   const updateUser = useCallback((updates) => {
     setUser(prev => ({ ...prev, ...updates }));
@@ -620,7 +627,9 @@ export function AppProvider({ children }) {
 
   // Authentication functions
   const register = useCallback(async (email, password, name, phone) => {
-    const [firstName = '', lastName = ''] = name.split(' ');
+    const parts = name.split(' ');
+    const firstName = parts[0] || '';
+    const lastName = parts.slice(1).join(' ');
     try {
       const res = await api.register({ email, password, firstName, lastName, phone });
       const { user: rawUser, accessToken } = res.data;

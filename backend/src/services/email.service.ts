@@ -2,6 +2,15 @@ import nodemailer from 'nodemailer';
 import { config } from '../config/environment';
 import { logger } from '../utils/logger';
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 const transporter = nodemailer.createTransport({
   host: config.smtpHost,
   port: config.smtpPort,
@@ -108,7 +117,7 @@ export class EmailService {
             <h1>Welcome to AMK Motors & AutoCare</h1>
           </div>
           <div class="content">
-            <p>Hello ${name},</p>
+            <p>Hello ${escapeHtml(name)},</p>
             <p>Thank you for joining AMK Motors & AutoCare. We're excited to have you on board!</p>
             <p>To get started, please verify your email address by clicking the button below:</p>
             <a href="${verificationLink}" class="button">Verify Email Address</a>
@@ -236,9 +245,9 @@ export class EmailService {
             <h1>Booking Rejected</h1>
           </div>
           <div style="padding: 30px;">
-            <p>Unfortunately, your booking (${bookingNumber}) has been rejected.</p>
+            <p>Unfortunately, your booking (${escapeHtml(bookingNumber)}) has been rejected.</p>
             <p><strong>Reason:</strong></p>
-            <p>${reason}</p>
+            <p>${escapeHtml(reason)}</p>
             <p>Please feel free to submit another booking or contact our support team for assistance.</p>
             <p>Best regards,<br><strong>AMK Motors & AutoCare</strong></p>
           </div>
@@ -299,9 +308,9 @@ export class EmailService {
             <h1>We've Replied to Your Message</h1>
           </div>
           <div style="padding: 30px;">
-            <p><strong>Subject:</strong> ${subject}</p>
+            <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
             <div class="reply-box">
-              <p>${reply}</p>
+              <p>${escapeHtml(reply)}</p>
             </div>
             <p>Thank you for reaching out to AMK Motors & AutoCare!</p>
             <p>Best regards,<br><strong>AMK Motors & AutoCare Team</strong></p>

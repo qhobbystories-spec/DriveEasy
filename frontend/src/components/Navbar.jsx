@@ -7,7 +7,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dropOpen, setDropOpen] = useState(false);
-  const { user, isAuthenticated, logout } = useApp();
+  const { user, isAuthenticated, logout, authUser } = useApp();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -80,7 +80,9 @@ export default function Navbar() {
                     <div className="drop-divider" />
                     <Link to="/profile" className="drop-item"><User size={15} /> My Profile</Link>
                     <Link to="/my-bookings" className="drop-item"><BookOpen size={15} /> My Bookings</Link>
-                    <Link to="/admin" className="drop-item"><Settings size={15} /> Admin Dashboard</Link>
+                    {(authUser?.role === 'ADMIN' || authUser?.role === 'EMPLOYEE') && (
+                      <Link to="/admin" className="drop-item"><Settings size={15} /> Admin Dashboard</Link>
+                    )}
                     <div className="drop-divider" />
                     <button className="drop-item danger" onClick={handleLogout}><LogOut size={15} /> Sign Out</button>
                   </div>
@@ -115,7 +117,9 @@ export default function Navbar() {
             <>
               <Link to="/profile" className="mobile-link">My Profile</Link>
               <Link to="/my-bookings" className="mobile-link">My Bookings</Link>
-              <Link to="/admin" className="mobile-link">Admin Dashboard</Link>
+              {(authUser?.role === 'ADMIN' || authUser?.role === 'EMPLOYEE') && (
+                <Link to="/admin" className="mobile-link">Admin Dashboard</Link>
+              )}
               <button onClick={handleLogout} style={{ width: '100%', padding: '14px 24px', textAlign: 'left', background: 'none', border: 'none', color: 'var(--primary)', fontSize: '15px', fontWeight: '500', cursor: 'pointer', fontFamily: 'inherit' }}>Sign Out</button>
               <Link to="/booking" className="btn btn-primary btn-block" style={{ margin: '12px 20px 0', width: 'calc(100% - 40px)' }}>Book Now</Link>
             </>

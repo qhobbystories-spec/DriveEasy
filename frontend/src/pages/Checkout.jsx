@@ -11,10 +11,20 @@ export default function Checkout() {
   const navigate = useNavigate();
   const { addBooking, addToast, cars } = useApp();
 
-  const state = location.state || {
-    car: cars[0], pickupDate: '2026-07-01', returnDate: '2026-07-04',
-    pickupLocation: 'Accra', days: 3, total: 410, subtotal: 360, fees: 30, taxes: 31,
-  };
+  const state = location.state;
+
+  // Redirect to booking if navigated directly without state
+  if (!state || !state.car) {
+    return (
+      <main style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 24px' }}>
+        <div>
+          <h2 style={{ marginBottom: 16 }}>No booking data found</h2>
+          <p style={{ color: 'var(--gray-1)', marginBottom: 24 }}>Please start a booking first.</p>
+          <Link to="/booking" className="btn btn-primary btn-lg">Start Booking</Link>
+        </div>
+      </main>
+    );
+  }
 
   const [payment, setPayment] = useState({ name: '', number: '', expiry: '', cvv: '' });
   const [promo, setPromo] = useState('');
@@ -38,6 +48,7 @@ export default function Checkout() {
   };
 
   const handlePay = async () => {
+    if (processing) return;
     if (!payment.name || !payment.number || !payment.expiry || !payment.cvv) { addToast('Please fill all payment fields', 'error'); return; }
     if (!agreed) { addToast('Please accept the terms to continue', 'error'); return; }
     setProcessing(true);

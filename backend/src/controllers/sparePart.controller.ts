@@ -93,8 +93,6 @@ export class SparePartController {
         description: data.description ?? null,
         quantity: Number(data.quantity) || 0,
         inStock: data.inStock !== undefined ? Boolean(data.inStock) : (Number(data.quantity) || 0) > 0,
-        rating: Number(data.rating) || 0,
-        totalReviews: Number(data.totalReviews) || 0,
       },
     });
     return sendSuccess(res, part, 'Spare part created successfully', 201);
@@ -124,8 +122,6 @@ export class SparePartController {
         description: data.description !== undefined ? data.description : existing.description,
         quantity: data.quantity !== undefined ? Number(data.quantity) : existing.quantity,
         inStock: data.inStock !== undefined ? Boolean(data.inStock) : existing.inStock,
-        rating: data.rating !== undefined ? Number(data.rating) : existing.rating,
-        totalReviews: data.totalReviews !== undefined ? Number(data.totalReviews) : existing.totalReviews,
       },
     });
     return sendSuccess(res, part, 'Spare part updated successfully');

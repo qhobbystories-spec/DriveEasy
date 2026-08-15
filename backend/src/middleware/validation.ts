@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import { ValidationError } from '../utils/errors';
+import { isValidUUID } from '../utils/validators';
 
 export const validateRequest = (req: Request, _res: Response, next: NextFunction) => {
   const errors = validationResult(req);
@@ -19,6 +20,10 @@ export const validateId = (paramName: string = 'id') => {
 
     if (!id || id.length === 0) {
       throw new ValidationError(`${paramName} is required`);
+    }
+
+    if (!isValidUUID(id)) {
+      throw new ValidationError(`Invalid ${paramName} format`);
     }
 
     next();

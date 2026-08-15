@@ -61,7 +61,7 @@ export abstract class BaseRepository<T> {
 
   async findMany(where: any, skip: number = 0, take: number = 10): Promise<T[]> {
     return await this.model.findMany({
-      where,
+      where: { ...where, deletedAt: null },
       skip,
       take,
       orderBy: { createdAt: 'desc' },

@@ -147,78 +147,87 @@ export class BookingController {
       throw new ValidationError('returnDate must be after pickupDate');
     }
 
-    // Check the car is not already booked in the requested window
-    const conflict = await prisma.booking.findFirst({
-      where: {
-        carId,
-        bookingStatus: { in: ['PENDING', 'CONFIRMED', 'ACTIVE'] },
-        AND: [
-          { pickupDate: { lte: end } },
-          { returnDate: { gte: start } },
-        ],
-      },
-    });
-    if (conflict) {
-      throw new ValidationError('Car is not available for the selected dates');
-    }
-
     const days = Math.max(1, Math.ceil((end.getTime() - start.getTime()) / 86400000));
-    // Prices are always computed server-side from the car rate and options —
-    // client-supplied amounts are never trusted.
     let computedPrice = days * car.dailyPrice + (insurance ? 50 : 0) + (driverRequired ? 20 : 0);
     let discount = 0;
 
-    // Apply coupon if provided
-    if (couponCode) {
-      const coupon = await prisma.coupon.findUnique({
-        where: { code: String(couponCode).toUpperCase() },
+    const booking = await prisma.$transaction(async (tx) => {
+      // Check the car is not already booked in the requested window (atomic with creation)
+      const conflict = await tx.booking.findFirst({
+        where: {
+          carId,
+          bookingStatus: { in: ['PENDING', 'CONFIRMED', 'ACTIVE'] },
+          AND: [
+            { pickupDate: { lte: end } },
+            { returnDate: { gte: start } },
+          ],
+        },
       });
-      if (!coupon || !coupon.isActive) {
-        throw new ValidationError('Invalid coupon code');
-      }
-      if (coupon.expiresAt < new Date()) {
-        throw new ValidationError('Coupon has expired');
-      }
-      if (coupon.maxUses !== null && coupon.usedCount >= coupon.maxUses) {
-        throw new ValidationError('Coupon usage limit reached');
+      if (conflict) {
+        throw new ValidationError('Car is not available for the selected dates');
       }
 
-      if (coupon.discountType === 'percentage') {
-        discount = computedPrice * (coupon.discountValue / 100);
-      } else {
-        discount = Math.min(coupon.discountValue, computedPrice);
-      }
-      computedPrice = Math.max(0, computedPrice - discount);
+      // Apply coupon if provided
+      if (couponCode) {
+        const coupon = await tx.coupon.findUnique({
+          where: { code: String(couponCode).toUpperCase() },
+        });
+        if (!coupon || !coupon.isActive) {
+          throw new ValidationError('Invalid coupon code');
+        }
+        if (coupon.expiresAt < new Date()) {
+          throw new ValidationError('Coupon has expired');
+        }
 
-      await prisma.coupon.update({
-        where: { id: coupon.id },
-        data: { usedCount: { increment: 1 } },
+        // Atomically check and increment usedCount
+        const updated = await tx.coupon.updateMany({
+          where: {
+            id: coupon.id,
+            OR: [
+              { maxUses: null },
+              { usedCount: { lt: coupon.maxUses! } },
+            ],
+          },
+          data: { usedCount: { increment: 1 } },
+        });
+        if (updated.count === 0) {
+          throw new ValidationError('Coupon usage limit reached');
+        }
+
+        if (coupon.discountType === 'percentage') {
+          discount = computedPrice * (coupon.discountValue / 100);
+        } else {
+          discount = Math.min(coupon.discountValue, computedPrice);
+        }
+        computedPrice = Math.max(0, computedPrice - discount);
+      }
+
+      const newBooking = await tx.booking.create({
+        data: {
+          bookingNumber: generateBookingNumber(),
+          customerId: req.user.id,
+          carId,
+          pickupLocation,
+          returnLocation: returnLocation ?? pickupLocation,
+          pickupDate: start,
+          returnDate: end,
+          pickupTime,
+          returnTime,
+          insurance: Boolean(insurance),
+          driverRequired: Boolean(driverRequired),
+          numberOfDrivers: numberOfDrivers ?? 1,
+          specialRequest,
+          totalPrice: computedPrice,
+          deposit: car.deposit,
+          tax: 0,
+          discount,
+          paymentStatus: 'PENDING',
+          bookingStatus: 'PENDING',
+        },
+        include: BOOKING_INCLUDE,
       });
-    }
 
-    const booking = await prisma.booking.create({
-      data: {
-        bookingNumber: generateBookingNumber(),
-        customerId: req.user.id,
-        carId,
-        pickupLocation,
-        returnLocation: returnLocation ?? pickupLocation,
-        pickupDate: start,
-        returnDate: end,
-        pickupTime,
-        returnTime,
-        insurance: Boolean(insurance),
-        driverRequired: Boolean(driverRequired),
-        numberOfDrivers: numberOfDrivers ?? 1,
-        specialRequest,
-        totalPrice: computedPrice,
-        deposit: car.deposit,
-        tax: 0,
-        discount,
-        paymentStatus: 'PENDING',
-        bookingStatus: 'PENDING',
-      },
-      include: BOOKING_INCLUDE,
+      return newBooking;
     });
 
     // Notify admins of the new booking request
@@ -280,11 +289,17 @@ export class BookingController {
 
     assertTransition(booking.bookingStatus, 'CANCELLED');
 
-    const updated = await prisma.booking.update({
-      where: { id },
-      data: { bookingStatus: 'CANCELLED' },
-      include: BOOKING_INCLUDE,
-    });
+    const [updated] = await prisma.$transaction([
+      prisma.booking.update({
+        where: { id },
+        data: { bookingStatus: 'CANCELLED' },
+        include: BOOKING_INCLUDE,
+      }),
+      prisma.car.update({
+        where: { id: booking.carId },
+        data: { status: 'AVAILABLE' },
+      }),
+    ]);
 
     // Notify admins if customer cancelled; notify customer if staff cancelled
     const isCustomerCancel = req.user?.id === booking.customerId;
@@ -327,11 +342,17 @@ export class BookingController {
 
     assertTransition(booking.bookingStatus, 'CONFIRMED');
 
-    const updated = await prisma.booking.update({
-      where: { id },
-      data: { bookingStatus: 'CONFIRMED' },
-      include: BOOKING_INCLUDE,
-    });
+    const [updated] = await prisma.$transaction([
+      prisma.booking.update({
+        where: { id },
+        data: { bookingStatus: 'CONFIRMED' },
+        include: BOOKING_INCLUDE,
+      }),
+      prisma.car.update({
+        where: { id: booking.carId },
+        data: { status: 'RESERVED' },
+      }),
+    ]);
 
     // Notify the customer
     const approvalNotification = await prisma.notification.create({

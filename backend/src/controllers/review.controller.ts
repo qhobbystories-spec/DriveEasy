@@ -117,7 +117,7 @@ export class ReviewController {
       throw new AuthorizationError();
     }
 
-    await prisma.review.delete({ where: { id } });
+    await prisma.review.update({ where: { id }, data: { deletedAt: new Date() } });
 
     const aggregate = await prisma.review.aggregate({
       where: { carId: review.carId },

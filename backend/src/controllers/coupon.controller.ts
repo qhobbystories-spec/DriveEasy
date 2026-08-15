@@ -51,7 +51,18 @@ export class CouponController {
       throw new NotFoundError('Coupon');
     }
 
-    const coupon = await prisma.coupon.update({ where: { id }, data: req.body });
+    const { code, discountType, discountValue, maxUses, expiresAt, isActive } = req.body;
+    const coupon = await prisma.coupon.update({
+      where: { id },
+      data: {
+        ...(code !== undefined && { code: String(code).toUpperCase() }),
+        ...(discountType !== undefined && { discountType }),
+        ...(discountValue !== undefined && { discountValue: Number(discountValue) }),
+        ...(maxUses !== undefined && { maxUses: maxUses !== null ? Number(maxUses) : null }),
+        ...(expiresAt !== undefined && { expiresAt: new Date(expiresAt) }),
+        ...(isActive !== undefined && { isActive: Boolean(isActive) }),
+      },
+    });
     return sendSuccess(res, coupon, 'Coupon updated successfully');
   }
 
