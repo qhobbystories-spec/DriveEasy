@@ -203,3 +203,88 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 .toast.success { border-left: 3px solid var(--success); }
 .toast.error { border-left: 3px solid var(--primary); }
 .toast.info { border-left: 3px solid var(--secondary-light); }
+
+/* Spinner / page loader */
+.spinner {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  animation: spin 0.7s linear infinite;
+}
+
+/* Fleet toolbar & filters (shared by Cars, Rentals, Sales, Parts, Towing) */
+.fleet-toolbar {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 20px; flex-wrap: wrap;
+}
+.search-wrap {
+  flex: 1; min-width: 240px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--dark-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 16px;
+  transition: border-color 0.2s;
+}
+.search-wrap:focus-within { border-color: var(--primary); }
+.search-wrap svg { color: var(--gray-2); flex-shrink: 0; }
+.search-wrap input {
+  flex: 1; background: none; border: none; outline: none;
+  color: #fff; font-size: 14px; font-family: inherit;
+}
+.search-wrap button { background: none; border: none; color: var(--gray-1); cursor: pointer; padding: 2px; }
+.toolbar-right { display: flex; align-items: center; gap: 12px; }
+.filter-toggle {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--dark-2); border: 1px solid var(--border);
+  color: #fff; padding: 10px 16px; border-radius: var(--radius);
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;
+}
+.filter-toggle.active, .filter-toggle:hover { border-color: var(--primary); color: var(--primary); }
+.filter-count {
+  background: var(--primary); color: #fff;
+  width: 18px; height: 18px; border-radius: 50%;
+  font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700;
+}
+.sort-select {
+  background: var(--dark-2); border: 1px solid var(--border);
+  color: #fff; padding: 10px 32px 10px 14px; border-radius: var(--radius);
+  font-size: 14px; font-family: inherit; cursor: pointer; outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b949e' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+.cat-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.cat-tab {
+  padding: 8px 20px; border-radius: 100px;
+  background: var(--dark-2); border: 1px solid var(--border);
+  color: var(--gray-1); font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+}
+.cat-tab.active, .cat-tab:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+.filters-panel {
+  background: var(--dark-2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px;
+  margin-bottom: 24px; display: flex; gap: 32px; flex-wrap: wrap; align-items: flex-start;
+}
+.filter-group { display: flex; flex-direction: column; gap: 10px; }
+.filter-group label { font-size: 12px; font-weight: 700; color: var(--gray-1); text-transform: uppercase; letter-spacing: 0.5px; }
+.filter-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-opt {
+  padding: 6px 14px; border-radius: 8px;
+  background: var(--dark-3); border: 1px solid var(--border);
+  color: var(--gray-1); font-size: 13px; cursor: pointer; transition: all 0.2s;
+}
+.filter-opt.active, .filter-opt:hover { background: rgba(230,57,70,0.15); border-color: var(--primary); color: var(--primary); }
+.price-range { width: 200px; accent-color: var(--primary); cursor: pointer; }
+.clear-filters {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: 1px solid var(--border);
+  color: var(--gray-1); padding: 8px 16px; border-radius: 8px;
+  font-size: 13px; cursor: pointer; transition: all 0.2s; align-self: flex-end;
+}
+.clear-filters:hover { border-color: var(--primary); color: var(--primary); }
+.results-header { margin-bottom: 24px; color: var(--gray-1); font-size: 14px; }
+.no-results { text-align: center; padding: 80px 24px; }
+.no-results-icon { font-size: 48px; margin-bottom: 16px; }
+.no-results h3 { font-size: 20px; margin-bottom: 8px; }
+.no-results p { color: var(--gray-1); margin-bottom: 24px; }

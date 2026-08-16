@@ -1,141 +1,131 @@
-import React, { useState } from 'react';
-import { Search, Filter, MapPin, Calendar, Users, Zap } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Search, SlidersHorizontal, X, ChevronDown, Car } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import CarCard from '../components/CarCard';
 
 export default function Rentals() {
   const { cars } = useApp();
-  const [filters, setFilters] = useState({ category: '', maxPrice: 300, passengers: 0, search: '' });
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('All');
+  const [maxPrice, setMaxPrice] = useState('999');
+  const [transmission, setTransmission] = useState('All');
+  const [fuel, setFuel] = useState('All');
+  const [showFilters, setShowFilters] = useState(false);
 
-  const filtered = cars.filter(car => {
-    if (filters.category && car.category !== filters.category) return false;
-    if (car.price > filters.maxPrice) return false;
-    if (filters.passengers && car.seats < filters.passengers) return false;
-    if (filters.search && !car.name.toLowerCase().includes(filters.search.toLowerCase())) return false;
-    return true;
-  });
+  const categories = ['All', 'Luxury', 'Electric', 'Sports', 'SUV', 'Economy', 'Van'];
+  const transmissions = ['All', 'Automatic', 'Manual'];
+  const fuels = ['All', 'Petrol', 'Diesel', 'Electric', 'Hybrid'];
+
+  const filtered = useMemo(() => {
+    let result = [...cars];
+    if (query) result = result.filter(c => c.name.toLowerCase().includes(query.toLowerCase()) || c.brand.toLowerCase().includes(query.toLowerCase()));
+    if (category !== 'All') result = result.filter(c => c.category === category);
+    if (transmission !== 'All') result = result.filter(c => c.transmission === transmission);
+    if (fuel !== 'All') result = result.filter(c => c.fuel === fuel);
+    result = result.filter(c => c.price <= parseInt(maxPrice));
+    result.sort((a, b) => b.reviews - a.reviews);
+    return result;
+  }, [cars, query, category, maxPrice, transmission, fuel]);
+
+  const clearFilters = () => {
+    setQuery(''); setCategory('All'); setMaxPrice('999');
+    setTransmission('All'); setFuel('All');
+  };
+
+  const activeFilters = [query, category !== 'All', transmission !== 'All', fuel !== 'All', maxPrice !== '999'].filter(Boolean).length;
 
   return (
-    <main style={{ paddingTop: '80px', paddingBottom: '60px' }}>
-      <section style={{ background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%)', padding: '60px 0', borderBottom: '1px solid var(--border)' }}>
+    <main>
+      <div className="page-hero">
         <div className="container">
-          <h1 style={{ fontSize: '48px', fontWeight: '900', marginBottom: '16px' }}><Car size={40} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 12 }} /> Car Rentals</h1>
-          <p style={{ fontSize: '18px', color: 'var(--gray-1)', marginBottom: '40px' }}>
-            Choose from our extensive fleet of premium vehicles for short-term or long-term rentals
-          </p>
+          <div className="breadcrumb">
+            <span>Home</span>
+            <span>/</span>
+            <span className="active">Rentals</span>
+          </div>
+          <h1>Car Rentals</h1>
+          <p>Choose from our extensive fleet of premium vehicles for short-term or long-term rentals</p>
+        </div>
+      </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Search Vehicle</label>
-              <input
-                type="text"
-                placeholder="Search by name..."
-                value={filters.search}
-                onChange={(e) => setFilters(s => ({ ...s, search: e.target.value }))}
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  background: 'var(--dark-3)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
-                  color: '#fff',
-                  fontSize: '14px',
-                  fontFamily: 'inherit',
-                  outline: 'none'
-                }}
-              />
-            </div>
-
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Category</label>
-              <select
-                value={filters.category}
-                onChange={(e) => setFilters(s => ({ ...s, category: e.target.value }))}
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  background: 'var(--dark-3)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
-                  color: '#fff',
-                  fontSize: '14px',
-                  fontFamily: 'inherit',
-                  outline: 'none'
-                }}
-              >
-                <option value="">All Categories</option>
-                <option value="Luxury">Luxury</option>
-                <option value="Sports">Sports</option>
-                <option value="SUV">SUV</option>
-                <option value="Economy">Economy</option>
-                <option value="Van">Van</option>
-                <option value="Electric">Electric</option>
-              </select>
-            </div>
-
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Max Price: GHS {filters.maxPrice}/day</label>
-              <input
-                type="range"
-                min="30"
-                max="300"
-                value={filters.maxPrice}
-                onChange={(e) => setFilters(s => ({ ...s, maxPrice: parseInt(e.target.value) }))}
-                style={{ width: '100%' }}
-              />
-            </div>
-
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: '#fff' }}>Passengers</label>
-              <select
-                value={filters.passengers}
-                onChange={(e) => setFilters(s => ({ ...s, passengers: parseInt(e.target.value) }))}
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  background: 'var(--dark-3)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
-                  color: '#fff',
-                  fontSize: '14px',
-                  fontFamily: 'inherit',
-                  outline: 'none'
-                }}
-              >
-                <option value="0">Any</option>
-                <option value="2">2+ Passengers</option>
-                <option value="5">5+ Passengers</option>
-                <option value="7">7+ Passengers</option>
-              </select>
-            </div>
+      <div className="container" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
+        <div className="fleet-toolbar">
+          <div className="search-wrap">
+            <Search size={16} />
+            <input
+              placeholder="Search by name or brand..."
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+            />
+            {query && <button onClick={() => setQuery('')} aria-label="Clear search"><X size={14} /></button>}
+          </div>
+          <div className="toolbar-right">
+            <button className={`filter-toggle${showFilters ? ' active' : ''}`} onClick={() => setShowFilters(f => !f)}>
+              <SlidersHorizontal size={16} />
+              Filters {activeFilters > 0 && <span className="filter-count">{activeFilters}</span>}
+              <ChevronDown size={14} />
+            </button>
           </div>
         </div>
-      </section>
 
-      <section style={{ padding: '60px 0' }}>
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
-            <h2 style={{ fontSize: '32px', fontWeight: '700' }}>{filtered.length} Vehicles Available</h2>
-            <div style={{ color: 'var(--gray-1)', fontSize: '14px' }}>
-              Showing {filtered.length} of {cars.length} vehicles
-            </div>
-          </div>
-
-          {filtered.length > 0 ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
-              {filtered.map(car => (
-                <CarCard key={car.id} car={car} />
-              ))}
-            </div>
-          ) : (
-            <div style={{ textAlign: 'center', padding: '60px 0' }}>
-              <div style={{ marginBottom: '16px', color: 'var(--primary)' }}><Car size={48} /></div>
-              <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px' }}>No Vehicles Found</h3>
-              <p style={{ color: 'var(--gray-1)' }}>Try adjusting your filters</p>
-            </div>
-          )}
+        <div className="cat-tabs">
+          {categories.map(cat => (
+            <button key={cat} className={`cat-tab${category === cat ? ' active' : ''}`} onClick={() => setCategory(cat)}>
+              {cat}
+            </button>
+          ))}
         </div>
-      </section>
+
+        {showFilters && (
+          <div className="filters-panel">
+            <div className="filter-group">
+              <label>Transmission</label>
+              <div className="filter-options">
+                {transmissions.map(t => (
+                  <button key={t} className={`filter-opt${transmission === t ? ' active' : ''}`} onClick={() => setTransmission(t)}>{t}</button>
+                ))}
+              </div>
+            </div>
+            <div className="filter-group">
+              <label>Fuel Type</label>
+              <div className="filter-options">
+                {fuels.map(f => (
+                  <button key={f} className={`filter-opt${fuel === f ? ' active' : ''}`} onClick={() => setFuel(f)}>{f}</button>
+                ))}
+              </div>
+            </div>
+            <div className="filter-group">
+              <label>Max Price: <strong style={{ color: 'var(--primary)' }}>GHS {maxPrice}/day</strong></label>
+              <input
+                type="range" min="45" max="999" step="5"
+                value={maxPrice}
+                onChange={e => setMaxPrice(e.target.value)}
+                className="price-range"
+              />
+            </div>
+            {activeFilters > 0 && (
+              <button className="clear-filters" onClick={clearFilters}>
+                <X size={14} /> Clear all filters
+              </button>
+            )}
+          </div>
+        )}
+
+        <div className="results-header">
+          <span>{filtered.length} vehicle{filtered.length !== 1 ? 's' : ''} found</span>
+        </div>
+
+        {filtered.length > 0 ? (
+          <div className="grid grid-3">{filtered.map(car => <CarCard key={car.id} car={car} />)}</div>
+        ) : (
+          <div className="no-results">
+            <div className="no-results-icon"><Car size={48} /></div>
+            <h3>No vehicles found</h3>
+            <p>Try adjusting your filters or search term.</p>
+            <button className="btn btn-outline" onClick={clearFilters}>Clear Filters</button>
+          </div>
+        )}
+      </div>
     </main>
   );
 }

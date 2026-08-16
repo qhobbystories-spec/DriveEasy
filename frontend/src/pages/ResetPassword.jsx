@@ -98,7 +98,7 @@ export default function ResetPassword() {
           )}
         </div>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+
     </main>
   );
 }
